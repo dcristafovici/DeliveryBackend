@@ -1,12 +1,15 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @ObjectType()
 @Entity()
 export class Group {
+  @Field()
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
   @Field()
-  name: number;
+  @Column()
+  name: string;
   @Field()
-  description: number;
+  @Column()
+  description: string;
 }

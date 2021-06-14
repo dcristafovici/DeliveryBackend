@@ -3,10 +3,16 @@
 # ------------------------------------------------------
 
 type Group {
-  name: Float!
-  description: Float!
+  id: String!
+  name: String!
+  description: String!
 }
 
 type Query {
-  author(id: String!): Group!
+  groupOne(id: String!): Group!
+  allGroups: [Group!]!
+}
+
+type Mutation {
+  createGroup(description: String!, name: String!): Group!
 }

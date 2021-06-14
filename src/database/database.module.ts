@@ -10,7 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       password: '1234%asd',
       database: 'Delivery',
       entities: ['dist/**/*.entity.js'],
-      synchronize: false,
+      synchronize: true,
     }),
   ],
 })
