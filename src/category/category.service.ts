@@ -8,17 +8,18 @@ import { Category } from './category.entity';
 export class CategoryService {
   constructor(
     @InjectRepository(Category)
-    private categoryRepository: Repository<Category>,
+    private groupRepository: Repository<Category>,
   ) {}
 
-  findAll(): Promise<Category[]> {
-    return this.categoryRepository.find();
+  create(details: CategoryDTO): Promise<Category> {
+    return this.groupRepository.save(details);
   }
 
   findOne(id: string): Promise<Category> {
-    return this.categoryRepository.findOne(id);
+    return this.groupRepository.findOne(id);
   }
-  create(details: CategoryDTO) {
-    this.categoryRepository.insert(details);
+
+  findAll(): Promise<Category[]> {
+    return this.groupRepository.find();
   }
 }

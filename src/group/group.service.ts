@@ -12,7 +12,6 @@ export class GroupService {
   ) {}
 
   create(details: GroupDTO): Promise<Group> {
-    console.log(details);
     return this.groupRepository.save(details);
   }
 
@@ -21,7 +20,6 @@ export class GroupService {
   }
 
   findAll(): Promise<Group[]> {
-    console.log(this.groupRepository.find());
     return this.groupRepository.find();
   }
 }

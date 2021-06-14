@@ -7,11 +7,11 @@ export class GroupResolver {
   constructor(private groupService: GroupService) {}
 
   @Query(() => Group)
-  async groupOne(@Args('id') id: string): Promise<Group> {
+  async Group(@Args('id') id: string): Promise<Group> {
     return await this.groupService.findOne(id);
   }
   @Query(() => [Group])
-  async allGroups(): Promise<Group[]> {
+  async Groups(): Promise<Group[]> {
     return await this.groupService.findAll();
   }
 

@@ -15,11 +15,11 @@ export class RestaurantResolver {
     return await this.restaurantService.findAll();
   }
 
-  // @Mutation(() => Restaurant)
-  // async createRestaurant(
-  //   @Args('name') name: string,
-  //   @Args('description') description: string,
-  // ): Promise<Restaurant> {
-  //   return await this.restaurantService.create({ name, description });
-  // }
+  @Mutation(() => Restaurant)
+  async createRestaurant(
+    @Args('name') name: string,
+    @Args('description') description: string,
+  ): Promise<Restaurant> {
+    return await this.restaurantService.create({ name, description });
+  }
 }

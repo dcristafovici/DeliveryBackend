@@ -7,19 +7,19 @@ export class CategoryResolver {
   constructor(private categoryService: CategoryService) {}
 
   @Query(() => Category)
-  async categoryOne(@Args('id') id: string): Promise<Category> {
+  async Category(@Args('id') id: string): Promise<Category> {
     return await this.categoryService.findOne(id);
   }
   @Query(() => [Category])
-  async allCategories(): Promise<Category[]> {
+  async Categories(): Promise<Category[]> {
     return await this.categoryService.findAll();
   }
 
-  // @Mutation(() => Category)
-  // async createCategory(
-  //   @Args('name') name: string,
-  //   @Args('description') description: string,
-  // ): Promise<Category> {
-  //   return this.categoryService.create({ name, description });
-  // }
+  @Mutation(() => Category)
+  async createCategory(
+    @Args('name') name: string,
+    @Args('description') description: string,
+  ): Promise<Category> {
+    return await this.categoryService.create({ name, description });
+  }
 }

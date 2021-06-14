@@ -12,7 +12,6 @@ export class RestaurantService {
   ) {}
 
   create(details: RestaurantDTO): Promise<Restaurant> {
-    console.log(details);
     return this.restaurantRepository.save(details);
   }
 
