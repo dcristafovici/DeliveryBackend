@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Restaurant } from '../restaurant/restaurant.entity';
 import { Category } from '../category/category.entity';
 
 @Module({
@@ -11,7 +12,7 @@ import { Category } from '../category/category.entity';
       username: 'admin',
       password: '1234%asd',
       database: 'Delivery',
-      entities: [Category],
+      entities: [Category, Restaurant],
       synchronize: true,
     }),
   ],
