@@ -8,7 +8,23 @@ type Group {
   description: String!
 }
 
+type Category {
+  id: String!
+  name: String!
+  description: String!
+}
+
+type Restaurant {
+  id: String!
+  name: String!
+  description: String!
+}
+
 type Query {
+  categoryOne(id: String!): Category!
+  allCategories: [Category!]!
+  Restaurant(id: String!): Restaurant!
+  allRestaurants: [Restaurant!]!
   groupOne(id: String!): Group!
   allGroups: [Group!]!
 }
