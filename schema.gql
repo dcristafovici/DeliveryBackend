@@ -1,0 +1,12 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Group {
+  name: Float!
+  description: Float!
+}
+
+type Query {
+  author(id: String!): Group!
+}
