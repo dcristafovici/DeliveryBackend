@@ -6,12 +6,14 @@ import { GroupModule } from './group/group.module';
 import { CategoryModule } from './category/category.module';
 import { DatabaseModule } from './database/database.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
+import { MediaModule } from './media/media.module';
 @Module({
   imports: [
     DatabaseModule,
     CategoryModule,
     RestaurantModule,
     GroupModule,
+    MediaModule,
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
     }),
