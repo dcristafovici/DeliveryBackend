@@ -19,7 +19,16 @@ export class RestaurantResolver {
   async createRestaurant(
     @Args('name') name: string,
     @Args('description') description: string,
+    @Args('minPrice') minPrice: number,
+    @Args('saleValue') saleValue: number,
+    @Args('deliveryTime') deliveryTime: string,
   ): Promise<Restaurant> {
-    return await this.restaurantService.create({ name, description });
+    return await this.restaurantService.create({
+      name,
+      description,
+      minPrice,
+      saleValue,
+      deliveryTime,
+    });
   }
 }

@@ -6,10 +6,24 @@ export class Restaurant {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
   @Field()
   @Column()
   name: string;
+
   @Field()
   @Column()
   description: string;
+
+  @Field()
+  @Column()
+  minPrice: number;
+
+  @Field()
+  @Column()
+  saleValue: number;
+
+  @Field()
+  @Column()
+  deliveryTime: string;
 }

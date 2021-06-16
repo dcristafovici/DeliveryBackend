@@ -18,6 +18,9 @@ type Restaurant {
   id: String!
   name: String!
   description: String!
+  minPrice: Float!
+  saleValue: Float!
+  deliveryTime: String!
 }
 
 type Query {
@@ -31,6 +34,6 @@ type Query {
 
 type Mutation {
   createCategory(description: String!, name: String!): Category!
-  createRestaurant(description: String!, name: String!): Restaurant!
+  createRestaurant(deliveryTime: String!, saleValue: Float!, minPrice: Float!, description: String!, name: String!): Restaurant!
   createGroup(description: String!, name: String!): Group!
 }
