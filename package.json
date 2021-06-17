@@ -57,6 +57,10 @@
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.2.3"
   },
+  "resolutions": {
+    "**/**/fs-capacitor":"^6.2.0",
+    "**/graphql-upload": "^11.0.0"
+  },
   "jest": {
     "moduleFileExtensions": [
       "js",

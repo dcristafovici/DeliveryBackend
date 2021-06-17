@@ -36,4 +36,8 @@ type Mutation {
   createCategory(description: String!, name: String!): Category!
   createRestaurant(deliveryTime: String!, saleValue: Float!, minPrice: Float!, description: String!, name: String!): Restaurant!
   createGroup(description: String!, name: String!): Group!
+  uploadFile(file: Upload!): Boolean!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
