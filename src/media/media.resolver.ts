@@ -8,7 +8,7 @@ export class MediaResolver {
   @Mutation(() => Boolean)
   async uploadFile(
     @Args({ name: 'file', type: () => GraphQLUpload })
-    { filename, createReadStream },
+    { createReadStream, filename },
   ): Promise<boolean> {
     return new Promise(async (resolve, reject) =>
       createReadStream()
