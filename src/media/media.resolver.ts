@@ -1,7 +1,6 @@
 import { Resolver, Args, Mutation } from '@nestjs/graphql';
 import { Media } from '../media/media.entity';
 import { GraphQLUpload } from 'apollo-server-express';
-import { Upload } from '../types/Upload';
 import { createWriteStream } from 'fs';
 
 @Resolver(() => Media)
@@ -9,7 +8,7 @@ export class MediaResolver {
   @Mutation(() => Boolean)
   async uploadFile(
     @Args({ name: 'file', type: () => GraphQLUpload })
-    { filename, createReadStream }: Upload,
+    { filename, createReadStream },
   ): Promise<boolean> {
     return new Promise(async (resolve, reject) =>
       createReadStream()
