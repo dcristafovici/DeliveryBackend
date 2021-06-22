@@ -1,10 +1,12 @@
-import { Resolver, Args, Mutation } from '@nestjs/graphql';
-import { Media } from '../media/media.entity';
+import { Resolver, Args, Mutation, Query } from '@nestjs/graphql';
 import { GraphQLUpload } from 'apollo-server-express';
+import { Media } from './media.entity';
 import { createWriteStream } from 'fs';
+import { MediaService } from './media.service';
 
 @Resolver(() => Media)
 export class MediaResolver {
+  constructor(private mediaService: MediaService) {}
   @Mutation(() => Boolean)
   async uploadFile(
     @Args({ name: 'file', type: () => GraphQLUpload })
@@ -16,7 +18,7 @@ export class MediaResolver {
         const { createReadStream, filename } = singleImage;
         return new Promise(async (resolve, reject) =>
           createReadStream()
-            .pipe(createWriteStream(`./uploads/${filename}`))
+            .pipe(createWriteStream(`./uploads/${filename}`, { flags: 'w+' }))
             .on('finish', () => resolve(true))
             .on('error', () => reject(false)),
         );
@@ -26,5 +28,10 @@ export class MediaResolver {
       .catch(() => false);
 
     return upload;
+  }
+
+  @Query(() => [Media])
+  async getMedia() {
+    return this.mediaService.findAll();
   }
 }

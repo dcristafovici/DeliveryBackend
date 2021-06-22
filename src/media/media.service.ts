@@ -1,17 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { MediaDTO } from './media.dto';
-import { Media } from './media.entity';
+import { readdirSync } from 'fs';
 
 @Injectable()
 export class MediaService {
-  constructor(
-    @InjectRepository(Media)
-    private mediaRepository: Repository<Media>,
-  ) {}
-
-  create(details: MediaDTO): Promise<Media> {
-    return this.mediaRepository.save(details);
+  async findAll() {
+    const allImages = [];
+    readdirSync('./uploads').forEach((file) => {
+      allImages.push({ name: file });
+    });
+    return allImages;
   }
 }

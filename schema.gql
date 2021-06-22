@@ -23,6 +23,11 @@ type Restaurant {
   deliveryTime: String!
 }
 
+type Media {
+  id: String!
+  name: String!
+}
+
 type Query {
   Category(id: String!): Category!
   Categories: [Category!]!
@@ -30,6 +35,7 @@ type Query {
   allRestaurants: [Restaurant!]!
   Group(id: String!): Group!
   Groups: [Group!]!
+  getMedia: [Media!]!
 }
 
 type Mutation {

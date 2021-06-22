@@ -18,7 +18,7 @@ import { MediaModule } from './media/media.module';
       autoSchemaFile: 'schema.gql',
       uploads: {
         maxFileSize: 10000000, // 10 MB
-        maxFiles: 5,
+        maxFiles: 10,
       },
     }),
   ],

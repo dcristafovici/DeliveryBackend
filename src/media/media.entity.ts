@@ -10,5 +10,5 @@ export class Media {
 
   @Field()
   @Column()
-  url: string;
+  name: string;
 }
