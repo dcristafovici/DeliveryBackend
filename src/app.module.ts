@@ -17,15 +17,15 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     RestaurantModule,
     GroupModule,
     MediaModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+    }),
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       uploads: {
         maxFileSize: 10000000, // 10 MB
         maxFiles: 10,
       },
-    }),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
     }),
   ],
   controllers: [AppController],

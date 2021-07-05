@@ -22,4 +22,10 @@ export class CategoryResolver {
   ): Promise<Category> {
     return await this.categoryService.create({ name, description });
   }
+
+  @Mutation(() => Boolean)
+  async removeCategory(@Args('id') id: string) {
+    await this.categoryService.remove(id);
+    return true;
+  }
 }

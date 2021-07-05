@@ -40,6 +40,7 @@ type Query {
 
 type Mutation {
   createCategory(description: String!, name: String!): Category!
+  removeCategory(id: String!): Boolean!
   createRestaurant(deliveryTime: String!, saleValue: Float!, minPrice: Float!, description: String!, name: String!): Restaurant!
   createGroup(description: String!, name: String!): Group!
   uploadFile(file: Upload!): Boolean!

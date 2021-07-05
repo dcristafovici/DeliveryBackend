@@ -22,4 +22,8 @@ export class CategoryService {
   findAll(): Promise<Category[]> {
     return this.groupRepository.find();
   }
+
+  async remove(id: string): Promise<void> {
+    await this.groupRepository.delete(id);
+  }
 }
