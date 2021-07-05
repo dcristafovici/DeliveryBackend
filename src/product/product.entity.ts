@@ -1,8 +1,9 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
 @ObjectType()
 @Entity()
-export class Restaurant {
+export class Product {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -17,15 +18,7 @@ export class Restaurant {
 
   @Field()
   @Column()
-  minPrice: number;
-
-  @Field()
-  @Column()
-  saleValue: number;
-
-  @Field()
-  @Column()
-  deliveryTime: string;
+  price: number;
 
   @Field()
   @Column()

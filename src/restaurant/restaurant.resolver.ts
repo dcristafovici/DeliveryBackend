@@ -22,6 +22,7 @@ export class RestaurantResolver {
     @Args('minPrice') minPrice: number,
     @Args('saleValue') saleValue: number,
     @Args('deliveryTime') deliveryTime: string,
+    @Args('image') image: string,
   ): Promise<Restaurant> {
     return await this.restaurantService.create({
       name,
@@ -29,6 +30,7 @@ export class RestaurantResolver {
       minPrice,
       saleValue,
       deliveryTime,
+      image,
     });
   }
 }

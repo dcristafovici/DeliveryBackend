@@ -4,4 +4,5 @@ export interface RestaurantDTO {
   minPrice: number;
   saleValue: number;
   deliveryTime: string;
+  image: string;
 }
