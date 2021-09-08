@@ -21,12 +21,14 @@ export class ProductResolver {
     @Args('description') description: string,
     @Args('price') price: number,
     @Args('image') image: string,
+    @Args('category') category: string,
   ): Promise<Product> {
     return await this.productService.create({
       name,
       description,
       price,
       image,
+      category,
     });
   }
 

@@ -35,6 +35,7 @@ type Product {
   description: String!
   price: Float!
   image: String!
+  category: String!
 }
 
 type Query {
@@ -55,7 +56,7 @@ type Mutation {
   createRestaurant(image: String!, deliveryTime: String!, saleValue: Float!, minPrice: Float!, description: String!, name: String!): Restaurant!
   createGroup(description: String!, name: String!): Group!
   uploadFile(file: Upload!): Boolean!
-  createProduct(image: String!, price: Float!, description: String!, name: String!): Product!
+  createProduct(category: String!, image: String!, price: Float!, description: String!, name: String!): Product!
   removeProduct(id: String!): Boolean!
 }
 

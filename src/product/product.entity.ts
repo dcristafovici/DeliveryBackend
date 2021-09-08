@@ -23,4 +23,8 @@ export class Product {
   @Field()
   @Column()
   image: string;
+
+  @Field()
+  @Column()
+  category: string;
 }
