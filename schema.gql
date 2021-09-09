@@ -17,6 +17,14 @@ type Query {
 }
 
 type Mutation {
-  AddRestaurant(sale: String!, deliveryTime: String!, minPrice: String!, description: String!, name: String!): Restaurant!
+  AddRestaurant(data: AddRestaurantInput!): Restaurant!
   RemoveRestaurant(id: String!): Boolean!
+}
+
+input AddRestaurantInput {
+  name: String!
+  description: String!
+  minPrice: String!
+  deliveryTime: String!
+  sale: String!
 }
