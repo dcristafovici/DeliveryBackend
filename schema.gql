@@ -1,0 +1,22 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Restaurant {
+  id: String!
+  name: String!
+  description: String!
+  minPrice: String!
+  deliveryTime: String!
+  sale: String!
+}
+
+type Query {
+  Restaurants: [Restaurant!]!
+  RestaurantByID(id: String!): Restaurant!
+}
+
+type Mutation {
+  AddRestaurant(sale: String!, deliveryTime: String!, minPrice: String!, description: String!, name: String!): Restaurant!
+  RemoveRestaurant(id: String!): Boolean!
+}
