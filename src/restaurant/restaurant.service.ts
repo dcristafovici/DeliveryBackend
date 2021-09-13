@@ -8,21 +8,20 @@ import { Restaurant } from './restaurant.entity';
 export class RestaurantService {
   constructor(
     @InjectRepository(Restaurant)
-    private restaurantRepository: Repository<Restaurant>,
+    private RestaurantRepository: Repository<Restaurant>,
   ) {}
 
-  create(details: RestaurantDTO): Promise<Restaurant> {
-    console.log(details);
-    return this.restaurantRepository.save(details);
+  create(data: RestaurantDTO): Promise<Restaurant> {
+    return this.RestaurantRepository.save(data);
   }
 
   findOne(id: string): Promise<Restaurant> {
-    return this.restaurantRepository.findOne(id);
+    return this.RestaurantRepository.findOne(id);
   }
   findAll(): Promise<Restaurant[]> {
-    return this.restaurantRepository.find();
+    return this.RestaurantRepository.find();
   }
   delete(id: string): Promise<any> {
-    return this.restaurantRepository.delete(id);
+    return this.RestaurantRepository.delete(id);
   }
 }

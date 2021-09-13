@@ -4,11 +4,15 @@ import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { DatabaseModule } from './database/database.module';
+import { ProductModule } from './product/product.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
     DatabaseModule,
     RestaurantModule,
+    ProductModule,
+    CategoryModule,
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
     }),
