@@ -11,8 +11,8 @@ import { CategoryModule } from './category/category.module';
   imports: [
     DatabaseModule,
     RestaurantModule,
-    ProductModule,
     CategoryModule,
+    ProductModule,
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
     }),

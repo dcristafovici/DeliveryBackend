@@ -23,4 +23,7 @@ export class AddProductInput {
 
   @Field()
   restaurant: string;
+
+  @Field()
+  category: string;
 }

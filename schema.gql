@@ -11,6 +11,11 @@ type Restaurant {
   sale: String!
 }
 
+type Category {
+  id: String!
+  name: String!
+}
+
 type Product {
   id: String!
   name: String!
@@ -19,23 +24,18 @@ type Product {
   weight: String!
 }
 
-type Category {
-  id: String!
-  name: String!
-}
-
 type Query {
   Restaurants: [Restaurant!]!
   RestaurantByID(id: String!): Restaurant!
-  Products: [Product!]!
   Categories: [Category!]!
+  Products: [Product!]!
 }
 
 type Mutation {
   AddRestaurant(data: AddRestaurantInput!): Restaurant!
   RemoveRestaurant(id: String!): Boolean!
-  AddProduct(data: AddProductInput!): Product!
   AddCategory(data: AddCategoryInput!): Category!
+  AddProduct(data: AddProductInput!): Product!
 }
 
 input AddRestaurantInput {
@@ -46,14 +46,15 @@ input AddRestaurantInput {
   sale: String!
 }
 
+input AddCategoryInput {
+  name: String!
+}
+
 input AddProductInput {
   name: String!
   description: String!
   price: String!
   weight: String!
   restaurant: String!
-}
-
-input AddCategoryInput {
-  name: String!
+  category: String!
 }
