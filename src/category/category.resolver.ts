@@ -1,3 +1,4 @@
+import { ConflictException } from '@nestjs/common';
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { AddCategoryInput } from './category.dto';
 import { Category } from './category.entity';

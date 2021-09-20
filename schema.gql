@@ -9,6 +9,7 @@ type Restaurant {
   minPrice: String!
   deliveryTime: String!
   sale: String!
+  rating: String!
 }
 
 type Category {
@@ -36,6 +37,7 @@ type Mutation {
   RemoveRestaurant(id: String!): Boolean!
   AddCategory(data: AddCategoryInput!): Category!
   AddProduct(data: AddProductInput!): Product!
+  UploadFiles(files: [Upload!]!): Boolean!
 }
 
 input AddRestaurantInput {
@@ -44,6 +46,7 @@ input AddRestaurantInput {
   minPrice: String!
   deliveryTime: String!
   sale: String!
+  rating: String!
 }
 
 input AddCategoryInput {
@@ -58,3 +61,6 @@ input AddProductInput {
   restaurant: String!
   category: String!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload

@@ -4,8 +4,10 @@ import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { DatabaseModule } from './database/database.module';
+import { GraphQLUpload } from 'graphql-upload';
 import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
+import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
@@ -13,8 +15,12 @@ import { CategoryModule } from './category/category.module';
     RestaurantModule,
     CategoryModule,
     ProductModule,
+    MediaModule,
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
+      resolvers: {
+        Upload: GraphQLUpload,
+      },
     }),
   ],
   controllers: [AppController],

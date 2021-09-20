@@ -6,6 +6,7 @@ export interface RestaurantDTO {
   minPrice: string;
   deliveryTime: string;
   sale: string;
+  rating: string;
 }
 
 @InputType()
@@ -24,4 +25,7 @@ export class AddRestaurantInput {
 
   @Field()
   sale: string;
+
+  @Field()
+  rating: string;
 }

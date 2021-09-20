@@ -26,4 +26,8 @@ export class Restaurant {
   @Field()
   @Column()
   sale: string;
+
+  @Field()
+  @Column()
+  rating: string;
 }
