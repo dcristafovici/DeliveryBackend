@@ -15,4 +15,20 @@ export class Media {
   @Field()
   @Column()
   path: string;
+
+  @Field()
+  @Column()
+  small: string;
+
+  @Field()
+  @Column()
+  medium: string;
+
+  @Field()
+  @Column()
+  medium_large: string;
+
+  @Field()
+  @Column()
+  large: string;
 }
