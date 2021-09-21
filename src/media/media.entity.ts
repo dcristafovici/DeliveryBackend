@@ -17,18 +17,18 @@ export class Media {
   path: string;
 
   @Field()
-  @Column()
+  @Column({ nullable: true })
   small: string;
 
   @Field()
-  @Column()
+  @Column({ nullable: true })
   medium: string;
 
   @Field()
-  @Column()
+  @Column({ nullable: true })
   medium_large: string;
 
   @Field()
-  @Column()
+  @Column({ nullable: true })
   large: string;
 }

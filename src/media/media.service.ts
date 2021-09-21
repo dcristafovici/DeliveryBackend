@@ -24,16 +24,26 @@ export class MediaService {
           createReadStream()
             .pipe(createWriteStream(`./uploads/${filename}`, { flags: 'w+' }))
             .on('finish', async () => {
-              await this.MediaRepository.create({
+              const createdItem = await this.MediaRepository.save({
                 name: simpleFileName,
                 path: `./uploads/${filename}`,
               });
-              await MediaSizes.map((size) =>
-                sharp(`./uploads/${filename}`)
-                  .resize({ width: size.x })
-                  .toFile(
-                    `./uploads/build/${simpleFileName}_${size.path}.${extension}`,
-                  ),
+              MediaSizes.map(
+                async (size) =>
+                  await sharp(`./uploads/${filename}`)
+                    .resize({ width: size.x })
+                    .toFile(
+                      `./uploads/build/${simpleFileName}_${size.path}.${extension}`,
+                    )
+                    .then(async () => {
+                      const updatedValue = {
+                        [size.path]: `./uploads/build/${simpleFileName}_${size.path}.${extension}`,
+                      };
+                      await this.MediaRepository.update(
+                        createdItem.id,
+                        updatedValue,
+                      );
+                    }),
               );
               resolve(true);
             })
