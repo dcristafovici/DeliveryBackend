@@ -8,6 +8,8 @@ import { GraphQLUpload } from 'graphql-upload';
 import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { MediaModule } from './media/media.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -16,6 +18,9 @@ import { MediaModule } from './media/media.module';
     CategoryModule,
     ProductModule,
     MediaModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+    }),
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       resolvers: {

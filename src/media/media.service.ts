@@ -35,7 +35,7 @@ export class MediaService {
             .on('finish', async () => {
               const createdItem = await this.MediaRepository.save({
                 name: simpleFileName,
-                path: `./uploads/${simpleFileName}.${extension}`,
+                path: `/${simpleFileName}.${extension}`,
               });
               MediaSizes.map(
                 async (size) =>
@@ -46,7 +46,7 @@ export class MediaService {
                     )
                     .then(async () => {
                       const updatedValue = {
-                        [size.path]: `./uploads/build/${simpleFileName}_${size.path}.${extension}`,
+                        [size.path]: `/build/${simpleFileName}_${size.path}.${extension}`,
                       };
                       await this.MediaRepository.update(
                         createdItem.id,
