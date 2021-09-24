@@ -1,7 +1,15 @@
-import { ObjectType, Field } from '@nestjs/graphql';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-@ObjectType()
+import { Field, ObjectType } from '@nestjs/graphql';
+import { Media } from 'src/media/media.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  JoinColumn,
+  OneToOne,
+} from 'typeorm';
+
 @Entity()
+@ObjectType()
 export class Restaurant {
   @Field()
   @PrimaryGeneratedColumn('uuid')
@@ -25,9 +33,13 @@ export class Restaurant {
 
   @Field()
   @Column()
-  sale: string;
+  discount: string;
 
   @Field()
   @Column()
   rating: string;
+
+  @OneToOne(() => Media, (media) => media.id)
+  @JoinColumn({ name: 'image' })
+  image: Media;
 }

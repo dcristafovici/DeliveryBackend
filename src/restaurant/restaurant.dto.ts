@@ -1,31 +1,27 @@
-import { InputType, Field } from '@nestjs/graphql';
-
-export interface RestaurantDTO {
-  name: string;
-  description: string;
-  minPrice: string;
-  deliveryTime: string;
-  sale: string;
-  rating: string;
-}
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Media } from 'src/media/media.entity';
 
 @InputType()
+@ObjectType()
 export class AddRestaurantInput {
   @Field()
-  name: string;
+  readonly name: string;
 
   @Field()
-  description: string;
+  readonly description: string;
 
   @Field()
-  minPrice: string;
+  readonly minPrice: string;
 
   @Field()
-  deliveryTime: string;
+  readonly deliveryTime: string;
 
   @Field()
-  sale: string;
+  readonly discount: string;
 
   @Field()
-  rating: string;
+  readonly rating: string;
+
+  @Field(() => String)
+  readonly image: Media;
 }

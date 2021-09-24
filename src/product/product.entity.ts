@@ -1,5 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Category } from 'src/category/category.entity';
+import { Media } from 'src/media/media.entity';
 import { Restaurant } from 'src/restaurant/restaurant.entity';
 import {
   Entity,
@@ -31,12 +32,4 @@ export class Product {
   @Field()
   @Column()
   weight: string;
-
-  @ManyToOne(() => Restaurant, (restaurant) => restaurant.id)
-  @JoinColumn({ name: 'restaurantID' })
-  restaurant: Restaurant;
-
-  @ManyToOne(() => Category, (category) => category.id)
-  @JoinColumn({ name: 'categoryID' })
-  category: Category;
 }
