@@ -20,6 +20,7 @@ type Restaurant {
   deliveryTime: String!
   discount: String!
   rating: String!
+  image: Media
 }
 
 type Category {
@@ -41,6 +42,7 @@ type Query {
   Categories: [Category!]!
   Products: [Product!]!
   GetImages: [Media!]!
+  GetImage(id: String!): Media!
 }
 
 type Mutation {

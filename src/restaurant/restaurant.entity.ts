@@ -39,7 +39,7 @@ export class Restaurant {
   @Column()
   rating: string;
 
-  @OneToOne(() => Media, (media) => media.id)
-  @JoinColumn({ name: 'image' })
+  @Field((type) => Media, { nullable: true })
+  @OneToOne((type) => Media, (media) => media.id)
   image: Media;
 }

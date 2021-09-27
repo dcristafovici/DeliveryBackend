@@ -17,6 +17,10 @@ export class MediaService {
     return this.MediaRepository.find();
   }
 
+  async GetImage(id: string): Promise<Media> {
+    return this.MediaRepository.findOne(id);
+  }
+
   async UploadFiles(data: MediaDTO): Promise<boolean> {
     const upload = await Promise.all(
       await data.map(async (image) => {

@@ -12,6 +12,11 @@ export class MediaResolver {
     return await this.mediaService.GetImages();
   }
 
+  @Query(() => Media)
+  async GetImage(@Args('id') id: string): Promise<Media> {
+    return await this.mediaService.GetImage(id);
+  }
+
   @Mutation(() => Boolean)
   async UploadFiles(
     @Args({ name: 'files', type: () => [GraphQLUpload] })
