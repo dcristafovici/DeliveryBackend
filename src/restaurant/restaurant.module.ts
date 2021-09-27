@@ -6,10 +6,7 @@ import { RestaurantService } from './restaurant.service';
 import { MediaModule } from 'src/media/media.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Restaurant]),
-    forwardRef(() => MediaModule),
-  ],
+  imports: [TypeOrmModule.forFeature([Restaurant])],
   providers: [RestaurantResolver, RestaurantService],
   exports: [RestaurantService],
 })

@@ -1,13 +1,18 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
 @ObjectType()
 @Entity()
 export class Category {
   @Field()
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Field()
-  @Column({ unique: true })
+  @Column()
   name: string;
+
+  @Field()
+  @Column({ nullable: true })
+  slug: string;
 }

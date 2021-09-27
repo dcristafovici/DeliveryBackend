@@ -1,40 +1,28 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { AddCategoryInput } from 'src/category/category.dto';
 import { Category } from 'src/category/category.entity';
-import { AddMediaInput } from 'src/media/media.dto';
 import { Media } from 'src/media/media.entity';
-import { AddRestaurantInput } from 'src/restaurant/restaurant.dto';
-
-export interface ProductDTO {
-  name: string;
-  description: string;
-  price: string;
-  weight: string;
-  restaurant: string;
-  category: string;
-  image: string;
-}
+import { Restaurant } from 'src/restaurant/restaurant.entity';
 
 @InputType()
 export class AddProductInput {
   @Field()
-  name: string;
+  readonly name: string;
 
   @Field()
-  description: string;
+  readonly description: string;
 
   @Field()
-  price: string;
+  readonly price: string;
 
   @Field()
-  weight: string;
+  readonly weight: string;
 
-  @Field()
-  restaurant: AddRestaurantInput;
+  @Field(() => String)
+  readonly restaurant: Restaurant;
 
-  @Field()
-  category: AddCategoryInput;
+  @Field(() => String)
+  readonly category: Category;
 
-  @Field()
-  image: AddMediaInput;
+  @Field(() => String)
+  readonly image: Media;
 }

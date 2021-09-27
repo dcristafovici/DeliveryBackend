@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CategoryDTO } from './category.dto';
+import slugify from 'slugify';
+import { AddCategoryInput } from './category.dto';
 import { Category } from './category.entity';
 
 @Injectable()
@@ -11,8 +12,10 @@ export class CategoryService {
     private CategoryRepository: Repository<Category>,
   ) {}
 
-  create(data: CategoryDTO): Promise<Category> {
-    return this.CategoryRepository.save(data);
+  create(data: AddCategoryInput): Promise<Category> {
+    const slug = slugify(data.name, { lower: true });
+    const dataWithSlug = { ...data, slug };
+    return this.CategoryRepository.save(dataWithSlug);
   }
   findAll(): Promise<Category[]> {
     return this.CategoryRepository.find();
