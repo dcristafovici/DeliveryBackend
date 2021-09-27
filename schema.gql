@@ -20,7 +20,7 @@ type Restaurant {
   deliveryTime: String!
   discount: String!
   rating: String!
-  image: Media
+  image: Media!
 }
 
 type Category {
@@ -39,18 +39,18 @@ type Product {
 type Query {
   Restaurants: [Restaurant!]!
   RestaurantByID(id: String!): Restaurant!
+  GetImages: [Media!]!
+  GetImageByID(id: String!): Media!
   Categories: [Category!]!
   Products: [Product!]!
-  GetImages: [Media!]!
-  GetImage(id: String!): Media!
 }
 
 type Mutation {
   AddRestaurant(data: AddRestaurantInput!): Restaurant!
   RemoveRestaurant(id: String!): Boolean!
+  UploadFiles(files: [Upload!]!): Boolean!
   AddCategory(data: AddCategoryInput!): Category!
   AddProduct(data: AddProductInput!): Product!
-  UploadFiles(files: [Upload!]!): Boolean!
 }
 
 input AddRestaurantInput {
@@ -62,6 +62,9 @@ input AddRestaurantInput {
   rating: String!
   image: String!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input AddCategoryInput {
   name: String!
@@ -81,6 +84,3 @@ input AddMediaInput {
   name: String!
   path: String!
 }
-
-"""The `Upload` scalar type represents a file upload."""
-scalar Upload

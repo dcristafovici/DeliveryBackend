@@ -18,6 +18,12 @@ export class MediaService {
   }
 
   async GetImage(id: string): Promise<Media> {
+    const ns = await this.MediaRepository.findOne(id);
+    console.log(id);
+    return this.MediaRepository.findOne(id);
+  }
+
+  async GetImageByID(id: string): Promise<Media> {
     return this.MediaRepository.findOne(id);
   }
 

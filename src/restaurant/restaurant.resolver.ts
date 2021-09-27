@@ -1,11 +1,23 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Args,
+  Mutation,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
+import { Media } from 'src/media/media.entity';
+import { MediaService } from 'src/media/media.service';
 import { AddRestaurantInput } from './restaurant.dto';
 import { Restaurant } from './restaurant.entity';
 import { RestaurantService } from './restaurant.service';
 
 @Resolver(() => Restaurant)
 export class RestaurantResolver {
-  constructor(private restaurantService: RestaurantService) {}
+  constructor(
+    private restaurantService: RestaurantService,
+    private mediaService: MediaService,
+  ) {}
 
   @Query(() => [Restaurant])
   async Restaurants(): Promise<Restaurant[]> {
@@ -15,6 +27,12 @@ export class RestaurantResolver {
   @Query(() => Restaurant)
   async RestaurantByID(@Args('id') id: string): Promise<Restaurant> {
     return await this.restaurantService.findOne(id);
+  }
+
+  @ResolveField(() => Media)
+  async image(@Parent() restaurant) {
+    const { image } = restaurant;
+    return await this.mediaService.GetImageByID(image.id);
   }
 
   @Mutation(() => Restaurant)

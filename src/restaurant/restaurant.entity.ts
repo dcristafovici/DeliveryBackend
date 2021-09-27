@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   JoinColumn,
-  OneToOne,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity()
@@ -39,7 +39,8 @@ export class Restaurant {
   @Column()
   rating: string;
 
-  @Field((type) => Media, { nullable: true })
-  @OneToOne((type) => Media, (media) => media.id)
+  @Field(() => Media)
+  @ManyToOne(() => Media, { eager: true })
+  @JoinColumn({ name: 'image' })
   image: Media;
 }

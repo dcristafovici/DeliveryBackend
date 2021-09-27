@@ -13,8 +13,8 @@ export class MediaResolver {
   }
 
   @Query(() => Media)
-  async GetImage(@Args('id') id: string): Promise<Media> {
-    return await this.mediaService.GetImage(id);
+  async GetImageByID(@Args('id') id: string): Promise<Media> {
+    return await this.mediaService.GetImageByID(id);
   }
 
   @Mutation(() => Boolean)
