@@ -29,12 +29,6 @@ export class RestaurantResolver {
     return await this.restaurantService.findOne(id);
   }
 
-  @ResolveField(() => Media)
-  async image(@Parent() restaurant) {
-    const { image } = restaurant;
-    return await this.mediaService.GetImageByID(image.id);
-  }
-
   @Mutation(() => Restaurant)
   async AddRestaurant(
     @Args('data') data: AddRestaurantInput,
