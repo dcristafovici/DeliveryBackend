@@ -23,6 +23,12 @@ type Restaurant {
   image: Media!
 }
 
+type Category {
+  id: String!
+  name: String!
+  slug: String!
+}
+
 type Product {
   id: String!
   name: String!
@@ -30,13 +36,8 @@ type Product {
   price: String!
   weight: String!
   restaurant: Restaurant!
+  category: Category!
   image: Media!
-}
-
-type Category {
-  ID: String!
-  name: String!
-  slug: String!
 }
 
 type Query {
@@ -72,12 +73,12 @@ input AddProductInput {
   price: String!
   weight: String!
   restaurant: String!
+  category: String!
   image: String!
 }
 
 input AddCategoryInput {
   name: String!
-  slug: String!
 }
 
 """The `Upload` scalar type represents a file upload."""

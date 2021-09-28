@@ -1,4 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
+import { Category } from 'src/category/category.entity';
 import { Media } from 'src/media/media.entity';
 import { Restaurant } from 'src/restaurant/restaurant.entity';
 
@@ -18,6 +19,9 @@ export class AddProductInput {
 
   @Field(() => String)
   readonly restaurant: Restaurant;
+
+  @Field(() => String)
+  readonly category: Category;
 
   @Field(() => String)
   readonly image: Media;

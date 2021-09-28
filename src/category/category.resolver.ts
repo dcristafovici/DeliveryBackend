@@ -13,7 +13,7 @@ export class CategoryResolver {
   }
 
   @Mutation(() => Category)
-  async AddCategory(@Args('data') data: AddCategoryInput) {
-    return await this.categoryService.create(data);
+  async AddCategory(@Args('data') data: AddCategoryInput): Promise<Category> {
+    return this.categoryService.create(data);
   }
 }
