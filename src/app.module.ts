@@ -7,6 +7,7 @@ import { DatabaseModule } from './database/database.module';
 import { GraphQLUpload } from 'graphql-upload';
 import { ProductModule } from './product/product.module';
 import { MediaModule } from './media/media.module';
+import { UserModule } from './user/user.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CategoryModule } from './category/category.module';
@@ -18,6 +19,7 @@ import { CategoryModule } from './category/category.module';
     ProductModule,
     CategoryModule,
     MediaModule,
+    UserModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),

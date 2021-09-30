@@ -40,6 +40,18 @@ type Product {
   image: Media!
 }
 
+type User {
+  id: String!
+  phone: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
   Restaurants: [Restaurant!]!
   RestaurantByID(id: String!): Restaurant!
@@ -61,6 +73,7 @@ type Mutation {
   AddProduct(data: AddProductInput!): Product!
   AddCategory(data: AddCategoryInput!): Category!
   UploadFiles(files: [Upload!]!): Boolean!
+  AddUser(data: AddUserInput!): User!
 }
 
 input AddRestaurantInput {
@@ -89,3 +102,7 @@ input AddCategoryInput {
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
+
+input AddUserInput {
+  phone: String!
+}

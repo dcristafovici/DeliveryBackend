@@ -1,0 +1,17 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './user.entity';
+import { AddUserInput } from './user.dto';
+
+@Injectable()
+export class UserService {
+  constructor(
+    @InjectRepository(User)
+    private UserRepository: Repository<User>,
+  ) {}
+
+  create(data: AddUserInput): Promise<User> {
+    return this.UserRepository.save(data);
+  }
+}
