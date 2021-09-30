@@ -18,7 +18,7 @@ export class RestaurantService {
   findOne(id: string): Promise<Restaurant> {
     return this.RestaurantRepository.findOne(id);
   }
-  async findAll(): Promise<Restaurant[]> {
+  findAll(): Promise<Restaurant[]> {
     return this.RestaurantRepository.find();
   }
   delete(id: string): Promise<any> {

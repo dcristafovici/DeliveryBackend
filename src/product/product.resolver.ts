@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { AddProductInput } from './product.dto';
+import { AddProductInput, FindByFieldInput } from './product.dto';
 import { Product } from './product.entity';
 import { ProductService } from './product.service';
 
@@ -10,6 +10,12 @@ export class ProductResolver {
   @Query(() => [Product])
   async Products(): Promise<Product[]> {
     return await this.productService.findAll();
+  }
+  @Query(() => [Product])
+  async ProductsByField(
+    @Args('data') data: FindByFieldInput,
+  ): Promise<Product[]> {
+    return await this.productService.findByField(data);
   }
 
   @Mutation(() => Product)

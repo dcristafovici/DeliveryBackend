@@ -27,7 +27,7 @@ export class Product {
 
   @Field()
   @Column()
-  price: string;
+  price: number;
 
   @Field()
   @Column()

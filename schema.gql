@@ -33,7 +33,7 @@ type Product {
   id: String!
   name: String!
   description: String!
-  price: String!
+  price: Float!
   weight: String!
   restaurant: Restaurant!
   category: Category!
@@ -44,9 +44,15 @@ type Query {
   Restaurants: [Restaurant!]!
   RestaurantByID(id: String!): Restaurant!
   Products: [Product!]!
+  ProductsByField(data: FindByFieldInput!): [Product!]!
   Categories: [Category!]!
   GetImages: [Media!]!
   GetImageByID(id: String!): Media!
+}
+
+input FindByFieldInput {
+  field: String!
+  value: String!
 }
 
 type Mutation {
@@ -70,7 +76,7 @@ input AddRestaurantInput {
 input AddProductInput {
   name: String!
   description: String!
-  price: String!
+  price: Float!
   weight: String!
   restaurant: String!
   category: String!

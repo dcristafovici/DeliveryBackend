@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AddProductInput } from './product.dto';
+import { AddProductInput, FindByFieldInput } from './product.dto';
 import { Product } from './product.entity';
 
 @Injectable()
@@ -16,5 +16,10 @@ export class ProductService {
   }
   findAll(): Promise<Product[]> {
     return this.ProductRepository.find();
+  }
+
+  findByField(data: FindByFieldInput): Promise<Product[]> {
+    const { field, value } = data;
+    return this.ProductRepository.find({ where: { [field]: value } });
   }
 }

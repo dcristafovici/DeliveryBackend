@@ -12,7 +12,7 @@ export class AddProductInput {
   readonly description: string;
 
   @Field()
-  readonly price: string;
+  readonly price: number;
 
   @Field()
   readonly weight: string;
@@ -25,4 +25,13 @@ export class AddProductInput {
 
   @Field(() => String)
   readonly image: Media;
+}
+
+@InputType()
+export class FindByFieldInput {
+  @Field()
+  readonly field: string;
+
+  @Field()
+  readonly value: string;
 }
