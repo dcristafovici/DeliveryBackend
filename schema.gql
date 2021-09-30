@@ -74,6 +74,8 @@ type Mutation {
   AddCategory(data: AddCategoryInput!): Category!
   UploadFiles(files: [Upload!]!): Boolean!
   AddUser(data: AddUserInput!): User!
+  sendPhoneAndGetStatus(phone: String!): Boolean!
+  checkCode(data: AddCodeInput!): Boolean!
 }
 
 input AddRestaurantInput {
@@ -105,4 +107,9 @@ scalar Upload
 
 input AddUserInput {
   phone: String!
+}
+
+input AddCodeInput {
+  phone: String!
+  code: Float!
 }
