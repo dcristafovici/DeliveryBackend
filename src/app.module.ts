@@ -9,9 +9,10 @@ import { ProductModule } from './product/product.module';
 import { MediaModule } from './media/media.module';
 import { UserModule } from './user/user.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 import { CategoryModule } from './category/category.module';
 import { CodeModule } from './code/code.module';
+import { OrderModule } from './order/order.module';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CodeModule } from './code/code.module';
     MediaModule,
     UserModule,
     CodeModule,
+    OrderModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),

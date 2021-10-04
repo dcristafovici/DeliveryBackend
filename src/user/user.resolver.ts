@@ -7,8 +7,13 @@ import { UserService } from './user.service';
 export class UserResolver {
   constructor(private userService: UserService) {}
 
-  @Mutation(() => Boolean)
-  async AddUser(@Args('data') data: AddUserInput): Promise<boolean> {
+  @Query(() => User)
+  async CheckToken(@Args('token') token: string): Promise<User> {
+    return await this.userService.checkToken(token);
+  }
+
+  @Mutation(() => User)
+  async AddUser(@Args('data') data: AddUserInput): Promise<any> {
     return await this.userService.create(data);
   }
 }

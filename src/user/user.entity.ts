@@ -39,6 +39,10 @@ export class User {
   apartment: string;
 
   @Field()
+  @Column({ nullable: true })
+  token: string;
+
+  @Field()
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
