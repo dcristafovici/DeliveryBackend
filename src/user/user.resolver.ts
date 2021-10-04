@@ -7,8 +7,8 @@ import { UserService } from './user.service';
 export class UserResolver {
   constructor(private userService: UserService) {}
 
-  @Mutation(() => User)
-  async AddUser(@Args('data') data: AddUserInput): Promise<User> {
+  @Mutation(() => Boolean)
+  async AddUser(@Args('data') data: AddUserInput): Promise<boolean> {
     return await this.userService.create(data);
   }
 }

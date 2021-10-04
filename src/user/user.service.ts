@@ -11,7 +11,10 @@ export class UserService {
     private UserRepository: Repository<User>,
   ) {}
 
-  create(data: AddUserInput): Promise<User> {
-    return this.UserRepository.save(data);
+  async create(data: AddUserInput): Promise<boolean> {
+    const { phone } = data;
+    const user = await this.UserRepository.findOne({ phone });
+    !user && (await this.UserRepository.save(data));
+    return true;
   }
 }

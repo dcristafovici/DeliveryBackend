@@ -19,8 +19,11 @@ export class CodeService {
 
   async checkCode(data: AddCodeInput): Promise<boolean> {
     const { phone, code } = data;
-    const item = await this.CodeRepository.findOne({ phone, code });
-    console.log(item);
-    return true;
+    const item = await this.CodeRepository.findOne({
+      where: { phone },
+      order: { created_at: 'DESC' },
+    });
+    const check = item.code === code;
+    return check ? true : false;
   }
 }

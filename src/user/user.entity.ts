@@ -19,6 +19,26 @@ export class User {
   phone: string;
 
   @Field()
+  @Column({ nullable: true })
+  name: string;
+
+  @Field()
+  @Column({ nullable: true })
+  tower: string;
+
+  @Field()
+  @Column({ nullable: true })
+  floor: string;
+
+  @Field()
+  @Column({ nullable: true })
+  office: string;
+
+  @Field()
+  @Column({ nullable: true })
+  apartment: string;
+
+  @Field()
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
