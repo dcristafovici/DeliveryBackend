@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import { AddUserInput } from './user.dto';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import { AddUserInput, UpdateUserInput } from './user.dto';
+import jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UserService {
@@ -24,5 +24,13 @@ export class UserService {
     const verified: any = jwt.verify(token, 'SECRET');
     const User = await this.UserRepository.findOne(verified.id);
     return User;
+  }
+
+  updateUser(data: UpdateUserInput): Promise<any> {
+    return this.UserRepository.update(data.id, { [data.field]: data.value });
+  }
+
+  findAll(): Promise<User[]> {
+    return this.UserRepository.find();
   }
 }

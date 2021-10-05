@@ -81,6 +81,7 @@ type Query {
   GetImages: [Media!]!
   GetImageByID(id: String!): Media!
   CheckToken(token: String!): User!
+  Users: [User!]!
 }
 
 input FindByFieldInput {
@@ -95,6 +96,7 @@ type Mutation {
   AddCategory(data: AddCategoryInput!): Category!
   UploadFiles(files: [Upload!]!): Boolean!
   AddUser(data: AddUserInput!): User!
+  updateUser(data: UpdateUserInput!): Boolean!
   sendPhoneAndGetStatus(phone: String!): Boolean!
   checkCode(data: AddCodeInput!): Boolean!
   AddOrder(data: AddOrderInput!): Order!
@@ -129,6 +131,12 @@ scalar Upload
 
 input AddUserInput {
   phone: String!
+}
+
+input UpdateUserInput {
+  id: String!
+  field: String!
+  value: String!
 }
 
 input AddCodeInput {
