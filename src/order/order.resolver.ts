@@ -8,7 +8,7 @@ export class OrderResolver {
   constructor(private orderService: OrderService) {}
 
   @Mutation(() => Order)
-  async AddOrder(@Args('data') data: AddOrderInput) {
+  async CreateOrder(@Args('data') data: AddOrderInput) {
     return await this.orderService.create(data);
   }
 }

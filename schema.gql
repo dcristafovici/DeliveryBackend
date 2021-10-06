@@ -69,7 +69,12 @@ type Order {
   date: String!
   time: String!
   additional: String!
+  totalPrice: String!
+  restaurant: Restaurant!
   user: User!
+  cart: [Product!]!
+  created_at: DateTime!
+  updated_at: DateTime!
 }
 
 type Query {
@@ -99,7 +104,7 @@ type Mutation {
   updateUser(data: UpdateUserInput!): Boolean!
   sendPhoneAndGetStatus(phone: String!): Boolean!
   checkCode(data: AddCodeInput!): Boolean!
-  AddOrder(data: AddOrderInput!): Order!
+  CreateOrder(data: AddOrderInput!): Order!
 }
 
 input AddRestaurantInput {
@@ -154,5 +159,8 @@ input AddOrderInput {
   date: String!
   time: String!
   additional: String!
+  totalPrice: String!
+  restaurant: String!
   user: String!
+  cart: [String!]!
 }
