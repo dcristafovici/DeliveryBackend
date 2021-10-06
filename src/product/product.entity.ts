@@ -1,6 +1,7 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Category } from 'src/category/category.entity';
 import { Media } from 'src/media/media.entity';
+import { Order } from 'src/order/order.entity';
 import { Restaurant } from 'src/restaurant/restaurant.entity';
 import {
   Entity,
@@ -8,6 +9,8 @@ import {
   Column,
   JoinColumn,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @ObjectType()

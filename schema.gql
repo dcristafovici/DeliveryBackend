@@ -29,17 +29,6 @@ type Category {
   slug: String!
 }
 
-type Product {
-  id: String!
-  name: String!
-  description: String!
-  price: Float!
-  weight: String!
-  restaurant: Restaurant!
-  category: Category!
-  image: Media!
-}
-
 type User {
   id: String!
   phone: String!
@@ -72,9 +61,20 @@ type Order {
   totalPrice: String!
   restaurant: Restaurant!
   user: User!
-  cart: [Product!]!
+  cart: [String!]!
   created_at: DateTime!
   updated_at: DateTime!
+}
+
+type Product {
+  id: String!
+  name: String!
+  description: String!
+  price: Float!
+  weight: String!
+  restaurant: Restaurant!
+  category: Category!
+  image: Media!
 }
 
 type Query {

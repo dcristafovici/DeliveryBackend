@@ -7,9 +7,12 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
+  ManyToMany,
   JoinColumn,
   UpdateDateColumn,
   CreateDateColumn,
+  OneToMany,
+  JoinTable,
 } from 'typeorm';
 
 @ObjectType()
@@ -69,9 +72,9 @@ export class Order {
   @JoinColumn({ name: 'user' })
   user: User;
 
-  @Field(() => [Product])
-  @ManyToOne(() => Product, { eager: true })
-  @JoinColumn({ name: 'cart' })
+  @Field(() => [String])
+  @ManyToMany(() => Product, (product) => product.id, { eager: true })
+  @JoinTable({ name: 'cart' })
   cart: Product[];
 
   @Field()
