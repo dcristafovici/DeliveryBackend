@@ -3,6 +3,15 @@ import { AddProductInput } from 'src/product/product.dto';
 import { Product } from 'src/product/product.entity';
 import { Restaurant } from 'src/restaurant/restaurant.entity';
 import { User } from 'src/user/user.entity';
+
+@InputType()
+class AddcCartInput {
+  @Field()
+  readonly id: number;
+
+  @Field()
+  readonly quantity: number;
+}
 @InputType()
 export class AddOrderInput {
   @Field()
@@ -41,6 +50,6 @@ export class AddOrderInput {
   @Field(() => String)
   readonly user: User;
 
-  @Field(() => [Number])
-  readonly cart: Promise<Product[]>;
+  @Field(() => [AddcCartInput])
+  readonly cart: Product[];
 }

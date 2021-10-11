@@ -1,6 +1,5 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from 'src/product/product.entity';
 import { ProductService } from 'src/product/product.service';
 import { Repository } from 'typeorm';
 import { AddOrderInput } from './order.dto';
@@ -19,8 +18,14 @@ export class OrderService {
     const { cart, ...info } = data;
     const order = new Order();
     Object.assign(order, info);
-    const products = await this.productService.findByIDs(cart);
+    const cartID = cart.map((item) => item.id);
+    console.log(cartID);
+    const products = await this.productService.findByIDs(cartID);
     order.products = products;
     return this.OrderRepository.save(order);
+  }
+
+  getOrderByUser(user: string): Promise<Order[]> {
+    return this.OrderRepository.find({ where: { user } });
   }
 }

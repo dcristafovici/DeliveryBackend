@@ -11,7 +11,6 @@ import {
   JoinColumn,
   UpdateDateColumn,
   CreateDateColumn,
-  OneToMany,
   JoinTable,
 } from 'typeorm';
 

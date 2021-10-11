@@ -24,7 +24,6 @@ export class ProductService {
   }
 
   findByIDs(data: any): Promise<Product[]> {
-    console.log(data);
     return this.ProductRepository.find({ where: { id: In(data) } });
   }
 }

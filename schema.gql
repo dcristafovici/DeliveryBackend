@@ -88,6 +88,7 @@ type Query {
   GetImageByID(id: String!): Media!
   CheckToken(token: String!): User!
   Users: [User!]!
+  GetOrdersByUser(user: String!): [Order!]!
 }
 
 input FindByFieldInput {
@@ -163,5 +164,10 @@ input AddOrderInput {
   totalPrice: String!
   restaurant: String!
   user: String!
-  cart: [Float!]!
+  cart: [AddcCartInput!]!
+}
+
+input AddcCartInput {
+  id: Float!
+  quantity: Float!
 }
