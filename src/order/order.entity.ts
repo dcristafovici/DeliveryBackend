@@ -72,10 +72,20 @@ export class Order {
   @JoinColumn({ name: 'user' })
   user: User;
 
-  @Field(() => [String])
-  @ManyToMany(() => Product, (product) => product.id, { eager: true })
-  @JoinTable({ name: 'cart' })
-  cart: Product[];
+  @Field(() => [Product])
+  @ManyToMany(() => Product, (product) => product.orders, { lazy: true })
+  @JoinTable({
+    name: 'cart',
+    joinColumn: {
+      name: 'orderID',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'productID',
+      referencedColumnName: 'id',
+    },
+  })
+  products: Product[];
 
   @Field()
   @CreateDateColumn({

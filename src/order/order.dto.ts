@@ -41,6 +41,6 @@ export class AddOrderInput {
   @Field(() => String)
   readonly user: User;
 
-  @Field(() => [String])
-  readonly cart: Product[];
+  @Field(() => [Number])
+  readonly cart: Promise<Product[]>;
 }

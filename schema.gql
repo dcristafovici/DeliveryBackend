@@ -61,7 +61,7 @@ type Order {
   totalPrice: String!
   restaurant: Restaurant!
   user: User!
-  cart: [String!]!
+  products: [Product!]!
   created_at: DateTime!
   updated_at: DateTime!
 }
@@ -75,6 +75,7 @@ type Product {
   restaurant: Restaurant!
   category: Category!
   image: Media!
+  orders: [Order!]!
 }
 
 type Query {
@@ -162,5 +163,5 @@ input AddOrderInput {
   totalPrice: String!
   restaurant: String!
   user: String!
-  cart: [String!]!
+  cart: [Float!]!
 }
