@@ -50,8 +50,4 @@ export class Product {
   @ManyToOne(() => Media, { eager: true })
   @JoinColumn({ name: 'image' })
   image: Media;
-
-  @ManyToMany((type) => Order, (order) => order.products, { lazy: true })
-  @Field((type) => [Order])
-  orders: Promise<Order[]>;
 }

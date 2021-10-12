@@ -3,10 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrderResolver } from './order.resolver';
 import { Order } from './order.entity';
 import { OrderService } from './order.service';
-import { ProductModule } from 'src/product/product.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order]), forwardRef(() => ProductModule)],
+  imports: [TypeOrmModule.forFeature([Order])],
   providers: [OrderResolver, OrderService],
   exports: [OrderService],
 })

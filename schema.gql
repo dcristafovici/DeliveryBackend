@@ -47,25 +47,6 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Order {
-  id: String!
-  name: String!
-  phone: String!
-  tower: String!
-  floor: String!
-  office: String!
-  apartment: String!
-  date: String!
-  time: String!
-  additional: String!
-  totalPrice: String!
-  restaurant: Restaurant!
-  user: User!
-  products: [Product!]!
-  created_at: DateTime!
-  updated_at: DateTime!
-}
-
 type Product {
   id: String!
   name: String!
@@ -75,7 +56,6 @@ type Product {
   restaurant: Restaurant!
   category: Category!
   image: Media!
-  orders: [Order!]!
 }
 
 type Query {
@@ -88,7 +68,6 @@ type Query {
   GetImageByID(id: String!): Media!
   CheckToken(token: String!): User!
   Users: [User!]!
-  GetOrdersByUser(user: String!): [Order!]!
 }
 
 input FindByFieldInput {
@@ -106,7 +85,6 @@ type Mutation {
   updateUser(data: UpdateUserInput!): Boolean!
   sendPhoneAndGetStatus(phone: String!): Boolean!
   checkCode(data: AddCodeInput!): Boolean!
-  CreateOrder(data: AddOrderInput!): Order!
 }
 
 input AddRestaurantInput {
@@ -149,25 +127,4 @@ input UpdateUserInput {
 input AddCodeInput {
   phone: String!
   code: Float!
-}
-
-input AddOrderInput {
-  name: String!
-  phone: String!
-  tower: String!
-  floor: String!
-  office: String!
-  apartment: String!
-  date: String!
-  time: String!
-  additional: String!
-  totalPrice: String!
-  restaurant: String!
-  user: String!
-  cart: [AddcCartInput!]!
-}
-
-input AddcCartInput {
-  id: Float!
-  quantity: Float!
 }

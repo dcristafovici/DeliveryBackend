@@ -13,6 +13,7 @@ import { CategoryModule } from './category/category.module';
 import { CodeModule } from './code/code.module';
 import { OrderModule } from './order/order.module';
 import { join } from 'path';
+import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { join } from 'path';
     UserModule,
     CodeModule,
     OrderModule,
+    CartModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),
