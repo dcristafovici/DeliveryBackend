@@ -78,8 +78,8 @@ type Product {
 
 type Cart {
   id: String!
-  orderID: String!
-  productID: Float!
+  orderID: Order!
+  productID: Product!
   quantity: Float!
   created_at: DateTime!
   updated_at: DateTime!

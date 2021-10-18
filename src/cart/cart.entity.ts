@@ -1,10 +1,14 @@
 import { ObjectType, Field } from '@nestjs/graphql';
+import { Order } from 'src/order/order.entity';
+import { Product } from 'src/product/product.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   CreateDateColumn,
   Column,
+  JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 
 @ObjectType()
@@ -14,13 +18,15 @@ export class Cart {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Field()
-  @Column()
-  orderID: string;
+  @Field(() => Order)
+  @ManyToOne(() => Order, { eager: true })
+  @JoinColumn({ name: 'orderID' })
+  orderID: Order;
 
-  @Field()
-  @Column()
-  productID: number;
+  @Field(() => Product)
+  @ManyToOne(() => Product, { eager: true })
+  @JoinColumn({ name: 'productID' })
+  productID: Product;
 
   @Field()
   @Column()
