@@ -9,4 +9,8 @@ export class CartService {
     @InjectRepository(Cart)
     private CartRepository: Repository<Cart>,
   ) {}
+
+  createCart(data: any): Promise<Cart[]> {
+    return this.CartRepository.save(data);
+  }
 }

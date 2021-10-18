@@ -58,6 +58,15 @@ type Product {
   image: Media!
 }
 
+type Cart {
+  id: String!
+  orderID: String!
+  productID: Float!
+  quantity: Float!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 type Query {
   Restaurants: [Restaurant!]!
   RestaurantByID(id: String!): Restaurant!
@@ -85,6 +94,8 @@ type Mutation {
   updateUser(data: UpdateUserInput!): Boolean!
   sendPhoneAndGetStatus(phone: String!): Boolean!
   checkCode(data: AddCodeInput!): Boolean!
+  CreateOrder(data: AddOrderInput!): Boolean!
+  AddCartItem(data: AddCartInput!): [Cart!]!
 }
 
 input AddRestaurantInput {
@@ -127,4 +138,31 @@ input UpdateUserInput {
 input AddCodeInput {
   phone: String!
   code: Float!
+}
+
+input AddOrderInput {
+  name: String!
+  phone: String!
+  tower: String!
+  floor: String!
+  office: String!
+  apartment: String!
+  date: String!
+  time: String!
+  additional: String!
+  totalPrice: String!
+  restaurant: String!
+  user: String!
+  cart: [AddcCartInput!]!
+}
+
+input AddcCartInput {
+  productID: Float!
+  quantity: Float!
+}
+
+input AddCartInput {
+  orderID: String!
+  productID: String!
+  quantity: Float!
 }

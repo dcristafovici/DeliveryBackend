@@ -20,11 +20,11 @@ export class Cart {
 
   @Field()
   @Column()
-  productID: string;
+  productID: number;
 
   @Field()
   @Column()
-  quantity: string;
+  quantity: number;
 
   @Field()
   @CreateDateColumn({

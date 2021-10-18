@@ -7,7 +7,7 @@ import { User } from 'src/user/user.entity';
 @InputType()
 class AddcCartInput {
   @Field()
-  readonly id: number;
+  readonly productID: number;
 
   @Field()
   readonly quantity: number;
