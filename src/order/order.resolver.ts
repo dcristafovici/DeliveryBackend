@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { CartService } from 'src/cart/cart.service';
 import { AddOrderInput } from './order.dto';
 import { Order } from './order.entity';
@@ -17,5 +17,10 @@ export class OrderResolver {
     cart.map((item) => (item.orderID = id));
     await this.cartService.createCart(cart);
     return true;
+  }
+
+  @Query(() => [Order])
+  async GetOrderByUser(@Args('user') user: string): Promise<Order[]> {
+    return this.orderService.getOrderByUser(user);
   }
 }

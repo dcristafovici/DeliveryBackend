@@ -13,4 +13,8 @@ export class CartService {
   createCart(data: any): Promise<Cart[]> {
     return this.CartRepository.save(data);
   }
+
+  getCart(orderID: string): Promise<Cart[]> {
+    return this.CartRepository.find({ where: { orderID } });
+  }
 }

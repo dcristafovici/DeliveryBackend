@@ -47,6 +47,24 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Order {
+  id: String!
+  name: String!
+  phone: String!
+  tower: String!
+  floor: String!
+  office: String!
+  apartment: String!
+  date: String!
+  time: String!
+  additional: String!
+  totalPrice: String!
+  restaurant: Restaurant!
+  user: User!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 type Product {
   id: String!
   name: String!
@@ -77,6 +95,8 @@ type Query {
   GetImageByID(id: String!): Media!
   CheckToken(token: String!): User!
   Users: [User!]!
+  GetOrderByUser(user: String!): [Order!]!
+  GetCart(orderID: String!): [Cart!]!
 }
 
 input FindByFieldInput {

@@ -16,4 +16,8 @@ export class OrderService {
     const { id } = await this.OrderRepository.save(order);
     return { cart, id };
   }
+
+  getOrderByUser(user: string): Promise<Order[]> {
+    return this.OrderRepository.find({ where: { user } });
+  }
 }
