@@ -14,7 +14,7 @@ export class MediaService {
   ) {}
 
   async GetImages(): Promise<Media[]> {
-    return this.MediaRepository.find();
+    return this.MediaRepository.find({ order: { created_at: 'DESC' } });
   }
 
   async GetImage(id: string): Promise<Media> {
@@ -23,6 +23,11 @@ export class MediaService {
 
   async GetImageByID(id: string): Promise<Media> {
     return this.MediaRepository.findOne(id);
+  }
+
+  // TO-DO When we delete media from the database, it should be removed from the folder.
+  deleteByID(id: string): Promise<any> {
+    return this.MediaRepository.delete(id);
   }
 
   async UploadFiles(data: MediaDTO): Promise<boolean> {

@@ -40,7 +40,7 @@ export class Restaurant {
   rating: string;
 
   @Field(() => Media)
-  @ManyToOne(() => Media, { eager: true })
+  @ManyToOne(() => Media, { eager: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'image' })
   image: Media;
 }

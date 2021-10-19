@@ -24,4 +24,10 @@ export class MediaResolver {
   ): Promise<boolean> {
     return this.mediaService.UploadFiles(files);
   }
+
+  @Mutation(() => Boolean)
+  async RemoveMediaByID(@Args('id') id: string): Promise<boolean> {
+    const { affected } = await this.mediaService.deleteByID(id);
+    return affected ? true : false;
+  }
 }

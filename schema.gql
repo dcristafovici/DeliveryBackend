@@ -112,6 +112,7 @@ type Mutation {
   AddProduct(data: AddProductInput!): Product!
   AddCategory(data: AddCategoryInput!): Category!
   UploadFiles(files: [Upload!]!): Boolean!
+  RemoveMediaByID(id: String!): Boolean!
   AddUser(data: AddUserInput!): User!
   updateUser(data: UpdateUserInput!): Boolean!
   sendPhoneAndGetStatus(phone: String!): Boolean!
