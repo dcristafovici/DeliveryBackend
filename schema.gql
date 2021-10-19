@@ -132,13 +132,13 @@ input AddRestaurantInput {
 }
 
 input EditRestaurantInput {
-  name: String!
-  description: String!
-  minPrice: String!
-  deliveryTime: String!
-  discount: String!
-  rating: String!
-  image: String!
+  name: String
+  description: String
+  minPrice: String
+  deliveryTime: String
+  discount: String
+  rating: String
+  image: String
 }
 
 input AddProductInput {

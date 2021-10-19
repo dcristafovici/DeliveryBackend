@@ -26,11 +26,7 @@ export class RestaurantService {
   }
 
   async update(id: string, newData: EditRestaurantInput): Promise<boolean> {
-    const { image, ...infoNewData } = newData;
-    const { affected } = await this.RestaurantRepository.update(
-      id,
-      infoNewData,
-    );
+    const { affected } = await this.RestaurantRepository.update(id, newData);
     return affected ? true : false;
   }
 }
