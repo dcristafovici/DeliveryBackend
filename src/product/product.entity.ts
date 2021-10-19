@@ -41,10 +41,10 @@ export class Product {
   @JoinColumn({ name: 'restaurant' })
   restaurant: Restaurant;
 
-  @Field(() => Category)
-  @ManyToOne(() => Category, { eager: true })
-  @JoinColumn({ name: 'category' })
-  category: Category;
+  // @Field(() => Category)
+  // @ManyToOne(() => Category, { eager: true })
+  // @JoinColumn({ name: 'category' })
+  // category: Category;
 
   @Field(() => Media)
   @ManyToOne(() => Media, { eager: true })
