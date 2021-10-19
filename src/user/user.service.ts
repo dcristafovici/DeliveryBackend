@@ -16,12 +16,12 @@ export class UserService {
     const { phone } = data;
     const user = await this.UserRepository.findOne({ phone });
     !user && (await this.UserRepository.save(data));
-    const token = await jwt.sign({ id: user.id }, 'SECRET');
+    const token = await jwt.sign({ id: user.id }, process.env.JWT_SECRET);
     return { ...user, token };
   }
 
   async checkToken(token: string): Promise<User> {
-    const verified: any = jwt.verify(token, 'SECRET');
+    const verified: any = jwt.verify(token, process.env.JWT_SECRET);
     const User = await this.UserRepository.findOne(verified.id);
     return User;
   }
