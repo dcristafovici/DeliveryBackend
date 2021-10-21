@@ -20,6 +20,7 @@ export class ProductResolver {
 
   @Mutation(() => Product)
   async AddProduct(@Args('data') data: AddProductInput) {
-    return await this.productService.create(data);
+    const createdProduct = await this.productService.create(data);
+    return createdProduct;
   }
 }

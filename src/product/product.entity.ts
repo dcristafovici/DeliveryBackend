@@ -1,7 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Category } from 'src/category/category.entity';
 import { Media } from 'src/media/media.entity';
-import { Order } from 'src/order/order.entity';
 import { Restaurant } from 'src/restaurant/restaurant.entity';
 import {
   Entity,
@@ -30,7 +29,7 @@ export class Product {
 
   @Field()
   @Column()
-  price: number;
+  price: string;
 
   @Field()
   @Column()
@@ -41,13 +40,23 @@ export class Product {
   @JoinColumn({ name: 'restaurant' })
   restaurant: Restaurant;
 
-  // @Field(() => Category)
-  // @ManyToOne(() => Category, { eager: true })
-  // @JoinColumn({ name: 'category' })
-  // category: Category;
-
   @Field(() => Media)
   @ManyToOne(() => Media, { eager: true })
   @JoinColumn({ name: 'image' })
   image: Media;
+
+  @Field(() => [Category])
+  @ManyToMany(() => Category, (category) => category.products, { lazy: true })
+  @JoinTable({
+    name: 'cat_prod',
+    joinColumn: {
+      name: 'productID',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'categoryID',
+      referencedColumnName: 'id',
+    },
+  })
+  categories: Category[];
 }

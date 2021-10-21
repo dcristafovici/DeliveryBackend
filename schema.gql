@@ -30,10 +30,21 @@ type Restaurant {
   image: Media!
 }
 
+type Product {
+  id: String!
+  name: String!
+  description: String!
+  price: String!
+  weight: String!
+  restaurant: Restaurant!
+  image: Media!
+  categories: [Category!]!
+}
+
 type Category {
   id: String!
   name: String!
-  slug: String!
+  products: [Product!]!
 }
 
 type User {
@@ -65,16 +76,6 @@ type Order {
   user: User!
   created_at: DateTime!
   updated_at: DateTime!
-}
-
-type Product {
-  id: String!
-  name: String!
-  description: String!
-  price: Float!
-  weight: String!
-  restaurant: Restaurant!
-  image: Media!
 }
 
 type Cart {
@@ -144,9 +145,10 @@ input EditRestaurantInput {
 input AddProductInput {
   name: String!
   description: String!
-  price: Float!
+  price: String!
   weight: String!
   restaurant: String!
+  categories: [String!]!
   image: String!
 }
 

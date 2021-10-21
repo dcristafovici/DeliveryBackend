@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Category } from 'src/category/category.entity';
 import { In, Repository } from 'typeorm';
 import { AddProductInput, FindByFieldInput } from './product.dto';
 import { Product } from './product.entity';
@@ -9,10 +10,19 @@ export class ProductService {
   constructor(
     @InjectRepository(Product)
     private ProductRepository: Repository<Product>,
+    @InjectRepository(Category)
+    private CategoryRepository: Repository<Category>,
   ) {}
 
-  create(data: AddProductInput): Promise<Product> {
-    return this.ProductRepository.save(data);
+  async create(data: AddProductInput): Promise<Product> {
+    const { categories, ...info } = data;
+    const product = new Product();
+    Object.assign(product, info);
+    const categoriesInfo = await this.CategoryRepository.find({
+      where: { id: In(categories) },
+    });
+    product.categories = categoriesInfo;
+    return this.ProductRepository.save(product);
   }
   findAll(): Promise<Product[]> {
     return this.ProductRepository.find();
