@@ -44,6 +44,7 @@ type Product {
 type Category {
   id: String!
   name: String!
+  slug: String!
   products: [Product!]!
 }
 
@@ -154,6 +155,7 @@ input AddProductInput {
 
 input AddCategoryInput {
   name: String!
+  slug: String!
 }
 
 """The `Upload` scalar type represents a file upload."""

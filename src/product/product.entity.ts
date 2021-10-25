@@ -36,7 +36,7 @@ export class Product {
   weight: string;
 
   @Field(() => Restaurant)
-  @ManyToOne(() => Restaurant, { eager: true })
+  @ManyToOne(() => Restaurant, { eager: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'restaurant' })
   restaurant: Restaurant;
 

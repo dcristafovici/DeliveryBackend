@@ -1,7 +1,5 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { throwError } from 'rxjs';
-import slugify from 'slugify';
 import { Repository } from 'typeorm';
 import { AddCategoryInput } from './category.dto';
 import { Category } from './category.entity';
