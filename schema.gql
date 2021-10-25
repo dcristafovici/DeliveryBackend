@@ -155,7 +155,6 @@ input AddProductInput {
 
 input AddCategoryInput {
   name: String!
-  slug: String!
 }
 
 """The `Upload` scalar type represents a file upload."""

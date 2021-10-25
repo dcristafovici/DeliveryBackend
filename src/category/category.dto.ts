@@ -4,7 +4,4 @@ import { InputType, Field } from '@nestjs/graphql';
 export class AddCategoryInput {
   @Field()
   readonly name: string;
-
-  @Field()
-  readonly slug: string;
 }
