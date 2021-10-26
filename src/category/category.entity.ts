@@ -13,10 +13,6 @@ export class Category {
   @Column()
   name: string;
 
-  @Field()
-  @Column()
-  slug: string;
-
   @ManyToMany((type) => Product, (product) => product.categories, {
     lazy: true,
   })

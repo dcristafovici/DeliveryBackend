@@ -3,9 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CategoryResolver } from './category.resolver';
 import { Category } from './category.entity';
 import { CategoryService } from './category.service';
+import { CategoryRestaurant } from './categoryRestaurant.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Category])],
+  imports: [TypeOrmModule.forFeature([Category, CategoryRestaurant])],
   providers: [CategoryResolver, CategoryService],
   exports: [CategoryService],
 })

@@ -44,7 +44,6 @@ type Product {
 type Category {
   id: String!
   name: String!
-  slug: String!
   products: [Product!]!
 }
 
