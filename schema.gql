@@ -47,6 +47,13 @@ type Category {
   products: [Product!]!
 }
 
+type CategoryRestaurant {
+  id: String!
+  restaurant: Restaurant!
+  category: Category!
+  order: Float!
+}
+
 type User {
   id: String!
   phone: String!
@@ -93,6 +100,7 @@ type Query {
   Products: [Product!]!
   ProductsByField(data: FindByFieldInput!): [Product!]!
   Categories: [Category!]!
+  CategoryOrderfindByKey(data: FindByKeyInput!): [CategoryRestaurant!]!
   GetImages: [Media!]!
   GetImageByID(id: String!): Media!
   CheckToken(token: String!): User!
@@ -102,6 +110,11 @@ type Query {
 }
 
 input FindByFieldInput {
+  field: String!
+  value: String!
+}
+
+input FindByKeyInput {
   field: String!
   value: String!
 }

@@ -1,8 +1,9 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AddCategoryInput } from './category.dto';
+import { AddCategoryInput, FindByKeyInput } from './category.dto';
 import { Category } from './category.entity';
+import { CategoryRestaurant } from './categoryRestaurant.entity';
 
 @Injectable()
 export class CategoryService {
@@ -23,7 +24,26 @@ export class CategoryService {
     }
     return this.CategoryRepository.save(data);
   }
+
   findAll(): Promise<Category[]> {
     return this.CategoryRepository.find();
+  }
+}
+
+@Injectable()
+export class CategoryRestaurantService {
+  constructor(
+    @InjectRepository(CategoryRestaurant)
+    private CategoryRestaurantRepository: Repository<CategoryRestaurant>,
+  ) {}
+
+  categoryOrderfindByKey({
+    field,
+    value,
+  }: FindByKeyInput): Promise<CategoryRestaurant[]> {
+    return this.CategoryRestaurantRepository.find({
+      where: { [field]: value },
+      order: { order: 'ASC' },
+    });
   }
 }
