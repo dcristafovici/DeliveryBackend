@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { AddUserInput, UpdateUserInput } from './user.dto';
 import jwt from 'jsonwebtoken';
+import { validate } from 'class-validator';
 
 @Injectable()
 export class UserService {
@@ -31,8 +32,18 @@ export class UserService {
     return User;
   }
 
-  updateUser(data: UpdateUserInput): Promise<any> {
-    return this.UserRepository.update(data.id, { [data.field]: data.value });
+  async updateUser(data: UpdateUserInput): Promise<any> {
+    const { id, field, value } = data;
+    const user = new User();
+    user[field] = value;
+    await validate(user).then((errors) => {
+      if (errors.length > 0) {
+        const { constraints } = errors[0];
+        const field = Object.keys(constraints)[0];
+        throw new HttpException(constraints[field], HttpStatus.BAD_REQUEST);
+      }
+    });
+    return this.UserRepository.update(id, { [field]: value });
   }
 
   findAll(): Promise<User[]> {

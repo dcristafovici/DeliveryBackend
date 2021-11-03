@@ -7,12 +7,11 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  ManyToMany,
   JoinColumn,
   UpdateDateColumn,
   CreateDateColumn,
-  JoinTable,
 } from 'typeorm';
+import { OrderStatus } from './order.dto';
 
 @ObjectType()
 @Entity()
@@ -60,6 +59,14 @@ export class Order {
   @Field()
   @Column()
   totalPrice: string;
+
+  @Field()
+  @Column({
+    type: 'enum',
+    enum: OrderStatus,
+    default: OrderStatus.AWAITING_PAYMENT,
+  })
+  status: OrderStatus;
 
   @Field(() => Restaurant)
   @ManyToOne(() => Restaurant, { eager: true })

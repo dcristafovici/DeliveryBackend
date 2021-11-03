@@ -58,6 +58,7 @@ type User {
   id: String!
   phone: String!
   name: String!
+  email: String!
   tower: String!
   floor: String!
   office: String!
@@ -79,6 +80,7 @@ type Order {
   time: String!
   additional: String!
   totalPrice: String!
+  status: String!
   restaurant: Restaurant!
   user: User!
   created_at: DateTime!

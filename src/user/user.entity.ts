@@ -1,4 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { IsEmail } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
@@ -21,6 +22,11 @@ export class User {
   @Field()
   @Column({ nullable: true })
   name: string;
+
+  @Field()
+  @Column({ nullable: true })
+  @IsEmail({}, { message: 'Email should be type email' })
+  email: string;
 
   @Field()
   @Column({ nullable: true })

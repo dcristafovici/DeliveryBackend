@@ -53,3 +53,10 @@ export class AddOrderInput {
   @Field(() => [AddcCartInput])
   readonly cart: Product[];
 }
+
+export enum OrderStatus {
+  AWAITING_PAYMENT = 'Awaiting payment',
+  COMPLETED = 'Completed',
+  CANCELLED = 'Cancelled',
+  ON_HOLD = 'On hold',
+}
