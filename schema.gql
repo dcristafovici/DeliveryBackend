@@ -103,7 +103,7 @@ type Query {
   CategoryOrderfindByKey(data: FindByKeyInput!): [CategoryRestaurant!]!
   GetImages: [Media!]!
   GetImageByID(id: String!): Media!
-  CheckToken(token: String!): User!
+  CheckToken(token: String!): User
   Users: [User!]!
   GetOrderByUser(user: String!): [Order!]!
   GetCart(orderID: String!): [Cart!]!

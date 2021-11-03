@@ -23,6 +23,11 @@ export class UserService {
   async checkToken(token: string): Promise<User> {
     const verified: any = jwt.verify(token, process.env.JWT_SECRET);
     const User = await this.UserRepository.findOne(verified.id);
+    Object.keys(User).forEach((key) => {
+      if (User[key] === null) {
+        User[key] = '';
+      }
+    });
     return User;
   }
 

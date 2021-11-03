@@ -7,7 +7,7 @@ import { UserService } from './user.service';
 export class UserResolver {
   constructor(private userService: UserService) {}
 
-  @Query(() => User)
+  @Query(() => User, { nullable: true })
   async CheckToken(@Args('token') token: string): Promise<User> {
     return await this.userService.checkToken(token);
   }
