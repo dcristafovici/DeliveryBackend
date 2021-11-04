@@ -18,6 +18,9 @@ export class OrderService {
   }
 
   getOrderByUser(user: string): Promise<Order[]> {
-    return this.OrderRepository.find({ where: { user } });
+    return this.OrderRepository.find({
+      where: { user },
+      order: { created_at: 'DESC' },
+    });
   }
 }
