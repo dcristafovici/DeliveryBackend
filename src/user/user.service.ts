@@ -38,11 +38,13 @@ export class UserService {
     user[field] = value;
     await validate(user).then((errors) => {
       if (errors.length > 0) {
+        console.log(errors);
         const { constraints } = errors[0];
         const field = Object.keys(constraints)[0];
         throw new HttpException(constraints[field], HttpStatus.BAD_REQUEST);
       }
     });
+
     return this.UserRepository.update(id, { [field]: value });
   }
 
