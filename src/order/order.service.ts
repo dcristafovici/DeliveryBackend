@@ -17,6 +17,10 @@ export class OrderService {
     return { cart, id };
   }
 
+  getOrders(): Promise<Order[]> {
+    return this.OrderRepository.find();
+  }
+
   getOrderByUser(user: string): Promise<Order[]> {
     return this.OrderRepository.find({
       where: { user },

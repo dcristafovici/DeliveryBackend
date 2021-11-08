@@ -108,6 +108,7 @@ type Query {
   CheckToken(token: String!): User
   Users: [User!]!
   GetOrderByUser(user: String!): [Order!]!
+  GetOrders: [Order!]!
   GetCart(orderID: String!): [Cart!]!
 }
 

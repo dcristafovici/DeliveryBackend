@@ -23,4 +23,9 @@ export class OrderResolver {
   async GetOrderByUser(@Args('user') user: string): Promise<Order[]> {
     return this.orderService.getOrderByUser(user);
   }
+
+  @Query(() => [Order])
+  async GetOrders(): Promise<Order[]> {
+    return await this.orderService.getOrders();
+  }
 }
