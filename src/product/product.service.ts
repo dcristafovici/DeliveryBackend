@@ -40,6 +40,7 @@ export class ProductService {
         await this.CategoryRestaurantRepository.save({
           restaurant: data.restaurant,
           category,
+          order: 0,
         });
       }
     });
