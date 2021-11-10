@@ -15,15 +15,12 @@ export class UserService {
 
   async create(data: AddUserInput): Promise<any> {
     const { phone } = data;
-    const user = await this.UserRepository.findOne({ phone });
-    let newUser;
+    let user;
+    user = await this.UserRepository.findOne({ phone });
     if (!user) {
-      newUser = await this.UserRepository.save(data);
+      user = await this.UserRepository.save(data);
     }
-    const token = jwt.sign(
-      { id: user ? user.id : newUser.id },
-      process.env.JWT_SECRET,
-    );
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
     return { ...user, token };
   }
 
