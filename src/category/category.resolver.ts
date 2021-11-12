@@ -1,5 +1,9 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
-import { AddCategoryInput, FindByKeyInput } from './category.dto';
+import {
+  AddCategoryInput,
+  EditCategoryInput,
+  FindByKeyInput,
+} from './category.dto';
 import { Category } from './category.entity';
 import { CategoryRestaurantService, CategoryService } from './category.service';
 import { CategoryRestaurant } from './categoryRestaurant.entity';
@@ -13,9 +17,21 @@ export class CategoryResolver {
     return await this.categoryService.findAll();
   }
 
+  @Query(() => Category)
+  async CategoryByID(@Args('id') id: string): Promise<Category> {
+    return await this.categoryService.findOne(id);
+  }
+
   @Mutation(() => Category)
   async AddCategory(@Args('data') data: AddCategoryInput): Promise<Category> {
     return this.categoryService.create(data);
+  }
+  @Mutation(() => Boolean)
+  async UpdateCategory(
+    @Args('id') id: string,
+    @Args('newData') newData: EditCategoryInput,
+  ): Promise<boolean> {
+    return await this.categoryService.update(id, newData);
   }
 }
 

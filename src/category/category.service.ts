@@ -1,7 +1,11 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AddCategoryInput, FindByKeyInput } from './category.dto';
+import {
+  AddCategoryInput,
+  EditCategoryInput,
+  FindByKeyInput,
+} from './category.dto';
 import { Category } from './category.entity';
 import { CategoryRestaurant } from './categoryRestaurant.entity';
 
@@ -27,6 +31,14 @@ export class CategoryService {
 
   findAll(): Promise<Category[]> {
     return this.CategoryRepository.find();
+  }
+
+  findOne(id: string): Promise<Category> {
+    return this.CategoryRepository.findOne(id);
+  }
+  async update(id: string, newData: EditCategoryInput): Promise<boolean> {
+    const { affected } = await this.CategoryRepository.update(id, newData);
+    return affected ? true : false;
   }
 }
 
