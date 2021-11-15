@@ -22,19 +22,19 @@ export class Media {
   @Column()
   path: string;
 
-  @Field()
+  @Field(() => String, { nullable: true })
   @Column({ nullable: true })
   small: string;
 
-  @Field()
+  @Field(() => String, { nullable: true })
   @Column({ nullable: true })
   medium: string;
 
-  @Field()
+  @Field(() => String, { nullable: true })
   @Column({ nullable: true })
   medium_large: string;
 
-  @Field()
+  @Field(() => String, { nullable: true })
   @Column({ nullable: true })
   large: string;
 

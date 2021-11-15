@@ -6,10 +6,10 @@ type Media {
   id: String!
   name: String!
   path: String!
-  small: String!
-  medium: String!
-  medium_large: String!
-  large: String!
+  small: String
+  medium: String
+  medium_large: String
+  large: String
   created_at: DateTime!
   updated_at: DateTime!
 }

@@ -25,7 +25,7 @@ export class MediaService {
     return this.MediaRepository.findOne(id);
   }
 
-  // TO-DO When we delete media from the database, it should be removed from the folder.
+  // TO-DO When we have deleted media from the database, it should be removed from the folder.
   deleteByID(id: string): Promise<any> {
     return this.MediaRepository.delete(id);
   }
@@ -38,7 +38,7 @@ export class MediaService {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
         const simpleFileName = `media_${uniqueSuffix}`;
         const extension = filename.split('.')[1];
-        return new Promise(async (resolve, reject) =>
+        return await new Promise(async (resolve, reject) =>
           createReadStream()
             .pipe(
               createWriteStream(`./uploads/${simpleFileName}.${extension}`, {

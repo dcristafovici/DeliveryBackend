@@ -22,7 +22,7 @@ export class MediaResolver {
     @Args({ name: 'files', type: () => [GraphQLUpload] })
     files,
   ): Promise<boolean> {
-    return this.mediaService.UploadFiles(files);
+    return await this.mediaService.UploadFiles(files);
   }
 
   @Mutation(() => Boolean)
