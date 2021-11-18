@@ -24,7 +24,11 @@ export class Cart {
   orderID: Order;
 
   @Field(() => Product)
-  @ManyToOne(() => Product, { eager: true })
+  @ManyToOne(() => Product, {
+    eager: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'NO ACTION',
+  })
   @JoinColumn({ name: 'productID' })
   productID: Product;
 

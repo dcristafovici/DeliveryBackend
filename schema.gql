@@ -100,6 +100,7 @@ type Query {
   Restaurants: [Restaurant!]!
   RestaurantByID(id: String!): Restaurant!
   Products: [Product!]!
+  Product(id: String!): Product!
   ProductsByField(data: FindByFieldInput!): [Product!]!
   Categories: [Category!]!
   CategoryByID(id: String!): Category!
@@ -128,8 +129,10 @@ type Mutation {
   RemoveRestaurant(id: String!): Boolean!
   UpdateRestaurant(newData: EditRestaurantInput!, id: String!): Boolean!
   AddProduct(data: AddProductInput!): Product!
+  RemoveProduct(id: String!): Boolean!
   AddCategory(data: AddCategoryInput!): Category!
   UpdateCategory(newData: EditCategoryInput!, id: String!): Boolean!
+  RemoveCategory(id: String!): Boolean!
   UploadFiles(files: [Upload!]!): Boolean!
   RemoveMediaByID(id: String!): Boolean!
   AddUser(data: AddUserInput!): User!

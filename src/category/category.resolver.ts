@@ -33,6 +33,12 @@ export class CategoryResolver {
   ): Promise<boolean> {
     return await this.categoryService.update(id, newData);
   }
+
+  @Mutation(() => Boolean)
+  async RemoveCategory(@Args('id') id: string): Promise<boolean> {
+    const { affected } = await this.categoryService.delete(id);
+    return affected ? true : false;
+  }
 }
 
 @Resolver(() => CategoryRestaurant)

@@ -56,7 +56,15 @@ export class ProductService {
     return this.ProductRepository.find({ where: { [field]: value } });
   }
 
+  findOne(id: string): Promise<Product> {
+    return this.ProductRepository.findOne(id);
+  }
+
   findByIDs(data: any): Promise<Product[]> {
     return this.ProductRepository.find({ where: { id: In(data) } });
+  }
+
+  delete(id: string): Promise<any> {
+    return this.ProductRepository.delete(id);
   }
 }

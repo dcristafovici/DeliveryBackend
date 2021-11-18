@@ -36,6 +36,9 @@ export class CategoryService {
   findOne(id: string): Promise<Category> {
     return this.CategoryRepository.findOne(id);
   }
+  delete(id: string): Promise<any> {
+    return this.CategoryRepository.delete(id);
+  }
   async update(id: string, newData: EditCategoryInput): Promise<boolean> {
     const { affected } = await this.CategoryRepository.update(id, newData);
     return affected ? true : false;
