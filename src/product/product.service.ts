@@ -48,7 +48,7 @@ export class ProductService {
     return createdProduct;
   }
   findAll(): Promise<Product[]> {
-    return this.ProductRepository.find();
+    return this.ProductRepository.find({ order: { id: 'DESC' } });
   }
 
   findByField(data: FindByFieldInput): Promise<Product[]> {
