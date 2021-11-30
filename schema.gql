@@ -1,0 +1,42 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Category {
+  id: String!
+  name: String!
+  slug: String
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  findCategories: [Category!]!
+  findOneCategory(id: String!): Category!
+  findByKeyCategory(data: FindByKeyInput!): [Category!]!
+}
+
+input FindByKeyInput {
+  field: String!
+  value: String!
+}
+
+type Mutation {
+  createCategory(data: AddCategoryInput!): Category!
+  deleteCategory(id: String!): Boolean!
+  updateCategory(data: UpdateCategoryInput!, id: String!): Boolean!
+}
+
+input AddCategoryInput {
+  name: String!
+}
+
+input UpdateCategoryInput {
+  name: String
+  slug: String
+}
