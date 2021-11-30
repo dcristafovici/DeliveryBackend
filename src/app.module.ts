@@ -40,3 +40,5 @@ import { CartModule } from './cart/cart.module';
   providers: [AppService],
 })
 export class AppModule {}
+
+console.log('fixe');
