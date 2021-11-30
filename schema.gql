@@ -26,12 +26,27 @@ type Media {
   updated_at: DateTime!
 }
 
+type Restaurant {
+  id: String!
+  name: String!
+  desription: String!
+  minPrice: Float!
+  deliveryTime: String!
+  rating: Float!
+  media: Media!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 type Query {
   findCategories: [Category!]!
   findOneCategory(id: String!): Category!
   findByKeyCategory(data: FindByKeyInput!): [Category!]!
   findMedia: [Media!]!
   findOneMedia(id: String!): Media!
+  findRestaurants: [Restaurant!]!
+  findOneRestaurant(id: String!): Restaurant!
+  findByKeyRestaurant(data: FindByKeyInput!): [Restaurant!]!
 }
 
 input FindByKeyInput {
@@ -45,6 +60,9 @@ type Mutation {
   updateCategory(data: UpdateCategoryInput!, id: String!): Boolean!
   createMedia(files: [Upload!]!): Boolean!
   deleteMedia(id: String!): Boolean!
+  createRestaurant(data: AddRestaurantInput!): Restaurant!
+  deleteRestaurant(id: String!): Boolean!
+  updateRestaurant(data: UpdateRestaurantInput!, id: String!): Boolean!
 }
 
 input AddCategoryInput {
@@ -58,3 +76,22 @@ input UpdateCategoryInput {
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
+
+input AddRestaurantInput {
+  name: String!
+  desription: String!
+  minPrice: String!
+  deliveryTime: String!
+  rating: Float!
+  media: String!
+}
+
+input UpdateRestaurantInput {
+  name: String
+  description: String
+  minPrice: String
+  deliveryTime: String
+  discount: String
+  rating: Float
+  image: String
+}

@@ -1,8 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { Media } from 'src/media/media.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -31,8 +34,13 @@ export class Restaurant {
   deliveryTime: string;
 
   @Field()
-  @Column()
+  @Column('decimal', { precision: 5, scale: 2 })
   rating: number;
+
+  @Field(() => Media)
+  @ManyToOne(() => Media, { eager: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'media' })
+  media: Media;
 
   @Field()
   @CreateDateColumn()
