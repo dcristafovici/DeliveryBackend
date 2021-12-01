@@ -21,7 +21,7 @@ export class CategoryResolver {
   }
 
   @Query(() => [Category])
-  async findByKeyCategory(
+  async findByKeyCategories(
     @Args('data') data: FindByKeyInput,
   ): Promise<Category[]> {
     return this.categoryService.findByKey(data);

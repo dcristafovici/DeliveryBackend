@@ -19,6 +19,7 @@ export class RestaurantService {
   findOne(id: string): Promise<Restaurant> {
     return this.restaurantRepository
       .createQueryBuilder('restaurant')
+      .leftJoinAndSelect('restaurant.media', 'media')
       .where('restaurant.id = :id', { id })
       .getOne();
   }

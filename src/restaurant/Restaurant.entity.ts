@@ -23,7 +23,7 @@ export class Restaurant {
 
   @Field()
   @Column()
-  desription: string;
+  description: string;
 
   @Field()
   @Column()
@@ -34,8 +34,8 @@ export class Restaurant {
   deliveryTime: string;
 
   @Field()
-  @Column('decimal', { precision: 5, scale: 2 })
-  rating: number;
+  @Column()
+  rating: string;
 
   @Field(() => Media)
   @ManyToOne(() => Media, { eager: true, onDelete: 'SET NULL' })

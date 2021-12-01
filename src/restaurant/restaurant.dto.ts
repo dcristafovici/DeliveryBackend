@@ -8,7 +8,7 @@ export class AddRestaurantInput {
   readonly name: string;
 
   @Field(() => String)
-  readonly desription: string;
+  readonly description: string;
 
   @Field(() => String)
   readonly minPrice: number;
@@ -16,8 +16,8 @@ export class AddRestaurantInput {
   @Field(() => String)
   readonly deliveryTime: string;
 
-  @Field(() => Number)
-  readonly rating: number;
+  @Field(() => String)
+  readonly rating: string;
 
   @Field(() => String)
   readonly media: Media;
@@ -39,10 +39,7 @@ export class UpdateRestaurantInput {
   readonly deliveryTime: string;
 
   @Field(() => String, { nullable: true })
-  readonly discount: string;
-
-  @Field(() => Number, { nullable: true })
-  readonly rating: number;
+  readonly rating: string;
 
   @Field(() => String, { nullable: true })
   readonly image: Media;

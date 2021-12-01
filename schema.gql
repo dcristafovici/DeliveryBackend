@@ -29,10 +29,10 @@ type Media {
 type Restaurant {
   id: String!
   name: String!
-  desription: String!
+  description: String!
   minPrice: Float!
   deliveryTime: String!
-  rating: Float!
+  rating: String!
   media: Media!
   created_at: DateTime!
   updated_at: DateTime!
@@ -41,12 +41,12 @@ type Restaurant {
 type Query {
   findCategories: [Category!]!
   findOneCategory(id: String!): Category!
-  findByKeyCategory(data: FindByKeyInput!): [Category!]!
+  findByKeyCategories(data: FindByKeyInput!): [Category!]!
   findMedia: [Media!]!
   findOneMedia(id: String!): Media!
   findRestaurants: [Restaurant!]!
   findOneRestaurant(id: String!): Restaurant!
-  findByKeyRestaurant(data: FindByKeyInput!): [Restaurant!]!
+  findByKeyRestaurants(data: FindByKeyInput!): [Restaurant!]!
 }
 
 input FindByKeyInput {
@@ -79,10 +79,10 @@ scalar Upload
 
 input AddRestaurantInput {
   name: String!
-  desription: String!
+  description: String!
   minPrice: String!
   deliveryTime: String!
-  rating: Float!
+  rating: String!
   media: String!
 }
 
@@ -91,7 +91,6 @@ input UpdateRestaurantInput {
   description: String
   minPrice: String
   deliveryTime: String
-  discount: String
-  rating: Float
+  rating: String
   image: String
 }

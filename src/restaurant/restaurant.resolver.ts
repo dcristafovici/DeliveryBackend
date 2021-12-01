@@ -18,7 +18,7 @@ export class RestaurantResolver {
   }
 
   @Query(() => [Restaurant])
-  async findByKeyRestaurant(
+  async findByKeyRestaurants(
     @Args('data') data: FindByKeyInput,
   ): Promise<Restaurant[]> {
     return this.restaurantService.findByKey(data);
