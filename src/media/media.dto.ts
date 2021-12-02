@@ -6,6 +6,13 @@ export interface MediaDTO {
   map: any;
 }
 
+export interface FileDTO {
+  filename: string;
+  mimetype: string;
+  encoding: string;
+  createReadStream: any;
+}
+
 @InputType()
 export class AddMediaInput {
   @Field()

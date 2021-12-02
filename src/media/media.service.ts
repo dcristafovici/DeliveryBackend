@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { MediaDTO, MediaSizes } from './media.dto';
+import { FileDTO, MediaSizes } from './media.dto';
 import { Media } from './media.entity';
 import sharp from 'sharp';
 import { createWriteStream } from 'fs';
+import slugify from 'slugify';
 
 @Injectable()
 export class MediaService {
@@ -23,51 +24,45 @@ export class MediaService {
       .where('category.id = :id', { id })
       .getOne();
   }
+  
+  async create(file: FileDTO): Promise<boolean> {
+    const { createReadStream, filename } = file;
 
-  async create(data: MediaDTO): Promise<boolean> {
-    const upload = await Promise.all(
-      await data.map(async (image) => {
-        const { createReadStream, filename } = await image;
-        const simpleFileName = `${Date.now()}`;
-        const extension = filename.split('.')[1];
-        return await new Promise(async (resolve, reject) =>
-          createReadStream()
-            .pipe(
-              createWriteStream(`./uploads/${simpleFileName}.${extension}`, {
-                flags: 'w+',
-              }),
+    const simpleFileName = slugify(filename.split('.')[0]);
+    const extension = filename.split('.')[1];
+
+    createReadStream()
+      .pipe(
+        createWriteStream(`./uploads/${simpleFileName}.${extension}`, {
+          flags: 'w+',
+        }),
+      )
+      .on('finish', () => {
+        const newMediaEntity = new Media();
+
+        newMediaEntity.name = simpleFileName;
+        newMediaEntity.path = `/${simpleFileName}.${extension}`;
+
+        const mediaResizesPromises = MediaSizes.map(async (size) => {
+          return sharp(`./uploads/${simpleFileName}.${extension}`)
+            .resize({ width: size.x })
+            .toFile(
+              `./uploads/build/${simpleFileName}_${size.path}.${extension}`,
             )
-            .on('finish', async () => {
-              const createdItem = await this.mediaRepository.save({
-                name: simpleFileName,
-                path: `/${simpleFileName}.${extension}`,
-              });
-              MediaSizes.map(
-                async (size) =>
-                  await sharp(`./uploads/${simpleFileName}.${extension}`)
-                    .resize({ width: size.x })
-                    .toFile(
-                      `./uploads/build/${simpleFileName}_${size.path}.${extension}`,
-                    )
-                    .then(async () => {
-                      const updatedValue = {
-                        [size.path]: `/build/${simpleFileName}_${size.path}.${extension}`,
-                      };
-                      await this.mediaRepository.update(
-                        createdItem.id,
-                        updatedValue,
-                      );
-                    }),
-              );
-              resolve(true);
-            })
-            .on('error', () => reject(false)),
-        );
-      }),
-    )
-      .then(() => true)
-      .catch(() => false);
-    return upload;
+            .then(() => {
+              newMediaEntity[
+                size.path
+              ] = `/build/${simpleFileName}_${size.path}.${extension}`;
+            });
+        });
+
+        return Promise.all(mediaResizesPromises).then(async () => {
+          return await this.mediaRepository.save(newMediaEntity);
+        });
+      })
+      .on('error', () => false);
+
+    return true;
   }
 
   async delete(id: string): Promise<boolean> {

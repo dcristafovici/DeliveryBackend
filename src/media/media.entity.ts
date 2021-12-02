@@ -18,6 +18,10 @@ export class Media {
   @Column()
   path: string;
 
+  @Field()
+  @Column()
+  name: string;
+
   @Field({ nullable: true })
   @Column({ nullable: true })
   small: string;
