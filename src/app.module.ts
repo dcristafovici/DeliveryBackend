@@ -25,12 +25,6 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql';
       resolvers: {
         Upload: GraphQLUpload,
       },
-      formatError: (error: GraphQLError) => {
-        const graphQLFormattedError: GraphQLFormattedError = {
-          message: error.extensions.code || 500,
-        };
-        return graphQLFormattedError;
-      },
     }),
   ],
   controllers: [AppController],

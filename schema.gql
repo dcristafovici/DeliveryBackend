@@ -34,7 +34,7 @@ type Restaurant {
   minPrice: Float!
   deliveryTime: String!
   rating: String!
-  media: Media!
+  media: Media
   created_at: DateTime!
   updated_at: DateTime!
 }
@@ -93,5 +93,5 @@ input UpdateRestaurantInput {
   minPrice: String
   deliveryTime: String
   rating: String
-  image: String
+  media: String
 }

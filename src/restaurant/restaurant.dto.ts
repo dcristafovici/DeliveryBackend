@@ -42,5 +42,5 @@ export class UpdateRestaurantInput {
   readonly rating: string;
 
   @Field(() => String, { nullable: true })
-  readonly image: Media;
+  readonly media: Media;
 }
