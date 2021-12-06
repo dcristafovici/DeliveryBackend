@@ -9,6 +9,7 @@ import { DatabaseModule } from './database/database.module';
 import { CategoryModule } from './category/category.module';
 import { MediaModule } from './media/media.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
 
 @Module({
   imports: [
@@ -23,6 +24,12 @@ import { RestaurantModule } from './restaurant/restaurant.module';
       autoSchemaFile: 'schema.gql',
       resolvers: {
         Upload: GraphQLUpload,
+      },
+      formatError: (error: GraphQLError) => {
+        const graphQLFormattedError: GraphQLFormattedError = {
+          message: error.extensions.code || 500,
+        };
+        return graphQLFormattedError;
       },
     }),
   ],
