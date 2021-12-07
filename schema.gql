@@ -34,6 +34,7 @@ type Restaurant {
 type Product {
   id: String!
   name: String!
+  description: String!
   price: Float!
   weight: String!
   restaurant: Restaurant
@@ -52,6 +53,15 @@ type Category {
   updated_at: DateTime!
 }
 
+type RestaurantCategory {
+  id: String!
+  restaurant: Restaurant
+  category: Category
+  order: Float!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 type Query {
   findCategories: [Category!]!
   findOneCategory(id: String!): Category!
@@ -64,6 +74,9 @@ type Query {
   findProducts: [Product!]!
   findOneProduct(id: String!): Product!
   findByKeyProducts(data: FindByKeyInput!): [Product!]!
+  findRestaurantCategory: [RestaurantCategory!]!
+  findOnefindRestaurantCategory(id: String!): RestaurantCategory!
+  findByKeyRestaurantCategory(data: FindByKeyInput!): [RestaurantCategory!]!
 }
 
 input FindByKeyInput {
@@ -82,6 +95,7 @@ type Mutation {
   updateRestaurant(data: UpdateRestaurantInput!, id: String!): Boolean!
   createProduct(data: AddProductInput!): Product!
   deleteProduct(id: String!): Boolean!
+  createRestaurantCategory(data: AddRestaurantCategoryInput!): RestaurantCategory!
 }
 
 input AddCategoryInput {
@@ -116,9 +130,16 @@ input UpdateRestaurantInput {
 
 input AddProductInput {
   name: String!
+  description: String!
   price: String!
   weight: String!
   restaurant: String!
   media: String!
   categories: [String!]!
+}
+
+input AddRestaurantCategoryInput {
+  category: String!
+  restaurnat: String!
+  order: String!
 }

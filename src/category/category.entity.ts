@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'CATEGORY' })
 @ObjectType()
 export class Category {
   @Field()

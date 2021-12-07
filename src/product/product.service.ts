@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindByKeyInput } from 'src/category/category.dto';
+import {
+  AddCategoryInput,
+  FindByKeyInput,
+  UpdateCategoryInput,
+} from 'src/category/category.dto';
+import { CategoryService } from 'src/category/category.service';
+import { RestaurantCategoryService } from 'src/restaurant-category/restaurant-category.service';
 import { Repository } from 'typeorm';
 import { AddProductInput } from './product.dto';
 import { Product } from './product.entity';
@@ -10,15 +16,23 @@ export class ProductService {
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
+    private categoryService: CategoryService,
+    private restaurantCategoryService: RestaurantCategoryService,
   ) {}
 
   find(): Promise<Product[]> {
-    return this.productRepository.createQueryBuilder('product').getMany();
+    return this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.restaurant', 'restaurant')
+      .leftJoinAndSelect('product.media', 'media')
+      .leftJoinAndSelect('product.categories', 'category')
+      .getMany();
   }
 
   findOne(id: string): Promise<Product> {
     return this.productRepository
       .createQueryBuilder('product')
+      .leftJoinAndSelect('product.restaurant', 'restaurant')
       .leftJoinAndSelect('product.media', 'media')
       .where('product.id = :id', { id })
       .getOne();
@@ -29,9 +43,33 @@ export class ProductService {
     return this.productRepository.find({ where: { [field]: value } });
   }
 
-  create(data: AddProductInput): Promise<Product> {
-    console.log(data);
-    return this.productRepository.save(data);
+  async create(data: AddProductInput): Promise<Product> {
+    const { categories, restaurant, ...info } = data;
+
+    const newProduct = new Product();
+    Object.assign(newProduct, info);
+
+    const findedInDataCategories = await this.categoryService.findInData(
+      categories,
+    );
+    newProduct.categories = findedInDataCategories;
+    newProduct.restaurant = restaurant;
+
+    const createdProduct = await this.productRepository.save(newProduct);
+
+    // Add Restaurant Category
+    categories.forEach(async (category: UpdateCategoryInput) => {
+      // const alreadyExistingRelation =
+      //   // this.restaurantCategoryService.findByGroupKeys({
+      //   //   restaurant,
+      //   //   category,
+      //   // });
+      // console.log(alreadyExistingRelation);
+    });
+
+    // End Add Restaurant Category
+
+    return createdProduct;
   }
 
   async delete(id: string): Promise<boolean> {

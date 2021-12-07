@@ -14,7 +14,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'PRODUCT' })
 @ObjectType()
 export class Product {
   @Field()
@@ -24,6 +24,10 @@ export class Product {
   @Field()
   @Column()
   name: string;
+
+  @Field()
+  @Column()
+  description: string;
 
   @Field()
   @Column()
@@ -46,7 +50,7 @@ export class Product {
   @Field(() => [Category])
   @ManyToMany(() => Category, (category) => category.products, { lazy: true })
   @JoinTable({
-    name: 'cat_prod',
+    name: 'CATEGORY_PRODUCT',
     joinColumn: {
       name: 'productID',
       referencedColumnName: 'id',

@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import {
   AddCategoryInput,
   FindByKeyInput,
@@ -30,6 +30,10 @@ export class CategoryService {
   findByKey(data: FindByKeyInput): Promise<Category[]> {
     const { field, value } = data;
     return this.categoryRepository.find({ where: { [field]: value } });
+  }
+
+  findInData(data: Array<Category>): Promise<Category[]> {
+    return this.categoryRepository.find({ where: { id: In(data) } });
   }
 
   async create(data: AddCategoryInput): Promise<Category> {

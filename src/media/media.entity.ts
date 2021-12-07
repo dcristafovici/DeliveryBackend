@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'MEDIA' })
 @ObjectType()
 export class Media {
   @Field()

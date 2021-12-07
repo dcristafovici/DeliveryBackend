@@ -1,29 +1,26 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Category } from 'src/category/category.entity';
-import { Media } from 'src/media/media.entity';
 import { Restaurant } from 'src/restaurant/Restaurant.entity';
 
 @InputType()
 @ObjectType()
-export class AddProductInput {
+export class AddRestaurantCategoryInput {
   @Field(() => String)
-  readonly name: string;
+  readonly category: Category;
 
   @Field(() => String)
-  readonly description: string;
+  readonly restaurnat: Restaurant;
 
   @Field(() => String)
-  readonly price: number;
+  readonly order: number;
+}
 
-  @Field(() => String)
-  readonly weight: string;
-
+@InputType()
+@ObjectType()
+export class FindByGroupKeysInput {
   @Field(() => String)
   readonly restaurant: Restaurant;
 
   @Field(() => String)
-  readonly media: Media;
-
-  @Field(() => [String])
-  readonly categories: Category[];
+  readonly category: Category;
 }
