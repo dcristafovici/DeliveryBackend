@@ -1,0 +1,36 @@
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { FindByKeyInput } from 'src/category/category.dto';
+import { AddProductInput } from './product.dto';
+import { Product } from './product.entity';
+import { ProductService } from './product.service';
+
+@Resolver()
+export class ProductResolver {
+  constructor(private productService: ProductService) {}
+
+  @Query(() => [Product])
+  async findProducts(): Promise<Product[]> {
+    return this.productService.find();
+  }
+  @Query(() => Product)
+  async findOneProduct(@Args('id') id: string): Promise<Product> {
+    return this.productService.findOne(id);
+  }
+
+  @Query(() => [Product])
+  async findByKeyProducts(
+    @Args('data') data: FindByKeyInput,
+  ): Promise<Product[]> {
+    return this.productService.findByKey(data);
+  }
+
+  @Mutation(() => Product)
+  async createProduct(@Args('data') data: AddProductInput): Promise<Product> {
+    return this.productService.create(data);
+  }
+
+  @Mutation(() => Boolean)
+  async deleteProduct(@Args('id') id: string): Promise<boolean> {
+    return this.productService.delete(id);
+  }
+}

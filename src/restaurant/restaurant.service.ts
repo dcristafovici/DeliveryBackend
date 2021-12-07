@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
 import { Repository } from 'typeorm';
 import { AddRestaurantInput, UpdateRestaurantInput } from './restaurant.dto';
-import { Restaurant } from './restaurant.entity';
+import { Restaurant } from './Restaurant.entity';
 
 @Injectable()
 export class RestaurantService {

@@ -9,8 +9,8 @@ import { DatabaseModule } from './database/database.module';
 import { CategoryModule } from './category/category.module';
 import { MediaModule } from './media/media.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
-import { GraphQLError, GraphQLFormattedError } from 'graphql';
 import { ProductController } from './product/product.controller';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -18,6 +18,7 @@ import { ProductController } from './product/product.controller';
     CategoryModule,
     MediaModule,
     RestaurantModule,
+    ProductModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),
@@ -27,6 +28,7 @@ import { ProductController } from './product/product.controller';
         Upload: GraphQLUpload,
       },
     }),
+    ProductModule,
   ],
   controllers: [AppController, ProductController],
   providers: [AppService],
