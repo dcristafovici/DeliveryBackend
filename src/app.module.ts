@@ -10,6 +10,7 @@ import { CategoryModule } from './category/category.module';
 import { MediaModule } from './media/media.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { GraphQLError, GraphQLFormattedError } from 'graphql';
+import { ProductController } from './product/product.controller';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql';
       },
     }),
   ],
-  controllers: [AppController],
+  controllers: [AppController, ProductController],
   providers: [AppService],
 })
 export class AppModule {}
