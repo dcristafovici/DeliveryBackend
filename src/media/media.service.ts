@@ -1,80 +1,97 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { createWriteStream } from 'fs';
 import { Repository } from 'typeorm';
-import { MediaDTO, MediaSizes } from './media.dto';
+import { FileDTO, MediaSizes } from './media.dto';
 import { Media } from './media.entity';
 import sharp from 'sharp';
+import { createWriteStream } from 'fs';
+import slugify from 'slugify';
 
 @Injectable()
 export class MediaService {
   constructor(
     @InjectRepository(Media)
-    private MediaRepository: Repository<Media>,
+    private mediaRepository: Repository<Media>,
   ) {}
 
-  async GetImages(): Promise<Media[]> {
-    return this.MediaRepository.find({ order: { created_at: 'DESC' } });
+  find(): Promise<Media[]> {
+    return this.mediaRepository.createQueryBuilder('category').getMany();
   }
 
-  async GetImage(id: string): Promise<Media> {
-    return this.MediaRepository.findOne(id);
+  findOne(id: string): Promise<Media> {
+    return this.mediaRepository
+      .createQueryBuilder('category')
+      .where('category.id = :id', { id })
+      .getOne();
   }
 
-  async GetImageByID(id: string): Promise<Media> {
-    return this.MediaRepository.findOne(id);
-  }
+  async create(file: FileDTO): Promise<Media> {
+    const { createReadStream, filename } = file;
 
-  // TO-DO When we have deleted media from the database, it should be removed from the folder.
-  deleteByID(id: string): Promise<any> {
-    return this.MediaRepository.delete(id);
-  }
+    const simpleFileName = slugify(filename.split('.')[0]);
+    const extension = filename.split('.')[1];
+    return new Promise((resolve, reject) => {
+      createReadStream()
+        .pipe(
+          createWriteStream(`./uploads/${simpleFileName}.${extension}`, {
+            flags: 'w+',
+          }),
+        )
+        .on('finish', async () => {
+          const newMediaEntity = new Media();
 
-  async UploadFiles(data: MediaDTO): Promise<boolean> {
-    const upload = await Promise.all(
-      await data.map(async (image) => {
-        const singleImage = await image;
-        const { createReadStream, filename } = singleImage;
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-        const simpleFileName = `media_${uniqueSuffix}`;
-        const extension = filename.split('.')[1];
-        return await new Promise(async (resolve, reject) =>
-          createReadStream()
-            .pipe(
-              createWriteStream(`./uploads/${simpleFileName}.${extension}`, {
-                flags: 'w+',
-              }),
-            )
-            .on('finish', async () => {
-              const createdItem = await this.MediaRepository.save({
-                name: simpleFileName,
-                path: `/${simpleFileName}.${extension}`,
+          newMediaEntity.name = simpleFileName;
+          newMediaEntity.path = `${simpleFileName}.${extension}`;
+
+          const mediaResizesPromises = MediaSizes.map(async (size) => {
+            return sharp(`./uploads/${simpleFileName}.${extension}`)
+              .resize({ width: size.x })
+              .toFile(
+                `./uploads/build/${simpleFileName}_${size.path}.${extension}`,
+              )
+              .then(() => {
+                newMediaEntity[
+                  size.path
+                ] = `/build/${simpleFileName}_${size.path}.${extension}`;
               });
-              MediaSizes.map(
-                async (size) =>
-                  await sharp(`./uploads/${simpleFileName}.${extension}`)
-                    .resize({ width: size.x })
-                    .toFile(
-                      `./uploads/build/${simpleFileName}_${size.path}.${extension}`,
-                    )
-                    .then(async () => {
-                      const updatedValue = {
-                        [size.path]: `/build/${simpleFileName}_${size.path}.${extension}`,
-                      };
-                      await this.MediaRepository.update(
-                        createdItem.id,
-                        updatedValue,
-                      );
-                    }),
-              );
-              resolve(true);
-            })
-            .on('error', () => reject(false)),
+          });
+
+          Promise.all(mediaResizesPromises).then(async () => {
+            return await this.mediaRepository
+              .save(newMediaEntity)
+              .then((res) => resolve(res));
+          });
+        })
+        .on('error', (err) => reject(err));
+    })
+      .then((res: Promise<Media>) => res)
+      .catch((err) => {
+        console.log(err);
+        throw new HttpException(
+          {
+            status: HttpStatus.SERVICE_UNAVAILABLE,
+            errorCode: err.code,
+          },
+          HttpStatus.SERVICE_UNAVAILABLE,
         );
-      }),
-    )
-      .then(() => true)
-      .catch(() => false);
-    return upload;
+      });
+  }
+
+  async delete(id: string): Promise<Media> {
+    const { affected } = await this.mediaRepository
+      .createQueryBuilder('category')
+      .delete()
+      .where('id = :id', { id })
+      .execute();
+    const deletedItem = new Media();
+    deletedItem.id = id;
+    return affected && deletedItem;
+
+    throw new HttpException(
+      {
+        status: HttpStatus.SERVICE_UNAVAILABLE,
+      },
+      HttpStatus.SERVICE_UNAVAILABLE,
+    );
   }
 }

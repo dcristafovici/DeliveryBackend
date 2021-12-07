@@ -1,14 +1,14 @@
-import { ObjectType, Field } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@ObjectType()
 @Entity()
+@ObjectType()
 export class Media {
   @Field()
   @PrimaryGeneratedColumn('uuid')
@@ -16,40 +16,33 @@ export class Media {
 
   @Field()
   @Column()
-  name: string;
+  path: string;
 
   @Field()
   @Column()
-  path: string;
+  name: string;
 
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   @Column({ nullable: true })
   small: string;
 
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   @Column({ nullable: true })
   medium: string;
 
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   @Column({ nullable: true })
-  medium_large: string;
+  mediumLarge: string;
 
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   @Column({ nullable: true })
   large: string;
 
   @Field()
-  @CreateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-  })
-  public created_at: Date;
+  @CreateDateColumn()
+  created_at: Date;
 
   @Field()
-  @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-    onUpdate: 'CURRENT_TIMESTAMP(6)',
-  })
-  public updated_at: Date;
+  @UpdateDateColumn()
+  updated_at: Date;
 }

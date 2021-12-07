@@ -1,6 +1,7 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
-import { AddRestaurantInput, EditRestaurantInput } from './restaurant.dto';
-import { Restaurant } from './restaurant.entity';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { FindByKeyInput } from 'src/category/category.dto';
+import { AddRestaurantInput, UpdateRestaurantInput } from './restaurant.dto';
+import { Restaurant } from './Restaurant.entity';
 import { RestaurantService } from './restaurant.service';
 
 @Resolver(() => Restaurant)
@@ -8,33 +9,38 @@ export class RestaurantResolver {
   constructor(private restaurantService: RestaurantService) {}
 
   @Query(() => [Restaurant])
-  async Restaurants(): Promise<Restaurant[]> {
-    return await this.restaurantService.findAll();
+  async findRestaurants(): Promise<Restaurant[]> {
+    return this.restaurantService.find();
+  }
+  @Query(() => Restaurant)
+  async findOneRestaurant(@Args('id') id: string): Promise<Restaurant> {
+    return this.restaurantService.findOne(id);
   }
 
-  @Query(() => Restaurant)
-  async RestaurantByID(@Args('id') id: string): Promise<Restaurant> {
-    return await this.restaurantService.findOne(id);
+  @Query(() => [Restaurant])
+  async findByKeyRestaurants(
+    @Args('data') data: FindByKeyInput,
+  ): Promise<Restaurant[]> {
+    return this.restaurantService.findByKey(data);
   }
 
   @Mutation(() => Restaurant)
-  async AddRestaurant(
+  async createRestaurant(
     @Args('data') data: AddRestaurantInput,
   ): Promise<Restaurant> {
-    return await this.restaurantService.create(data);
+    return this.restaurantService.create(data);
   }
 
   @Mutation(() => Boolean)
-  async RemoveRestaurant(@Args('id') id: string): Promise<boolean> {
-    const { affected } = await this.restaurantService.delete(id);
-    return affected ? true : false;
+  async deleteRestaurant(@Args('id') id: string): Promise<boolean> {
+    return this.restaurantService.delete(id);
   }
 
   @Mutation(() => Boolean)
-  async UpdateRestaurant(
+  async updateRestaurant(
     @Args('id') id: string,
-    @Args('newData') newData: EditRestaurantInput,
+    @Args('data') data: UpdateRestaurantInput,
   ): Promise<boolean> {
-    return await this.restaurantService.update(id, newData);
+    return this.restaurantService.update(id, data);
   }
 }

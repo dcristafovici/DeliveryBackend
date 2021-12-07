@@ -1,64 +1,71 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
   AddCategoryInput,
-  EditCategoryInput,
   FindByKeyInput,
+  UpdateCategoryInput,
 } from './category.dto';
 import { Category } from './category.entity';
-import { CategoryRestaurant } from './categoryRestaurant.entity';
+import slugify from 'slugify';
 
 @Injectable()
 export class CategoryService {
   constructor(
     @InjectRepository(Category)
-    private CategoryRepository: Repository<Category>,
+    private categoryRepository: Repository<Category>,
   ) {}
 
-  async create(data: AddCategoryInput): Promise<Category> {
-    const CategoryExist = await this.CategoryRepository.findOne({
-      where: { name: data.name },
-    });
-
-    if (CategoryExist) {
-      throw new ConflictException(
-        `The category with the name "${data.name}" already exists.`,
-      );
-    }
-    return this.CategoryRepository.save(data);
-  }
-
-  findAll(): Promise<Category[]> {
-    return this.CategoryRepository.find();
+  find(): Promise<Category[]> {
+    return this.categoryRepository.createQueryBuilder('category').getMany();
   }
 
   findOne(id: string): Promise<Category> {
-    return this.CategoryRepository.findOne(id);
+    return this.categoryRepository
+      .createQueryBuilder('category')
+      .where('category.id = :id', { id })
+      .getOne();
   }
-  delete(id: string): Promise<any> {
-    return this.CategoryRepository.delete(id);
+
+  findByKey(data: FindByKeyInput): Promise<Category[]> {
+    const { field, value } = data;
+    return this.categoryRepository.find({ where: { [field]: value } });
   }
-  async update(id: string, newData: EditCategoryInput): Promise<boolean> {
-    const { affected } = await this.CategoryRepository.update(id, newData);
+
+  async create(data: AddCategoryInput): Promise<Category> {
+    const { name } = data;
+    const existingCategory = await this.categoryRepository.find({ name });
+
+    if (existingCategory.length) {
+      throw new HttpException(
+        {
+          status: HttpStatus.CONFLICT,
+          errorCode: 'ALREADY_EXIST',
+        },
+        HttpStatus.CONFLICT,
+      );
+    }
+    const slug = slugify(name, { lower: true });
+
+    return this.categoryRepository.save({ name, slug });
+  }
+
+  async delete(id: string): Promise<boolean> {
+    const { affected } = await this.categoryRepository
+      .createQueryBuilder('category')
+      .delete()
+      .where('id = :id', { id })
+      .execute();
     return affected ? true : false;
   }
-}
 
-@Injectable()
-export class CategoryRestaurantService {
-  constructor(
-    @InjectRepository(CategoryRestaurant)
-    private CategoryRestaurantRepository: Repository<CategoryRestaurant>,
-  ) {}
-
-  categoryOrderfindByKey({
-    field,
-    value,
-  }: FindByKeyInput): Promise<CategoryRestaurant[]> {
-    return this.CategoryRestaurantRepository.find({
-      where: { [field]: value },
-      order: { order: 'ASC' },
-    });
+  async update(id: string, data: UpdateCategoryInput): Promise<boolean> {
+    const { affected } = await this.categoryRepository
+      .createQueryBuilder('category')
+      .update(Category)
+      .set({ ...data })
+      .where('id = :id', { id })
+      .execute();
+    return affected ? true : false;
   }
 }

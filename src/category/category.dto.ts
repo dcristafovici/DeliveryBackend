@@ -1,23 +1,28 @@
-import { InputType, Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
 @InputType()
+@ObjectType()
 export class AddCategoryInput {
-  @Field()
+  @Field(() => String)
   readonly name: string;
 }
 
 @InputType()
+@ObjectType()
 export class FindByKeyInput {
-  @Field()
+  @Field(() => String)
   readonly field: string;
 
-  @Field()
+  @Field(() => String)
   readonly value: string;
 }
 
 @InputType()
 @ObjectType()
-export class EditCategoryInput {
+export class UpdateCategoryInput {
   @Field(() => String, { nullable: true })
   readonly name: string;
+
+  @Field(() => String, { nullable: true })
+  readonly slug: string;
 }

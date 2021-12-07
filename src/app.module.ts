@@ -2,30 +2,22 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
-import { RestaurantModule } from './restaurant/restaurant.module';
-import { DatabaseModule } from './database/database.module';
-import { GraphQLUpload } from 'graphql-upload';
-import { ProductModule } from './product/product.module';
-import { MediaModule } from './media/media.module';
-import { UserModule } from './user/user.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { CategoryModule } from './category/category.module';
-import { CodeModule } from './code/code.module';
-import { OrderModule } from './order/order.module';
 import { join } from 'path';
-import { CartModule } from './cart/cart.module';
+import { GraphQLUpload } from 'graphql-upload';
+import { DatabaseModule } from './database/database.module';
+import { CategoryModule } from './category/category.module';
+import { MediaModule } from './media/media.module';
+import { RestaurantModule } from './restaurant/restaurant.module';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
+import { ProductController } from './product/product.controller';
 
 @Module({
   imports: [
     DatabaseModule,
-    RestaurantModule,
-    ProductModule,
     CategoryModule,
     MediaModule,
-    UserModule,
-    CodeModule,
-    OrderModule,
-    CartModule,
+    RestaurantModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),
@@ -36,7 +28,7 @@ import { CartModule } from './cart/cart.module';
       },
     }),
   ],
-  controllers: [AppController],
+  controllers: [AppController, ProductController],
   providers: [AppService],
 })
 export class AppModule {}

@@ -1,11 +1,13 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Media } from 'src/media/media.entity';
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
+  CreateDateColumn,
+  Entity,
   JoinColumn,
   ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -25,7 +27,7 @@ export class Restaurant {
 
   @Field()
   @Column()
-  minPrice: string;
+  minPrice: number;
 
   @Field()
   @Column()
@@ -33,14 +35,18 @@ export class Restaurant {
 
   @Field()
   @Column()
-  discount: string;
-
-  @Field()
-  @Column()
   rating: string;
 
-  @Field(() => Media)
+  @Field(() => Media, { nullable: true })
   @ManyToOne(() => Media, { eager: true, onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'image' })
-  image: Media;
+  @JoinColumn({ name: 'media' })
+  media: Media;
+
+  @Field()
+  @CreateDateColumn()
+  created_at: Date;
+
+  @Field()
+  @UpdateDateColumn()
+  updated_at: Date;
 }

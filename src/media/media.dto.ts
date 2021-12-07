@@ -1,9 +1,16 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 
 export interface MediaDTO {
   name: string;
   path: string;
   map: any;
+}
+
+export interface FileDTO {
+  filename: string;
+  mimetype: string;
+  encoding: string;
+  createReadStream: any;
 }
 
 @InputType()
@@ -25,7 +32,7 @@ export const MediaSizes = [
     x: 300,
   },
   {
-    path: 'medium_large',
+    path: 'mediumLarge',
     x: 760,
   },
   {

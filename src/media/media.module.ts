@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { MediaResolver } from './media.resolver';
-import { Media } from './media.entity';
 import { MediaService } from './media.service';
+import { MediaResolver } from './media.resolver';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Media } from './media.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Media])],
-  providers: [MediaResolver, MediaService],
+  providers: [MediaService, MediaResolver],
   exports: [MediaService],
 })
 export class MediaModule {}

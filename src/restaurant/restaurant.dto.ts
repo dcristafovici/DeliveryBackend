@@ -4,31 +4,28 @@ import { Media } from 'src/media/media.entity';
 @InputType()
 @ObjectType()
 export class AddRestaurantInput {
-  @Field()
+  @Field(() => String)
   readonly name: string;
 
-  @Field()
+  @Field(() => String)
   readonly description: string;
 
-  @Field()
-  readonly minPrice: string;
+  @Field(() => String)
+  readonly minPrice: number;
 
-  @Field()
+  @Field(() => String)
   readonly deliveryTime: string;
 
-  @Field()
-  readonly discount: string;
-
-  @Field()
+  @Field(() => String)
   readonly rating: string;
 
   @Field(() => String)
-  readonly image: Media;
+  readonly media: Media;
 }
 
 @InputType()
 @ObjectType()
-export class EditRestaurantInput {
+export class UpdateRestaurantInput {
   @Field(() => String, { nullable: true })
   readonly name: string;
 
@@ -36,17 +33,14 @@ export class EditRestaurantInput {
   readonly description: string;
 
   @Field(() => String, { nullable: true })
-  readonly minPrice: string;
+  readonly minPrice: number;
 
   @Field(() => String, { nullable: true })
   readonly deliveryTime: string;
 
   @Field(() => String, { nullable: true })
-  readonly discount: string;
-
-  @Field(() => String, { nullable: true })
   readonly rating: string;
 
   @Field(() => String, { nullable: true })
-  readonly image: Media;
+  readonly media: Media;
 }

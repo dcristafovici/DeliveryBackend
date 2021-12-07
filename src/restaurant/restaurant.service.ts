@@ -1,32 +1,54 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FindByKeyInput } from 'src/category/category.dto';
 import { Repository } from 'typeorm';
-import { AddRestaurantInput, EditRestaurantInput } from './restaurant.dto';
+import { AddRestaurantInput, UpdateRestaurantInput } from './restaurant.dto';
 import { Restaurant } from './restaurant.entity';
 
 @Injectable()
 export class RestaurantService {
   constructor(
     @InjectRepository(Restaurant)
-    private RestaurantRepository: Repository<Restaurant>,
+    private restaurantRepository: Repository<Restaurant>,
   ) {}
 
-  create(data: AddRestaurantInput): Promise<Restaurant> {
-    return this.RestaurantRepository.save(data);
+  find(): Promise<Restaurant[]> {
+    return this.restaurantRepository.createQueryBuilder('restaurant').getMany();
   }
 
   findOne(id: string): Promise<Restaurant> {
-    return this.RestaurantRepository.findOne(id);
-  }
-  findAll(): Promise<Restaurant[]> {
-    return this.RestaurantRepository.find();
-  }
-  delete(id: string): Promise<any> {
-    return this.RestaurantRepository.delete(id);
+    return this.restaurantRepository
+      .createQueryBuilder('restaurant')
+      .leftJoinAndSelect('restaurant.media', 'media')
+      .where('restaurant.id = :id', { id })
+      .getOne();
   }
 
-  async update(id: string, newData: EditRestaurantInput): Promise<boolean> {
-    const { affected } = await this.RestaurantRepository.update(id, newData);
+  findByKey(data: FindByKeyInput): Promise<Restaurant[]> {
+    const { field, value } = data;
+    return this.restaurantRepository.find({ where: { [field]: value } });
+  }
+
+  create(data: AddRestaurantInput): Promise<Restaurant> {
+    return this.restaurantRepository.save(data);
+  }
+
+  async delete(id: string): Promise<boolean> {
+    const { affected } = await this.restaurantRepository
+      .createQueryBuilder('restaurant')
+      .delete()
+      .where('id = :id', { id })
+      .execute();
+    return affected ? true : false;
+  }
+
+  async update(id: string, data: UpdateRestaurantInput): Promise<boolean> {
+    const { affected } = await this.restaurantRepository
+      .createQueryBuilder('restaurant')
+      .update()
+      .set({ ...data })
+      .where('id = :id', { id })
+      .execute();
     return affected ? true : false;
   }
 }

@@ -2,14 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Media {
+type Category {
   id: String!
   name: String!
-  path: String!
-  small: String
-  medium: String
-  medium_large: String
-  large: String
+  slug: String
   created_at: DateTime!
   updated_at: DateTime!
 }
@@ -19,104 +15,39 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Media {
+  id: String!
+  path: String!
+  name: String!
+  small: String
+  medium: String
+  mediumLarge: String
+  large: String
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 type Restaurant {
   id: String!
   name: String!
   description: String!
-  minPrice: String!
+  minPrice: Float!
   deliveryTime: String!
-  discount: String!
   rating: String!
-  image: Media!
-}
-
-type Product {
-  id: String!
-  name: String!
-  description: String!
-  price: String!
-  weight: String!
-  restaurant: Restaurant!
-  image: Media!
-  categories: [Category!]!
-}
-
-type Category {
-  id: String!
-  name: String!
-  products: [Product!]!
-}
-
-type CategoryRestaurant {
-  id: String!
-  restaurant: Restaurant!
-  category: Category!
-  order: Float!
-}
-
-type User {
-  id: String!
-  phone: String!
-  name: String!
-  email: String!
-  tower: String!
-  floor: String!
-  office: String!
-  apartment: String!
-  token: String!
-  created_at: DateTime!
-  updated_at: DateTime!
-}
-
-type Order {
-  id: String!
-  name: String!
-  phone: String!
-  tower: String!
-  floor: String!
-  office: String!
-  apartment: String!
-  date: String!
-  time: String!
-  additional: String!
-  totalPrice: String!
-  status: String!
-  restaurant: Restaurant!
-  user: User!
-  created_at: DateTime!
-  updated_at: DateTime!
-}
-
-type Cart {
-  id: String!
-  orderID: Order!
-  productID: Product!
-  quantity: Float!
+  media: Media
   created_at: DateTime!
   updated_at: DateTime!
 }
 
 type Query {
-  Restaurants: [Restaurant!]!
-  RestaurantByID(id: String!): Restaurant!
-  Products: [Product!]!
-  Product(id: String!): Product!
-  ProductsByField(data: FindByFieldInput!): [Product!]!
-  Categories: [Category!]!
-  CategoryByID(id: String!): Category!
-  CategoryOrderfindByKey(data: FindByKeyInput!): [CategoryRestaurant!]!
-  GetImages: [Media!]!
-  GetImageByID(id: String!): Media!
-  CheckToken(token: String!): User
-  Users: [User!]!
-  GetOrderByUser(user: String!): [Order!]!
-  GetOrders: [Order!]!
-  GetCart(orderID: String!): [Cart!]!
-}
-
-input FindByFieldInput {
-  field: String!
-  value: String!
+  findCategories: [Category!]!
+  findOneCategory(id: String!): Category!
+  findByKeyCategories(data: FindByKeyInput!): [Category!]!
+  findMedia: [Media!]!
+  findOneMedia(id: String!): Media!
+  findRestaurants: [Restaurant!]!
+  findOneRestaurant(id: String!): Restaurant!
+  findByKeyRestaurants(data: FindByKeyInput!): [Restaurant!]!
 }
 
 input FindByKeyInput {
@@ -125,103 +56,42 @@ input FindByKeyInput {
 }
 
 type Mutation {
-  AddRestaurant(data: AddRestaurantInput!): Restaurant!
-  RemoveRestaurant(id: String!): Boolean!
-  UpdateRestaurant(newData: EditRestaurantInput!, id: String!): Boolean!
-  AddProduct(data: AddProductInput!): Product!
-  RemoveProduct(id: String!): Boolean!
-  AddCategory(data: AddCategoryInput!): Category!
-  UpdateCategory(newData: EditCategoryInput!, id: String!): Boolean!
-  RemoveCategory(id: String!): Boolean!
-  UploadFiles(files: [Upload!]!): Boolean!
-  RemoveMediaByID(id: String!): Boolean!
-  AddUser(data: AddUserInput!): User!
-  updateUser(data: UpdateUserInput!): Boolean!
-  sendPhoneAndGetStatus(phone: String!): Boolean!
-  checkCode(data: AddCodeInput!): Boolean!
-  CreateOrder(data: AddOrderInput!): Boolean!
-  AddCartItem(data: AddCartInput!): [Cart!]!
-}
-
-input AddRestaurantInput {
-  name: String!
-  description: String!
-  minPrice: String!
-  deliveryTime: String!
-  discount: String!
-  rating: String!
-  image: String!
-}
-
-input EditRestaurantInput {
-  name: String
-  description: String
-  minPrice: String
-  deliveryTime: String
-  discount: String
-  rating: String
-  image: String
-}
-
-input AddProductInput {
-  name: String!
-  description: String!
-  price: String!
-  weight: String!
-  restaurant: String!
-  categories: [String!]!
-  image: String!
+  createCategory(data: AddCategoryInput!): Category!
+  deleteCategory(id: String!): Boolean!
+  updateCategory(data: UpdateCategoryInput!, id: String!): Boolean!
+  createMedia(file: Upload!): Media!
+  deleteMedia(id: String!): Media!
+  createRestaurant(data: AddRestaurantInput!): Restaurant!
+  deleteRestaurant(id: String!): Boolean!
+  updateRestaurant(data: UpdateRestaurantInput!, id: String!): Boolean!
 }
 
 input AddCategoryInput {
   name: String!
 }
 
-input EditCategoryInput {
+input UpdateCategoryInput {
   name: String
+  slug: String
 }
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
 
-input AddUserInput {
-  phone: String!
-}
-
-input UpdateUserInput {
-  id: String!
-  field: String!
-  value: String!
-}
-
-input AddCodeInput {
-  phone: String!
-  code: Float!
-}
-
-input AddOrderInput {
+input AddRestaurantInput {
   name: String!
-  phone: String!
-  tower: String!
-  floor: String!
-  office: String!
-  apartment: String!
-  date: String!
-  time: String!
-  additional: String!
-  totalPrice: String!
-  restaurant: String!
-  user: String!
-  cart: [AddcCartInput!]!
+  description: String!
+  minPrice: String!
+  deliveryTime: String!
+  rating: String!
+  media: String!
 }
 
-input AddcCartInput {
-  productID: Float!
-  quantity: Float!
-}
-
-input AddCartInput {
-  orderID: String!
-  productID: String!
-  quantity: Float!
+input UpdateRestaurantInput {
+  name: String
+  description: String
+  minPrice: String
+  deliveryTime: String
+  rating: String
+  media: String
 }

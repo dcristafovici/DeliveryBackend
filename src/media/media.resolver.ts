@@ -1,4 +1,4 @@
-import { Resolver, Args, Mutation, Query } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GraphQLUpload } from 'graphql-upload';
 import { Media } from './media.entity';
 import { MediaService } from './media.service';
@@ -8,26 +8,24 @@ export class MediaResolver {
   constructor(private mediaService: MediaService) {}
 
   @Query(() => [Media])
-  async GetImages(): Promise<Media[]> {
-    return await this.mediaService.GetImages();
+  async findMedia(): Promise<Media[]> {
+    return this.mediaService.find();
   }
-
   @Query(() => Media)
-  async GetImageByID(@Args('id') id: string): Promise<Media> {
-    return await this.mediaService.GetImageByID(id);
+  async findOneMedia(@Args('id') id: string): Promise<Media> {
+    return this.mediaService.findOne(id);
   }
 
-  @Mutation(() => Boolean)
-  async UploadFiles(
-    @Args({ name: 'files', type: () => [GraphQLUpload] })
-    files,
-  ): Promise<boolean> {
-    return await this.mediaService.UploadFiles(files);
+  @Mutation(() => Media)
+  async createMedia(
+    @Args({ name: 'file', type: () => GraphQLUpload })
+    file,
+  ): Promise<Media> {
+    return this.mediaService.create(file);
   }
 
-  @Mutation(() => Boolean)
-  async RemoveMediaByID(@Args('id') id: string): Promise<boolean> {
-    const { affected } = await this.mediaService.deleteByID(id);
-    return affected ? true : false;
+  @Mutation(() => Media)
+  async deleteMedia(@Args('id') id: string): Promise<Media> {
+    return this.mediaService.delete(id);
   }
 }
