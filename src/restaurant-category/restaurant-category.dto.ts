@@ -9,7 +9,7 @@ export class AddRestaurantCategoryInput {
   readonly category: Category;
 
   @Field(() => String)
-  readonly restaurnat: Restaurant;
+  readonly restaurant: Restaurant;
 
   @Field(() => String)
   readonly order: number;

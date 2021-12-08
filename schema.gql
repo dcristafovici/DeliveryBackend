@@ -140,6 +140,6 @@ input AddProductInput {
 
 input AddRestaurantCategoryInput {
   category: String!
-  restaurnat: String!
+  restaurant: String!
   order: String!
 }

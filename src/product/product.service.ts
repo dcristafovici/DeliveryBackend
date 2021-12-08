@@ -1,10 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  AddCategoryInput,
-  FindByKeyInput,
-  UpdateCategoryInput,
-} from 'src/category/category.dto';
+import { FindByKeyInput } from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
 import { RestaurantCategoryService } from 'src/restaurant-category/restaurant-category.service';
 import { Repository } from 'typeorm';
@@ -57,17 +53,21 @@ export class ProductService {
 
     const createdProduct = await this.productRepository.save(newProduct);
 
-    // Add Restaurant Category
-    categories.forEach(async (category: UpdateCategoryInput) => {
-      // const alreadyExistingRelation =
-      //   // this.restaurantCategoryService.findByGroupKeys({
-      //   //   restaurant,
-      //   //   category,
-      //   // });
-      // console.log(alreadyExistingRelation);
-    });
+    categories.forEach(async (category: any) => {
+      const alreadyExistingRelation =
+        await this.restaurantCategoryService.findByGroupKeys({
+          restaurant,
+          category,
+        });
 
-    // End Add Restaurant Category
+      if (!alreadyExistingRelation.length) {
+        await this.restaurantCategoryService.create({
+          category,
+          restaurant,
+          order: 0,
+        });
+      }
+    });
 
     return createdProduct;
   }
