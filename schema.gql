@@ -62,6 +62,22 @@ type RestaurantCategory {
   updated_at: DateTime!
 }
 
+type SuggestionDataEntity {
+  geo_lat: String
+  geo_lon: String
+  postal_code: String
+  country: String
+  country_iso_code: String
+  region_fias_id: String
+  region_kladr_id: String
+}
+
+type SuggestionEntity {
+  value: String!
+  unrestricted_value: String!
+  data: SuggestionDataEntity!
+}
+
 type Query {
   findCategories: [Category!]!
   findOneCategory(id: String!): Category!
@@ -77,7 +93,7 @@ type Query {
   findRestaurantCategory: [RestaurantCategory!]!
   findOnefindRestaurantCategory(id: String!): RestaurantCategory!
   findByKeyRestaurantCategory(data: FindByKeyInput!): [RestaurantCategory!]!
-  findAll: Boolean!
+  findPossibleAddresses(address: String!): [SuggestionEntity!]!
 }
 
 input FindByKeyInput {
