@@ -11,6 +11,7 @@ import { MediaModule } from './media/media.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { ProductModule } from './product/product.module';
 import { RestaurantCategoryModule } from './restaurant-category/restaurant-category.module';
+import { AddressModule } from './address/address.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { RestaurantCategoryModule } from './restaurant-category/restaurant-categ
     ProductModule,
     ProductModule,
     RestaurantCategoryModule,
+    AddressModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),

@@ -13,7 +13,10 @@ export class RestaurantService {
   ) {}
 
   find(): Promise<Restaurant[]> {
-    return this.restaurantRepository.createQueryBuilder('restaurant').getMany();
+    return this.restaurantRepository
+      .createQueryBuilder('restaurant')
+      .leftJoinAndSelect('restaurant.media', 'media')
+      .getMany();
   }
 
   findOne(id: string): Promise<Restaurant> {
