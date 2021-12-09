@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FindByKeyInput } from 'src/category/category.dto';
-import { AddProductInput } from './product.dto';
+import { AddProductInput, UpdateProductInput } from './product.dto';
 import { Product } from './product.entity';
 import { ProductService } from './product.service';
 
@@ -32,5 +32,13 @@ export class ProductResolver {
   @Mutation(() => Boolean)
   async deleteProduct(@Args('id') id: string): Promise<boolean> {
     return this.productService.delete(id);
+  }
+
+  @Mutation(() => Boolean)
+  async updateProduct(
+    @Args('id') id: string,
+    @Args('data') data: UpdateProductInput,
+  ): Promise<boolean> {
+    return this.productService.update(id, data);
   }
 }

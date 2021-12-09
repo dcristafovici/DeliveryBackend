@@ -4,7 +4,7 @@ import { FindByKeyInput } from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
 import { RestaurantCategoryService } from 'src/restaurant-category/restaurant-category.service';
 import { Repository } from 'typeorm';
-import { AddProductInput } from './product.dto';
+import { AddProductInput, UpdateProductInput } from './product.dto';
 import { Product } from './product.entity';
 
 @Injectable()
@@ -76,6 +76,16 @@ export class ProductService {
     const { affected } = await this.productRepository
       .createQueryBuilder('product')
       .delete()
+      .where('id = :id', { id })
+      .execute();
+    return affected ? true : false;
+  }
+
+  async update(id: string, data: UpdateProductInput): Promise<boolean> {
+    const { affected } = await this.productRepository
+      .createQueryBuilder('category')
+      .update(Product)
+      .set({ ...data })
       .where('id = :id', { id })
       .execute();
     return affected ? true : false;

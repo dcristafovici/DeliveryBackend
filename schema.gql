@@ -95,6 +95,7 @@ type Mutation {
   updateRestaurant(data: UpdateRestaurantInput!, id: String!): Boolean!
   createProduct(data: AddProductInput!): Product!
   deleteProduct(id: String!): Boolean!
+  updateProduct(data: UpdateProductInput!, id: String!): Boolean!
   createRestaurantCategory(data: AddRestaurantCategoryInput!): RestaurantCategory!
 }
 
@@ -136,6 +137,16 @@ input AddProductInput {
   restaurant: String!
   media: String!
   categories: [String!]!
+}
+
+input UpdateProductInput {
+  name: String
+  description: String
+  price: String
+  weight: String
+  restaurant: String
+  media: String
+  categories: [String!]
 }
 
 input AddRestaurantCategoryInput {

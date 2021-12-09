@@ -27,3 +27,28 @@ export class AddProductInput {
   @Field(() => [String])
   readonly categories: Category[];
 }
+
+@InputType()
+@ObjectType()
+export class UpdateProductInput {
+  @Field(() => String, { nullable: true })
+  readonly name: string;
+
+  @Field(() => String, { nullable: true })
+  readonly description: string;
+
+  @Field(() => String, { nullable: true })
+  readonly price: number;
+
+  @Field(() => String, { nullable: true })
+  readonly weight: string;
+
+  @Field(() => String, { nullable: true })
+  readonly restaurant: Restaurant;
+
+  @Field(() => String, { nullable: true })
+  readonly media: Media;
+
+  @Field(() => [String], { nullable: true })
+  readonly categories: Category[];
+}
