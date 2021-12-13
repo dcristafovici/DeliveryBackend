@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -12,6 +13,8 @@ import { RestaurantModule } from './restaurant/restaurant.module';
 import { ProductModule } from './product/product.module';
 import { RestaurantCategoryModule } from './restaurant-category/restaurant-category.module';
 import { AddressModule } from './address/address.module';
+import { UserModule } from './user/user.module';
+import { OTPModule } from './otp/otp.module';
 
 @Module({
   imports: [
@@ -23,6 +26,8 @@ import { AddressModule } from './address/address.module';
     ProductModule,
     RestaurantCategoryModule,
     AddressModule,
+    UserModule,
+    OTPModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),
@@ -32,6 +37,7 @@ import { AddressModule } from './address/address.module';
         Upload: GraphQLUpload,
       },
     }),
+    ConfigModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],

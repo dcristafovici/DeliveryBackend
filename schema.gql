@@ -94,11 +94,18 @@ type Query {
   findOnefindRestaurantCategory(id: String!): RestaurantCategory!
   findByKeyRestaurantCategory(data: FindByKeyInput!): [RestaurantCategory!]!
   findPossibleAddresses(address: String!): [SuggestionEntity!]!
+  authenticationUser(data: CheckOtpInput!): String!
 }
 
 input FindByKeyInput {
   field: String!
   value: String!
+}
+
+input CheckOtpInput {
+  phone: String!
+  OTP: String!
+  sessionID: String!
 }
 
 type Mutation {
@@ -114,6 +121,7 @@ type Mutation {
   deleteProduct(id: String!): Boolean!
   updateProduct(data: UpdateProductInput!, id: String!): Boolean!
   createRestaurantCategory(data: AddRestaurantCategoryInput!): RestaurantCategory!
+  createOTP(data: AddOtpInput!): Boolean!
 }
 
 input AddCategoryInput {
@@ -170,4 +178,9 @@ input AddRestaurantCategoryInput {
   category: String!
   restaurant: String!
   order: String!
+}
+
+input AddOtpInput {
+  phone: String!
+  sessionID: String!
 }
