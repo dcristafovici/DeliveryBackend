@@ -6,7 +6,7 @@ import { UserService } from './user.service';
 export class UserResolver {
   constructor(private userService: UserService) {}
 
-  @Query(() => String)
+  @Mutation(() => String)
   authenticationUser(@Args('data') data: CheckOtpInput): Promise<string> {
     return this.userService.authentication(data);
   }

@@ -19,12 +19,28 @@ export class UserService {
     const { phone, sessionID, OTP } = data;
     const OtpEntity = await this.otpService.find(sessionID);
     // Not finded Session
-    if (!OtpEntity) return null;
+    if (!OtpEntity) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          message: 'SESSION_ID_NOT_FOUND',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
 
     const { OTP: hashedOTP } = OtpEntity;
     const isMatchOTP = await bcrypt.compare(OTP, hashedOTP);
     // Passwords are not matched
-    if (!isMatchOTP) return null;
+    if (!isMatchOTP) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNAUTHORIZED,
+          message: 'INCORRECT_CREDENTIALS',
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
 
     const existedUser = await this.userRepository.findOne({ phone });
     const token = existedUser
@@ -45,7 +61,7 @@ export class UserService {
         throw new HttpException(
           {
             status: HttpStatus.CONFLICT,
-            errorCode: err,
+            message: err,
           },
           HttpStatus.CONFLICT,
         );
