@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import OTPService from 'src/otp/otp.service';
+import { verifyAccessToken } from 'src/utils/verifyAccessToken';
 import { Repository } from 'typeorm';
 import { CheckOtpInput } from './user.dto';
 import { User } from './user.entity';
@@ -15,6 +16,9 @@ export class UserService {
     private otpService: OTPService,
   ) {}
 
+  findOne(id: string): Promise<User> {
+    return this.userRepository.findOne(id);
+  }
   async authentication(data: CheckOtpInput): Promise<string> {
     const { phone, sessionID, OTP } = data;
     const OtpEntity = await this.otpService.find(sessionID);
@@ -54,8 +58,8 @@ export class UserService {
     return await this.userRepository
       .save({ phone: userPhone })
       .then((res) => {
-        const { id, phone } = res;
-        return jwt.sign({ id, phone }, process.env.JWT_SECRET);
+        const { id } = res;
+        return jwt.sign({ id }, process.env.JWT_SECRET);
       })
       .catch((err) => {
         throw new HttpException(
@@ -69,7 +73,12 @@ export class UserService {
   }
 
   async login(user: User): Promise<string> {
-    const { phone, id } = user;
-    return jwt.sign({ id, phone }, process.env.JWT_SECRET);
+    const { id } = user;
+    return jwt.sign({ id }, process.env.JWT_SECRET);
+  }
+
+  async getUserByToken(token: string): Promise<User> {
+    const { id } = await verifyAccessToken(token);
+    return this.findOne(id);
   }
 }

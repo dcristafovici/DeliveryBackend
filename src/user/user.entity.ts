@@ -22,7 +22,7 @@ export class User {
   @Column()
   phone: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ nullable: true })
   email: string;
 
@@ -36,7 +36,7 @@ export class User {
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  address_long: string;
+  address_lon: string;
 
   @Field()
   @CreateDateColumn()

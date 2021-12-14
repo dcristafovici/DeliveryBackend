@@ -78,6 +78,18 @@ type SuggestionEntity {
   data: SuggestionDataEntity!
 }
 
+type User {
+  id: String!
+  name: String
+  phone: String!
+  email: String
+  address: String
+  address_lat: String
+  address_lon: String
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 type Query {
   findCategories: [Category!]!
   findOneCategory(id: String!): Category!
@@ -94,6 +106,7 @@ type Query {
   findOnefindRestaurantCategory(id: String!): RestaurantCategory!
   findByKeyRestaurantCategory(data: FindByKeyInput!): [RestaurantCategory!]!
   findPossibleAddresses(address: String!): [SuggestionEntity!]!
+  getUserByToken(token: String!): User!
 }
 
 input FindByKeyInput {
