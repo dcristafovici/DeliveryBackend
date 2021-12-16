@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class TokenResponse {
@@ -10,4 +10,26 @@ export class TokenResponse {
 
   @Field(() => String)
   readonly iat: string;
+}
+
+@InputType()
+@ObjectType()
+export class UpdateUserInput {
+  @Field(() => String, { nullable: true })
+  readonly name: string;
+
+  @Field(() => String, { nullable: true })
+  readonly phone: string;
+
+  @Field(() => String, { nullable: true })
+  readonly email: string;
+
+  @Field(() => String, { nullable: true })
+  readonly address: string;
+
+  @Field(() => String, { nullable: true })
+  readonly address_lat: string;
+
+  @Field(() => String, { nullable: true })
+  readonly address_lon: string;
 }

@@ -1,4 +1,5 @@
-import { Args, Resolver, Query } from '@nestjs/graphql';
+import { Args, Resolver, Query, Mutation } from '@nestjs/graphql';
+import { UpdateUserInput } from './user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -9,5 +10,13 @@ export class UserResolver {
   @Query(() => User)
   getUserByToken(@Args('token') token: string): Promise<User> {
     return this.userService.getUserByToken(token);
+  }
+
+  @Mutation(() => Boolean)
+  async updateUser(
+    @Args('id') id: string,
+    @Args('data') data: UpdateUserInput,
+  ): Promise<boolean> {
+    return this.userService.update(id, data);
   }
 }

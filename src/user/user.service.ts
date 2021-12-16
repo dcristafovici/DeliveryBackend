@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as jwt from 'jsonwebtoken';
 import { verifyAccessToken } from 'src/utils/verifyAccessToken';
 import { Repository } from 'typeorm';
+import { UpdateUserInput } from './user.dto';
 import { User } from './user.entity';
 
 @Injectable()
@@ -18,6 +19,16 @@ export class UserService {
 
   findByField(key: string, value: string): Promise<User> {
     return this.userRepository.findOne({ [key]: value });
+  }
+
+  async update(id: string, data: UpdateUserInput): Promise<boolean> {
+    const { affected } = await this.userRepository
+      .createQueryBuilder('category')
+      .update(User)
+      .set({ ...data })
+      .where('id = :id', { id })
+      .execute();
+    return affected ? true : false;
   }
 
   async register(userPhone: string): Promise<string> {
