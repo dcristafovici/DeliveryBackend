@@ -18,13 +18,13 @@ export class RestaurantCategory {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Field(() => Restaurant, { nullable: true })
-  @ManyToOne(() => Restaurant, { eager: true, onDelete: 'SET NULL' })
+  @Field(() => Restaurant)
+  @ManyToOne(() => Restaurant, { eager: true, onDelete: 'NO ACTION' })
   @JoinColumn({ name: 'restaurant' })
   restaurant: Restaurant;
 
-  @Field(() => Category, { nullable: true })
-  @ManyToOne(() => Category, { eager: true, onDelete: 'SET NULL' })
+  @Field(() => Category)
+  @ManyToOne(() => Category, { eager: true, onDelete: 'NO ACTION' })
   @JoinColumn({ name: 'category' })
   category: Category;
 

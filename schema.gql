@@ -55,8 +55,8 @@ type Category {
 
 type RestaurantCategory {
   id: String!
-  restaurant: Restaurant
-  category: Category
+  restaurant: Restaurant!
+  category: Category!
   order: Float!
   created_at: DateTime!
   updated_at: DateTime!
@@ -90,6 +90,24 @@ type User {
   updated_at: DateTime!
 }
 
+type Order {
+  id: String!
+  day: String!
+  time: String!
+  status: String!
+  comment: String!
+  restaurant: Restaurant!
+  user: User!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input AddOrderCartInput {
+  order: String!
+  product: String!
+  quantity: Float!
+}
+
 type Query {
   findCategories: [Category!]!
   findOneCategory(id: String!): Category!
@@ -107,6 +125,9 @@ type Query {
   findByKeyRestaurantCategory(data: FindByKeyInput!): [RestaurantCategory!]!
   findPossibleAddresses(address: String!): [SuggestionEntity!]!
   getUserByToken(token: String!): User!
+  findOrders: [Order!]!
+  findOneOrder(id: String!): Order!
+  findByKeyOrders(data: FindByKeyInput!): [Order!]!
 }
 
 input FindByKeyInput {
@@ -130,6 +151,8 @@ type Mutation {
   updateUser(data: UpdateUserInput!, id: String!): Boolean!
   createOTP(data: AddOtpInput!): Boolean!
   authenticationUser(data: CheckOtpInput!): String!
+  createOrder(data: AddOrderInput!): Boolean!
+  deleteOrder(id: String!): Boolean!
 }
 
 input AddCategoryInput {
@@ -206,4 +229,14 @@ input CheckOtpInput {
   phone: String!
   OTP: String!
   sessionID: String!
+}
+
+input AddOrderInput {
+  day: String!
+  time: String!
+  status: String!
+  comment: String!
+  restaurant: String!
+  user: String!
+  orderCart: [AddOrderCartInput!]!
 }
