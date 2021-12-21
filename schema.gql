@@ -90,22 +90,40 @@ type User {
   updated_at: DateTime!
 }
 
-type Order {
+type OrderCustomer {
   id: String!
-  day: String!
-  time: String!
-  status: String!
-  comment: String!
-  restaurant: Restaurant!
-  user: User!
+  name: String!
+  phone: String!
+  email: String!
+  address: String!
+  floor: String!
+  office: String!
+  apartment: String!
+  additionalComment: String!
   created_at: DateTime!
   updated_at: DateTime!
 }
 
-input AddOrderCartInput {
-  order: String!
-  product: String!
-  quantity: Float!
+type Order {
+  id: String!
+  restaurant: Restaurant!
+  user: User!
+  orderCart: [OrderCart!]!
+  orderCustomer: OrderCustomer!
+  day: String!
+  time: String!
+  status: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type OrderCart {
+  id: String!
+  order: Order!
+  product: Product!
+  orders: [Order!]!
+  created_at: DateTime!
+  updated_at: DateTime!
 }
 
 type Query {
@@ -238,5 +256,4 @@ input AddOrderInput {
   comment: String!
   restaurant: String!
   user: String!
-  orderCart: [AddOrderCartInput!]!
 }

@@ -1,5 +1,4 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { AddOrderCartInput } from 'src/order-cart/order-cart.dto';
 import { Restaurant } from 'src/restaurant/Restaurant.entity';
 import { User } from 'src/user/user.entity';
 
@@ -24,6 +23,6 @@ export class AddOrderInput {
   @Field(() => String)
   readonly user: User;
 
-  @Field(() => [AddOrderCartInput])
-  readonly orderCart: AddOrderCartInput[];
+  // @Field(() => [AddOrderCartInput])
+  // readonly orderCart: AddOrderCartInput[];
 }

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
-import { OrderCart } from 'src/order-cart/order-cart.entity';
-import { OrderCartService } from 'src/order-cart/order-cart.service';
 import { Repository } from 'typeorm';
+import { OrderCart } from './order-cart.entity';
+import { OrderCustomer } from './order-customer.entity';
 import { AddOrderInput } from './order.dto';
 import { Order } from './order.entity';
 
@@ -12,7 +12,10 @@ export class OrderService {
   constructor(
     @InjectRepository(Order)
     private orderRepository: Repository<Order>,
-    private orderCartService: OrderCartService,
+    @InjectRepository(OrderCart)
+    private orderCartRepository: Repository<OrderCart>,
+    @InjectRepository(OrderCustomer)
+    private orderCustomer: Repository<OrderCustomer>,
   ) {}
 
   find(): Promise<Order[]> {
@@ -38,17 +41,7 @@ export class OrderService {
   }
 
   async create(data: AddOrderInput): Promise<boolean> {
-    const { orderCart, ...order } = data;
-    const createdOrder = await this.orderRepository.save(order);
-
-    orderCart.map(async (item) => {
-      await this.orderCartService.create({
-        order: createdOrder,
-        product: item.product,
-        quantity: item.quantity,
-      });
-    });
-
+    console.log(data);
     return true;
   }
 

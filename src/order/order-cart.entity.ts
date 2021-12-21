@@ -1,15 +1,18 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Order } from 'src/order/order.entity';
 import { Product } from 'src/product/product.entity';
+import { Restaurant } from 'src/restaurant/Restaurant.entity';
+import { User } from 'src/user/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Order } from './order.entity';
 
 @Entity({ name: 'ORDER_CART' })
 @ObjectType()
@@ -18,19 +21,21 @@ export class OrderCart {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Field(() => Order, { nullable: true })
+  @Field(() => Order)
   @ManyToOne(() => Order, { eager: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'order' })
   order: Order;
 
-  @Field(() => Product, { nullable: true })
+  @Field(() => Product)
   @ManyToOne(() => Product, { eager: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'product' })
   product: Product;
 
-  @Field()
-  @Column()
-  quantity: number;
+  @ManyToMany(() => Order, (order) => order.orderCart, {
+    lazy: true,
+  })
+  @Field(() => [Order])
+  orders: Promise<Order[]>;
 
   @Field()
   @CreateDateColumn()

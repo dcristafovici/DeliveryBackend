@@ -3,10 +3,11 @@ import { OrderService } from './order.service';
 import { OrderResolver } from './order.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Order } from './order.entity';
-import { OrderCartModule } from 'src/order-cart/order-cart.module';
+import { OrderCart } from './order-cart.entity';
+import { OrderCustomer } from './order-customer.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order]), OrderCartModule],
+  imports: [TypeOrmModule.forFeature([Order, OrderCart, OrderCustomer])],
   providers: [OrderService, OrderResolver],
   exports: [OrderService],
 })

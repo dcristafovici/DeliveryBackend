@@ -16,7 +16,6 @@ import { AddressModule } from './address/address.module';
 import { UserModule } from './user/user.module';
 import { OTPModule } from './otp/otp.module';
 import { OrderModule } from './order/order.module';
-import { OrderCartModule } from './order-cart/order-cart.module';
 
 @Module({
   imports: [
@@ -31,7 +30,6 @@ import { OrderCartModule } from './order-cart/order-cart.module';
     UserModule,
     OTPModule,
     OrderModule,
-    OrderCartModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),
@@ -42,7 +40,6 @@ import { OrderCartModule } from './order-cart/order-cart.module';
       },
     }),
     ConfigModule.forRoot(),
-    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
