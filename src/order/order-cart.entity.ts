@@ -1,7 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Product } from 'src/product/product.entity';
-import { Restaurant } from 'src/restaurant/Restaurant.entity';
-import { User } from 'src/user/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -21,11 +19,6 @@ export class OrderCart {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Field(() => Order)
-  @ManyToOne(() => Order, { eager: true, onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'order' })
-  order: Order;
-
   @Field(() => Product)
   @ManyToOne(() => Product, { eager: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'product' })
@@ -36,6 +29,10 @@ export class OrderCart {
   })
   @Field(() => [Order])
   orders: Promise<Order[]>;
+
+  @Field(() => Number)
+  @Column()
+  quantity: number;
 
   @Field()
   @CreateDateColumn()

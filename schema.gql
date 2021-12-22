@@ -119,11 +119,27 @@ type Order {
 
 type OrderCart {
   id: String!
-  order: Order!
   product: Product!
   orders: [Order!]!
+  quantity: Float!
   created_at: DateTime!
   updated_at: DateTime!
+}
+
+input AddOrderCartInput {
+  product: String!
+  quantity: Float!
+}
+
+input AddOrderCustomerInput {
+  name: String!
+  phone: String!
+  email: String!
+  address: String!
+  floor: String!
+  office: String!
+  apartment: String!
+  additionalComment: String!
 }
 
 type Query {
@@ -253,7 +269,8 @@ input AddOrderInput {
   day: String!
   time: String!
   status: String!
-  comment: String!
   restaurant: String!
   user: String!
+  orderCart: [AddOrderCartInput!]!
+  orderCustomer: AddOrderCustomerInput!
 }

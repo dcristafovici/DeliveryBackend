@@ -10,7 +10,7 @@ export class OrderResolver {
 
   @Query(() => [Order])
   async findOrders(): Promise<Order[]> {
-    console.log(await this.orderService.find());
+    // console.log(await this.orderService.find());
     return this.orderService.find();
   }
   @Query(() => Order)

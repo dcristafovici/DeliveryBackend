@@ -15,7 +15,7 @@ export class OrderService {
     @InjectRepository(OrderCart)
     private orderCartRepository: Repository<OrderCart>,
     @InjectRepository(OrderCustomer)
-    private orderCustomer: Repository<OrderCustomer>,
+    private orderCustomerRepository: Repository<OrderCustomer>,
   ) {}
 
   find(): Promise<Order[]> {
@@ -23,6 +23,7 @@ export class OrderService {
       .createQueryBuilder('order')
       .leftJoinAndSelect('order.restaurant', 'restaurant')
       .leftJoinAndSelect('order.user', 'media')
+      .leftJoinAndSelect('order.orderCustomer', 'orderCustomer')
       .getMany();
   }
 
@@ -41,7 +42,23 @@ export class OrderService {
   }
 
   async create(data: AddOrderInput): Promise<boolean> {
-    console.log(data);
+    const { orderCart, orderCustomer, ...order } = data;
+    const orderCustomerCreated = await this.orderCustomerRepository.save(
+      orderCustomer,
+    );
+
+    const orderCartCreated = await this.orderCartRepository.save(orderCart);
+
+    const combinedOrder = new Order();
+    Object.assign(combinedOrder, {
+      ...order,
+      orderCustomer: orderCustomerCreated,
+      orderCart: orderCartCreated,
+    });
+
+    const orderCreated = await this.orderRepository.save(combinedOrder);
+
+    console.log(orderCreated);
     return true;
   }
 
