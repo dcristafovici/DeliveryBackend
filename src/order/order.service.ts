@@ -24,6 +24,7 @@ export class OrderService {
       .leftJoinAndSelect('order.restaurant', 'restaurant')
       .leftJoinAndSelect('order.user', 'media')
       .leftJoinAndSelect('order.orderCustomer', 'orderCustomer')
+      .leftJoinAndSelect('order.orderCart', 'orderCart')
       .getMany();
   }
 

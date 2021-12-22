@@ -119,8 +119,8 @@ type Order {
 
 type OrderCart {
   id: String!
-  product: Product!
   orders: [Order!]!
+  product: Product!
   quantity: Float!
   created_at: DateTime!
   updated_at: DateTime!

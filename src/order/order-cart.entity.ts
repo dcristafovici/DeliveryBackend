@@ -19,16 +19,16 @@ export class OrderCart {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Field(() => Product)
-  @ManyToOne(() => Product, { eager: true, onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'product' })
-  product: Product;
-
   @ManyToMany(() => Order, (order) => order.orderCart, {
     lazy: true,
   })
   @Field(() => [Order])
   orders: Promise<Order[]>;
+
+  @Field(() => Product)
+  @ManyToOne(() => Product, { eager: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'product' })
+  product: Product;
 
   @Field(() => Number)
   @Column()
