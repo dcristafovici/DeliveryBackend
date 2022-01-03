@@ -3,7 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
 import { Repository } from 'typeorm';
 import { RestaurantCategory } from './restaurant-category.entity';
-import { AddRestaurantInput, UpdateRestaurantInput } from './restaurant.dto';
+import {
+  AddRestaurantInput,
+  FindBunchInput,
+  UpdateRestaurantInput,
+} from './restaurant.dto';
 import { Restaurant } from './Restaurant.entity';
 
 @Injectable()
@@ -11,9 +15,6 @@ export class RestaurantService {
   constructor(
     @InjectRepository(Restaurant)
     private restaurantRepository: Repository<Restaurant>,
-
-    @InjectRepository(RestaurantCategory)
-    private restaurantCategoryRepository: Repository<RestaurantCategory>,
   ) {}
 
   find(): Promise<Restaurant[]> {
@@ -58,20 +59,30 @@ export class RestaurantService {
       .execute();
     return affected ? true : false;
   }
+}
 
-  findBunchCategoryRestaurant(
-    restaurant: string,
-    category: string,
-  ): Promise<RestaurantCategory[]> {
+@Injectable()
+export class RestaurantCategoryService {
+  constructor(
+    @InjectRepository(RestaurantCategory)
+    private restaurantCategoryRepository: Repository<RestaurantCategory>,
+  ) {}
+
+  findBunch(data: FindBunchInput): Promise<RestaurantCategory[]> {
+    const { restaurant, category } = data;
     return this.restaurantCategoryRepository.find({
       where: { restaurant, category },
     });
   }
 
-  createBunchCategoryRestaurant(
-    restaurant: any,
-    category: any,
-  ): Promise<RestaurantCategory> {
-    return this.restaurantCategoryRepository.save({ restaurant, category });
+  findByKey(data: FindByKeyInput): Promise<RestaurantCategory[]> {
+    const { field, value } = data;
+    return this.restaurantCategoryRepository.find({
+      where: { [field]: value },
+    });
+  }
+
+  createBunch(data: FindBunchInput): Promise<RestaurantCategory> {
+    return this.restaurantCategoryRepository.save(data);
   }
 }

@@ -1,8 +1,12 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FindByKeyInput } from 'src/category/category.dto';
+import { RestaurantCategory } from './restaurant-category.entity';
 import { AddRestaurantInput, UpdateRestaurantInput } from './restaurant.dto';
 import { Restaurant } from './Restaurant.entity';
-import { RestaurantService } from './restaurant.service';
+import {
+  RestaurantCategoryService,
+  RestaurantService,
+} from './restaurant.service';
 
 @Resolver(() => Restaurant)
 export class RestaurantResolver {
@@ -42,5 +46,17 @@ export class RestaurantResolver {
     @Args('data') data: UpdateRestaurantInput,
   ): Promise<boolean> {
     return this.restaurantService.update(id, data);
+  }
+}
+
+@Resolver(() => [RestaurantCategory])
+export class RestaurantCategoryResolver {
+  constructor(private restaurantCategoryService: RestaurantCategoryService) {}
+
+  @Query(() => [RestaurantCategory])
+  findByKeyResCat(
+    @Args('data') data: FindByKeyInput,
+  ): Promise<RestaurantCategory[]> {
+    return this.restaurantCategoryService.findByKey(data);
   }
 }

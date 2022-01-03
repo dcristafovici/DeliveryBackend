@@ -1,5 +1,7 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Category } from 'src/category/category.entity';
 import { Media } from 'src/media/media.entity';
+import { Restaurant } from './Restaurant.entity';
 
 @InputType()
 @ObjectType()
@@ -43,4 +45,14 @@ export class UpdateRestaurantInput {
 
   @Field(() => String, { nullable: true })
   readonly media: Media;
+}
+
+@InputType()
+@ObjectType()
+export class FindBunchInput {
+  @Field(() => String)
+  readonly restaurant: Restaurant;
+
+  @Field(() => String)
+  readonly category: Category;
 }

@@ -53,6 +53,15 @@ type Category {
   updated_at: DateTime!
 }
 
+type RestaurantCategory {
+  id: String!
+  category: Category!
+  restaurant: Restaurant!
+  order: Float!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 type SuggestionDataEntity {
   geo_lat: String
   geo_lon: String
@@ -142,6 +151,7 @@ type Query {
   findRestaurants: [Restaurant!]!
   findOneRestaurant(id: String!): Restaurant!
   findByKeyRestaurants(data: FindByKeyInput!): [Restaurant!]!
+  findByKeyResCat(data: FindByKeyInput!): [RestaurantCategory!]!
   findProducts: [Product!]!
   findOneProduct(id: String!): Product!
   findByKeyProducts(data: FindByKeyInput!): [Product!]!

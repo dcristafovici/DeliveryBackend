@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
-import { RestaurantService } from 'src/restaurant/restaurant.service';
+import { RestaurantCategoryService } from 'src/restaurant/restaurant.service';
 import { Repository } from 'typeorm';
 import { AddProductInput, UpdateProductInput } from './product.dto';
 import { Product } from './product.entity';
@@ -13,7 +13,7 @@ export class ProductService {
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
     private categoryService: CategoryService,
-    private restaurantCategoryService: RestaurantService,
+    private restaurantCategoryService: RestaurantCategoryService,
   ) {}
 
   find(): Promise<Product[]> {
@@ -52,16 +52,15 @@ export class ProductService {
     newProduct.restaurant = restaurant;
     categories.forEach(async (category: any) => {
       if (typeof restaurant !== 'string') return false;
-      const findedBunch =
-        await this.restaurantCategoryService.findBunchCategoryRestaurant(
-          restaurant,
-          category,
-        );
+      const findedBunch = await this.restaurantCategoryService.findBunch({
+        restaurant,
+        category,
+      });
       if (!findedBunch.length) {
-        await this.restaurantCategoryService.createBunchCategoryRestaurant(
+        await this.restaurantCategoryService.createBunch({
           restaurant,
           category,
-        );
+        });
       }
     });
 
