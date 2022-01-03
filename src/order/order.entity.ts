@@ -33,7 +33,10 @@ export class Order {
   user: User;
 
   @Field(() => [OrderCart])
-  @ManyToMany(() => OrderCart, (orderCart) => orderCart.orders, { lazy: true })
+  @ManyToMany(() => OrderCart, (orderCart) => orderCart.orders, {
+    lazy: true,
+    eager: true,
+  })
   @JoinTable({
     name: 'ORDER_RELATION_ORDERCART',
     joinColumn: {

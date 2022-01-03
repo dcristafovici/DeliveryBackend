@@ -57,10 +57,10 @@ export class OrderService {
       orderCart: orderCartCreated,
     });
 
-    const orderCreated = await this.orderRepository.save(combinedOrder);
-
-    console.log(orderCreated);
-    return true;
+    return await this.orderRepository
+      .save(combinedOrder)
+      .then(() => true)
+      .catch(() => false);
   }
 
   async delete(id: string): Promise<boolean> {
