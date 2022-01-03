@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
 import { Repository } from 'typeorm';
+import { RestaurantCategory } from './restaurant-category.entity';
 import { AddRestaurantInput, UpdateRestaurantInput } from './restaurant.dto';
 import { Restaurant } from './Restaurant.entity';
 
@@ -10,6 +11,9 @@ export class RestaurantService {
   constructor(
     @InjectRepository(Restaurant)
     private restaurantRepository: Repository<Restaurant>,
+
+    @InjectRepository(RestaurantCategory)
+    private restaurantCategoryRepository: Repository<RestaurantCategory>,
   ) {}
 
   find(): Promise<Restaurant[]> {
@@ -53,5 +57,21 @@ export class RestaurantService {
       .where('id = :id', { id })
       .execute();
     return affected ? true : false;
+  }
+
+  findBunchCategoryRestaurant(
+    restaurant: string,
+    category: string,
+  ): Promise<RestaurantCategory[]> {
+    return this.restaurantCategoryRepository.find({
+      where: { restaurant, category },
+    });
+  }
+
+  createBunchCategoryRestaurant(
+    restaurant: any,
+    category: any,
+  ): Promise<RestaurantCategory> {
+    return this.restaurantCategoryRepository.save({ restaurant, category });
   }
 }

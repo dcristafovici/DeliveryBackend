@@ -4,13 +4,13 @@ import { ProductResolver } from './product.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { CategoryModule } from 'src/category/category.module';
-import { RestaurantCategoryModule } from 'src/restaurant-category/restaurant-category.module';
+import { RestaurantModule } from 'src/restaurant/restaurant.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Product]),
     CategoryModule,
-    RestaurantCategoryModule,
+    RestaurantModule,
   ],
   providers: [ProductService, ProductResolver],
   exports: [ProductService],

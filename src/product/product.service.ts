@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
-import { RestaurantCategoryService } from 'src/restaurant-category/restaurant-category.service';
+import { RestaurantService } from 'src/restaurant/restaurant.service';
 import { Repository } from 'typeorm';
 import { AddProductInput, UpdateProductInput } from './product.dto';
 import { Product } from './product.entity';
@@ -13,7 +13,7 @@ export class ProductService {
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
     private categoryService: CategoryService,
-    private restaurantCategoryService: RestaurantCategoryService,
+    private restaurantCategoryService: RestaurantService,
   ) {}
 
   find(): Promise<Product[]> {
@@ -50,24 +50,22 @@ export class ProductService {
     );
     newProduct.categories = findedInDataCategories;
     newProduct.restaurant = restaurant;
-
-    const createdProduct = await this.productRepository.save(newProduct);
-
     categories.forEach(async (category: any) => {
-      const alreadyExistingRelation =
-        await this.restaurantCategoryService.findByGroupKeys({
+      if (typeof restaurant !== 'string') return false;
+      const findedBunch =
+        await this.restaurantCategoryService.findBunchCategoryRestaurant(
           restaurant,
           category,
-        });
-
-      if (!alreadyExistingRelation.length) {
-        await this.restaurantCategoryService.create({
-          category,
+        );
+      if (!findedBunch.length) {
+        await this.restaurantCategoryService.createBunchCategoryRestaurant(
           restaurant,
-          order: 0,
-        });
+          category,
+        );
       }
     });
+
+    const createdProduct = await this.productRepository.save(newProduct);
 
     return createdProduct;
   }

@@ -53,15 +53,6 @@ type Category {
   updated_at: DateTime!
 }
 
-type RestaurantCategory {
-  id: String!
-  restaurant: Restaurant!
-  category: Category!
-  order: Float!
-  created_at: DateTime!
-  updated_at: DateTime!
-}
-
 type SuggestionDataEntity {
   geo_lat: String
   geo_lon: String
@@ -154,9 +145,6 @@ type Query {
   findProducts: [Product!]!
   findOneProduct(id: String!): Product!
   findByKeyProducts(data: FindByKeyInput!): [Product!]!
-  findRestaurantCategory: [RestaurantCategory!]!
-  findOnefindRestaurantCategory(id: String!): RestaurantCategory!
-  findByKeyRestaurantCategory(data: FindByKeyInput!): [RestaurantCategory!]!
   findPossibleAddresses(address: String!): [SuggestionEntity!]!
   getUserByToken(token: String!): User!
   findOrders: [Order!]!
@@ -181,7 +169,6 @@ type Mutation {
   createProduct(data: AddProductInput!): Product!
   deleteProduct(id: String!): Boolean!
   updateProduct(data: UpdateProductInput!, id: String!): Boolean!
-  createRestaurantCategory(data: AddRestaurantCategoryInput!): RestaurantCategory!
   updateUser(data: UpdateUserInput!, id: String!): Boolean!
   createOTP(data: AddOtpInput!): Boolean!
   authenticationUser(data: CheckOtpInput!): String!
@@ -237,12 +224,6 @@ input UpdateProductInput {
   restaurant: String
   media: String
   categories: [String!]
-}
-
-input AddRestaurantCategoryInput {
-  category: String!
-  restaurant: String!
-  order: String!
 }
 
 input UpdateUserInput {
