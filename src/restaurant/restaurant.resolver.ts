@@ -40,11 +40,11 @@ export class RestaurantResolver {
     return this.restaurantService.delete(id);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Restaurant)
   async updateRestaurant(
     @Args('id') id: string,
     @Args('data') data: UpdateRestaurantInput,
-  ): Promise<boolean> {
+  ): Promise<Restaurant> {
     return this.restaurantService.update(id, data);
   }
 }

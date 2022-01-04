@@ -63,13 +63,26 @@ export class CategoryService {
     return affected ? true : false;
   }
 
-  async update(id: string, data: UpdateCategoryInput): Promise<boolean> {
-    const { affected } = await this.categoryRepository
-      .createQueryBuilder('category')
-      .update(Category)
-      .set({ ...data })
-      .where('id = :id', { id })
-      .execute();
-    return affected ? true : false;
+  async update(id: string, data: UpdateCategoryInput): Promise<Category> {
+    const { name } = data;
+    const existingCategory = await this.categoryRepository.find({ name });
+
+    if (existingCategory.length) {
+      throw new HttpException(
+        {
+          status: HttpStatus.CONFLICT,
+          errorCode: 'ALREADY_EXIST',
+        },
+        HttpStatus.CONFLICT,
+      );
+    }
+    const slug = slugify(name, { lower: true });
+    const updatedLocalEntity = await this.categoryRepository.preload({
+      id,
+      slug,
+      ...data,
+    });
+
+    return this.categoryRepository.save(updatedLocalEntity);
   }
 }

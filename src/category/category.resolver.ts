@@ -39,11 +39,11 @@ export class CategoryResolver {
     return this.categoryService.delete(id);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Category)
   async updateCategory(
     @Args('id') id: string,
     @Args('data') data: UpdateCategoryInput,
-  ): Promise<boolean> {
+  ): Promise<Category> {
     return this.categoryService.update(id, data);
   }
 }

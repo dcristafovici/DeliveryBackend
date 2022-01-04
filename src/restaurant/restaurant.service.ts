@@ -50,14 +50,13 @@ export class RestaurantService {
     return affected ? true : false;
   }
 
-  async update(id: string, data: UpdateRestaurantInput): Promise<boolean> {
-    const { affected } = await this.restaurantRepository
-      .createQueryBuilder('restaurant')
-      .update()
-      .set({ ...data })
-      .where('id = :id', { id })
-      .execute();
-    return affected ? true : false;
+  async update(id: string, data: UpdateRestaurantInput): Promise<Restaurant> {
+    const updatedLocalEntity = await this.restaurantRepository.preload({
+      id,
+      ...data,
+    });
+
+    return this.restaurantRepository.save(updatedLocalEntity);
   }
 }
 

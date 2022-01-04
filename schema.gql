@@ -170,12 +170,12 @@ input FindByKeyInput {
 type Mutation {
   createCategory(data: AddCategoryInput!): Category!
   deleteCategory(id: String!): Boolean!
-  updateCategory(data: UpdateCategoryInput!, id: String!): Boolean!
+  updateCategory(data: UpdateCategoryInput!, id: String!): Category!
   createMedia(file: Upload!): Media!
   deleteMedia(id: String!): Media!
   createRestaurant(data: AddRestaurantInput!): Restaurant!
   deleteRestaurant(id: String!): Boolean!
-  updateRestaurant(data: UpdateRestaurantInput!, id: String!): Boolean!
+  updateRestaurant(data: UpdateRestaurantInput!, id: String!): Restaurant!
   createProduct(data: AddProductInput!): Product!
   deleteProduct(id: String!): Boolean!
   updateProduct(data: UpdateProductInput!, id: String!): Boolean!
