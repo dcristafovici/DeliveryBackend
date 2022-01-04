@@ -34,6 +34,7 @@ export class ProductService {
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.restaurant', 'restaurant')
       .leftJoinAndSelect('product.media', 'media')
+      .leftJoinAndSelect('product.categories', 'category')
       .where('product.id = :id', { id })
       .getOne();
   }
@@ -45,10 +46,6 @@ export class ProductService {
 
   async create(data: AddProductInput): Promise<Product> {
     const { categories, restaurant, ...info } = data;
-
-    const newProduct = new Product();
-    Object.assign(newProduct, info);
-
     const findedInDataCategories = await this.categoryService.findInData(
       categories,
     );
@@ -58,9 +55,11 @@ export class ProductService {
         ? await this.restaurantService.findOne(restaurant)
         : restaurant;
 
-    newProduct.categories = findedInDataCategories;
-    newProduct.restaurant = findedRestaurants;
-
+    const newProduct = {
+      ...info,
+      categories: findedInDataCategories,
+      restaurant: findedRestaurants,
+    };
     categories.forEach(async (category: any) => {
       if (typeof restaurant !== 'string') return false;
       const findedBunch = await this.restaurantCategoryService.findBunch({
@@ -89,13 +88,19 @@ export class ProductService {
     return affected ? true : false;
   }
 
-  async update(id: string, data: UpdateProductInput): Promise<boolean> {
-    const { affected } = await this.productRepository
-      .createQueryBuilder('category')
-      .update(Product)
-      .set({ ...data })
-      .where('id = :id', { id })
-      .execute();
-    return affected ? true : false;
+  async update(id: string, data: UpdateProductInput): Promise<Product> {
+    const { categories, ...info } = data;
+
+    const findedInDataCategories = await this.categoryService.findInData(
+      categories,
+    );
+
+    const updatedLocalEntity = await this.productRepository.preload({
+      id,
+      ...info,
+    });
+    updatedLocalEntity.categories = findedInDataCategories;
+
+    return await this.productRepository.save(updatedLocalEntity);
   }
 }

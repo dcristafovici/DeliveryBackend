@@ -178,7 +178,7 @@ type Mutation {
   updateRestaurant(data: UpdateRestaurantInput!, id: String!): Restaurant!
   createProduct(data: AddProductInput!): Product!
   deleteProduct(id: String!): Boolean!
-  updateProduct(data: UpdateProductInput!, id: String!): Boolean!
+  updateProduct(data: UpdateProductInput!, id: String!): Product!
   updateUser(data: UpdateUserInput!, id: String!): Boolean!
   createOTP(data: AddOtpInput!): Boolean!
   authenticationUser(data: CheckOtpInput!): String!

@@ -34,11 +34,11 @@ export class ProductResolver {
     return this.productService.delete(id);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Product)
   async updateProduct(
     @Args('id') id: string,
     @Args('data') data: UpdateProductInput,
-  ): Promise<boolean> {
+  ): Promise<Product> {
     return this.productService.update(id, data);
   }
 }

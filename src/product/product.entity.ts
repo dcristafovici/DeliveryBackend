@@ -48,7 +48,10 @@ export class Product {
   media: Media;
 
   @Field(() => [Category])
-  @ManyToMany(() => Category, (category) => category.products, { lazy: true })
+  @ManyToMany(() => Category, (category) => category.products, {
+    cascade: true,
+    eager: true,
+  })
   @JoinTable({
     name: 'CATEGORY_PRODUCT',
     joinColumn: {
