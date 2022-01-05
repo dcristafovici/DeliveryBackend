@@ -5,6 +5,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Generated,
   JoinColumn,
   JoinTable,
   ManyToMany,
@@ -70,6 +71,11 @@ export class Order {
   @Field()
   @Column()
   total: number;
+
+  @Field()
+  @Column()
+  @Generated('increment')
+  orderNumber: number;
 
   @Field()
   @CreateDateColumn()

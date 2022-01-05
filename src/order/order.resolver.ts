@@ -22,10 +22,9 @@ export class OrderResolver {
     return this.orderService.findByKey(data);
   }
 
-  @Mutation(() => Boolean)
-  async createOrder(@Args('data') data: AddOrderInput): Promise<boolean> {
-    this.orderService.create(data);
-    return true;
+  @Mutation(() => Order)
+  async createOrder(@Args('data') data: AddOrderInput): Promise<Order> {
+    return this.orderService.create(data);
   }
 
   @Mutation(() => Boolean)

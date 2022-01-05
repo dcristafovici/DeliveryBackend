@@ -114,6 +114,7 @@ type Order {
   time: String!
   status: String!
   total: Float!
+  orderNumber: Float!
   created_at: DateTime!
   updated_at: DateTime!
 }
@@ -183,7 +184,7 @@ type Mutation {
   updateUser(data: UpdateUserInput!, id: String!): Boolean!
   createOTP(data: AddOtpInput!): Boolean!
   authenticationUser(data: CheckOtpInput!): String!
-  createOrder(data: AddOrderInput!): Boolean!
+  createOrder(data: AddOrderInput!): Order!
   deleteOrder(id: String!): Boolean!
 }
 

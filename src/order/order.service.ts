@@ -43,7 +43,7 @@ export class OrderService {
     return this.orderRepository.find({ where: { [field]: value } });
   }
 
-  async create(data: AddOrderInput): Promise<boolean> {
+  async create(data: AddOrderInput): Promise<Order> {
     const { orderCart, orderCustomer, ...order } = data;
     const orderCustomerCreated = await this.orderCustomerRepository.save(
       orderCustomer,
@@ -51,17 +51,13 @@ export class OrderService {
 
     const orderCartCreated = await this.orderCartRepository.save(orderCart);
 
-    const combinedOrder = new Order();
-    Object.assign(combinedOrder, {
+    const combinedOrder = {
       ...order,
       orderCustomer: orderCustomerCreated,
       orderCart: orderCartCreated,
-    });
+    };
 
-    return await this.orderRepository
-      .save(combinedOrder)
-      .then(() => true)
-      .catch(() => false);
+    return this.orderRepository.save(combinedOrder);
   }
 
   async delete(id: string): Promise<boolean> {
