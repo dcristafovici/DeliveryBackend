@@ -34,7 +34,7 @@ export class Order {
 
   @Field(() => [OrderCart])
   @ManyToMany(() => OrderCart, (orderCart) => orderCart.orders, {
-    lazy: true,
+    cascade: true,
     eager: true,
   })
   @JoinTable({
@@ -66,6 +66,10 @@ export class Order {
   @Field()
   @Column()
   status: string;
+
+  @Field()
+  @Column()
+  total: number;
 
   @Field()
   @CreateDateColumn()

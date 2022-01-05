@@ -52,6 +52,9 @@ export class AddOrderInput {
   @Field(() => String)
   readonly status: string;
 
+  @Field(() => Number)
+  readonly total: number;
+
   @Field(() => String)
   readonly restaurant: Restaurant;
 

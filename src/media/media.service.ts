@@ -15,7 +15,10 @@ export class MediaService {
   ) {}
 
   find(): Promise<Media[]> {
-    return this.mediaRepository.createQueryBuilder('category').getMany();
+    return this.mediaRepository
+      .createQueryBuilder('media')
+      .orderBy('media.created_at', 'DESC')
+      .getMany();
   }
 
   findOne(id: string): Promise<Media> {

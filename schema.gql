@@ -113,6 +113,7 @@ type Order {
   day: String!
   time: String!
   status: String!
+  total: Float!
   created_at: DateTime!
   updated_at: DateTime!
 }
@@ -260,6 +261,7 @@ input AddOrderInput {
   day: String!
   time: String!
   status: String!
+  total: Float!
   restaurant: String!
   user: String!
   orderCart: [AddOrderCartInput!]!
