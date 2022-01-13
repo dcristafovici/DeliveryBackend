@@ -19,15 +19,17 @@ export default class OTPService {
   async create(data: AddOtpInput): Promise<boolean> {
     const { sessionID, phone } = data;
 
-    const OTP = Math.floor(100000 + Math.random() * 900000).toString();
+    const OTP = Math.floor(1000 + Math.random() * 9000).toString();
     const hashedOTP = await bcrypt.hash(
       OTP,
       parseFloat(process.env.saltOrRounds),
     );
 
     return await axios
-      .get(`${process.env.SMS_URL}&to=${phone}&msg=${OTP}&json=1`)
-      .then(async () => {
+      .get(
+        `${process.env.SMS_URL}${phone}&code=${OTP}&${process.env.SMS_API_ID}`,
+      )
+      .then(async (res) => {
         await this.OTPRepository.save({ OTP: hashedOTP, sessionID });
         return true;
       })
