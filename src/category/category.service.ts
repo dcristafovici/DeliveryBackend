@@ -44,7 +44,7 @@ export class CategoryService {
       throw new HttpException(
         {
           status: HttpStatus.CONFLICT,
-          errorCode: 'ALREADY_EXIST',
+          message: 'ALREADY_EXIST',
         },
         HttpStatus.CONFLICT,
       );
@@ -71,7 +71,7 @@ export class CategoryService {
       throw new HttpException(
         {
           status: HttpStatus.CONFLICT,
-          errorCode: 'ALREADY_EXIST',
+          message: 'ALREADY_EXIST',
         },
         HttpStatus.CONFLICT,
       );

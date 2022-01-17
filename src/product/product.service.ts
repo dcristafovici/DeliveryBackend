@@ -26,6 +26,7 @@ export class ProductService {
       .leftJoinAndSelect('product.restaurant', 'restaurant')
       .leftJoinAndSelect('product.media', 'media')
       .leftJoinAndSelect('product.categories', 'category')
+      .orderBy('product.created_at', 'DESC')
       .getMany();
   }
 
