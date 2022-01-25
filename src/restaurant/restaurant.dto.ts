@@ -56,3 +56,19 @@ export class FindBunchInput {
   @Field(() => String)
   readonly category: Category;
 }
+
+@InputType()
+@ObjectType()
+export class UpdateBunchInput {
+  @Field(() => [OneBunchInput])
+  readonly bunch: OneBunchInput[];
+}
+
+@InputType()
+export class OneBunchInput {
+  @Field(() => String)
+  readonly id: string;
+
+  @Field(() => Number)
+  readonly order: number;
+}

@@ -6,6 +6,8 @@ import { RestaurantCategory } from './restaurant-category.entity';
 import {
   AddRestaurantInput,
   FindBunchInput,
+  OneBunchInput,
+  UpdateBunchInput,
   UpdateRestaurantInput,
 } from './restaurant.dto';
 import { Restaurant } from './Restaurant.entity';
@@ -78,10 +80,22 @@ export class RestaurantCategoryService {
     const { field, value } = data;
     return this.restaurantCategoryRepository.find({
       where: { [field]: value },
+      order: { order: 'DESC' },
     });
   }
 
   createBunch(data: FindBunchInput): Promise<RestaurantCategory> {
     return this.restaurantCategoryRepository.save(data);
+  }
+
+  updateBunch(data: UpdateBunchInput): boolean {
+    const { bunch } = data;
+    bunch.forEach(async (oneBunch: OneBunchInput) => {
+      await this.restaurantCategoryRepository.save({
+        id: oneBunch.id,
+        order: oneBunch.order,
+      });
+    });
+    return true;
   }
 }

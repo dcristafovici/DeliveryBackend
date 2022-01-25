@@ -1,7 +1,11 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FindByKeyInput } from 'src/category/category.dto';
 import { RestaurantCategory } from './restaurant-category.entity';
-import { AddRestaurantInput, UpdateRestaurantInput } from './restaurant.dto';
+import {
+  AddRestaurantInput,
+  UpdateBunchInput,
+  UpdateRestaurantInput,
+} from './restaurant.dto';
 import { Restaurant } from './Restaurant.entity';
 import {
   RestaurantCategoryService,
@@ -58,5 +62,10 @@ export class RestaurantCategoryResolver {
     @Args('data') data: FindByKeyInput,
   ): Promise<RestaurantCategory[]> {
     return this.restaurantCategoryService.findByKey(data);
+  }
+
+  @Mutation(() => Boolean)
+  updateResCatBunch(@Args('data') data: UpdateBunchInput) {
+    return this.restaurantCategoryService.updateBunch(data);
   }
 }
