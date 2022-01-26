@@ -80,7 +80,7 @@ export class RestaurantCategoryService {
     const { field, value } = data;
     return this.restaurantCategoryRepository.find({
       where: { [field]: value },
-      order: { order: 'DESC' },
+      order: { order: 'ASC' },
     });
   }
 
