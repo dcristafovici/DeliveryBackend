@@ -13,6 +13,9 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
+  find(): Promise<User[]> {
+    return this.userRepository.createQueryBuilder('User').getMany();
+  }
   findOne(id: string): Promise<User> {
     return this.userRepository.findOne(id);
   }

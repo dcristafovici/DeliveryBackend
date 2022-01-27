@@ -163,6 +163,7 @@ type Query {
   findOneProduct(id: String!): Product!
   findByKeyProducts(data: FindByKeyInput!): [Product!]!
   findPossibleAddresses(address: String!): [SuggestionEntity!]!
+  findUsers: [User!]!
   getUserByToken(token: String!): User!
   findOrders: [Order!]!
   findOneOrder(id: String!): Order!
