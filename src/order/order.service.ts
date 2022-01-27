@@ -2,20 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
 import { Repository } from 'typeorm';
-import { OrderCart } from './order-cart.entity';
-import { OrderCustomer } from './order-customer.entity';
 import { AddOrderInput } from './order.dto';
 import { Order } from './order.entity';
+import { OrderCartService } from './OrderCart/order-cart.service';
+import { OrderCustomerService } from './OrderCustomer/order-customer.service';
 
 @Injectable()
 export class OrderService {
   constructor(
     @InjectRepository(Order)
     private orderRepository: Repository<Order>,
-    @InjectRepository(OrderCart)
-    private orderCartRepository: Repository<OrderCart>,
-    @InjectRepository(OrderCustomer)
-    private orderCustomerRepository: Repository<OrderCustomer>,
+    private orderCustomerService: OrderCustomerService,
+    private orderCartService: OrderCartService,
   ) {}
 
   find(): Promise<Order[]> {
@@ -45,18 +43,15 @@ export class OrderService {
 
   async create(data: AddOrderInput): Promise<Order> {
     const { orderCart, orderCustomer, ...order } = data;
-    const orderCustomerCreated = await this.orderCustomerRepository.save(
+    const orderCustomerCreated = await this.orderCustomerService.create(
       orderCustomer,
     );
-
-    const orderCartCreated = await this.orderCartRepository.save(orderCart);
-
+    const orderCartCreated = await this.orderCartService.create(orderCart);
     const combinedOrder = {
       ...order,
       orderCustomer: orderCustomerCreated,
       orderCart: orderCartCreated,
     };
-
     return this.orderRepository.save(combinedOrder);
   }
 

@@ -13,8 +13,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { OrderCart } from './order-cart.entity';
-import { OrderCustomer } from './order-customer.entity';
+import { OrderCart } from './OrderCart/order-cart.entity';
+import { OrderCustomer } from './OrderCustomer/order-customer.entity';
+import { OrderPayment } from './OrderPayment/order-payment.entity';
 
 @Entity({ name: 'ORDER' })
 @ObjectType()
@@ -56,6 +57,11 @@ export class Order {
   @JoinColumn({ name: 'orderCustomer' })
   orderCustomer: OrderCustomer;
 
+  @Field(() => OrderPayment)
+  @ManyToOne(() => OrderPayment, { eager: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'orderPayment' })
+  orderPayment: OrderPayment;
+
   @Field()
   @Column()
   day: string;
@@ -63,10 +69,6 @@ export class Order {
   @Field()
   @Column()
   time: string;
-
-  @Field()
-  @Column()
-  status: string;
 
   @Field()
   @Column()

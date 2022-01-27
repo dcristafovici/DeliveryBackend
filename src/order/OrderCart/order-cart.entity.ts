@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Product } from 'src/product/product.entity';
+import { Order } from 'src/order/order.entity';
 import {
   Column,
   CreateDateColumn,
@@ -10,7 +11,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Order } from './order.entity';
 
 @Entity({ name: 'ORDER_CART' })
 @ObjectType()

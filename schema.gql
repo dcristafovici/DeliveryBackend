@@ -90,6 +90,15 @@ type User {
   updated_at: DateTime!
 }
 
+type OrderCart {
+  id: String!
+  orders: [Order!]!
+  product: Product!
+  quantity: Float!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 type OrderCustomer {
   id: String!
   name: String!
@@ -104,26 +113,24 @@ type OrderCustomer {
   updated_at: DateTime!
 }
 
+type OrderPayment {
+  id: String!
+  status: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 type Order {
   id: String!
   restaurant: Restaurant!
   user: User!
   orderCart: [OrderCart!]!
   orderCustomer: OrderCustomer!
+  orderPayment: OrderPayment!
   day: String!
   time: String!
-  status: String!
   total: Float!
   orderNumber: Float!
-  created_at: DateTime!
-  updated_at: DateTime!
-}
-
-type OrderCart {
-  id: String!
-  orders: [Order!]!
-  product: Product!
-  quantity: Float!
   created_at: DateTime!
   updated_at: DateTime!
 }
@@ -168,6 +175,7 @@ type Query {
   findOrders: [Order!]!
   findOneOrder(id: String!): Order!
   findByKeyOrders(data: FindByKeyInput!): [Order!]!
+  paymentProcessResolver(address: String!): String!
 }
 
 input FindByKeyInput {

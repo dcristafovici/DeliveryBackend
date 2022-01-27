@@ -15,6 +15,7 @@ import { AddressModule } from './address/address.module';
 import { UserModule } from './user/user.module';
 import { OTPModule } from './otp/otp.module';
 import { OrderModule } from './order/order.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
