@@ -116,7 +116,7 @@ type OrderCustomer {
 type OrderPayment {
   id: String!
   status: String!
-  confirmation_url: String
+  confirmation_url: String!
   created_at: DateTime!
   updated_at: DateTime!
 }

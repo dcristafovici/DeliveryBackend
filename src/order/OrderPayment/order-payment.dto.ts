@@ -16,4 +16,5 @@ export interface OrderPaymentDTO {
   orderPaymentID: string;
   orderNumber: number;
   total: number;
+  orderID: string;
 }

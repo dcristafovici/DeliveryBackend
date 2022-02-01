@@ -18,8 +18,8 @@ export class OrderPayment {
   @Column()
   status: string;
 
-  @Field({ nullable: true })
-  @Column({ nullable: true })
+  @Field()
+  @Column()
   confirmation_url: string;
 
   @Field()

@@ -68,6 +68,7 @@ export class OrderService {
       orderPaymentID: orderPayment.id,
       orderNumber,
       total,
+      orderID: id,
     });
 
     const updatedCombinedOrder = await this.orderRepository.findOne(id);

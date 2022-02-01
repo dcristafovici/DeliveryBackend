@@ -1,8 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AxiosResponse } from 'axios';
-import { firstValueFrom, lastValueFrom, map, Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { Repository } from 'typeorm';
 import { processPaymentConfig } from './order-payment.config';
 import {
@@ -25,7 +24,7 @@ export class OrderPaymentService {
   }
 
   async createProcessPayment(body: OrderPaymentDTO): Promise<any> {
-    const { orderPaymentID: id, orderNumber, total } = body;
+    const { orderPaymentID: id, orderNumber, total, orderID } = body;
     const payload = {
       id: orderNumber,
       status: PaymentStatusEnum.PENDIG,
@@ -37,7 +36,7 @@ export class OrderPaymentService {
       payment_method: 'bank_card',
       confirmation: {
         type: 'redirect',
-        return_url: 'http://localhost:3000/account',
+        return_url: `http://localhost:3000/account?successOrdered=${orderID}`,
       },
     };
 
