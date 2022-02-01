@@ -116,6 +116,7 @@ type OrderCustomer {
 type OrderPayment {
   id: String!
   status: String!
+  confirmation_url: String
   created_at: DateTime!
   updated_at: DateTime!
 }
@@ -175,7 +176,6 @@ type Query {
   findOrders: [Order!]!
   findOneOrder(id: String!): Order!
   findByKeyOrders(data: FindByKeyInput!): [Order!]!
-  paymentProcessResolver(address: String!): String!
 }
 
 input FindByKeyInput {
@@ -280,7 +280,6 @@ input CheckOtpInput {
 input AddOrderInput {
   day: String!
   time: String!
-  status: String!
   total: Float!
   restaurant: String!
   user: String!

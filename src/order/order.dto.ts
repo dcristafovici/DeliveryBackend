@@ -13,9 +13,6 @@ export class AddOrderInput {
   @Field(() => String)
   readonly time: string;
 
-  @Field(() => String)
-  readonly status: string;
-
   @Field(() => Number)
   readonly total: number;
 
@@ -30,4 +27,16 @@ export class AddOrderInput {
 
   @Field(() => AddOrderCustomerInput)
   readonly orderCustomer: AddOrderCustomerInput;
+}
+
+@InputType()
+export class OrderResponse {
+  @Field(() => String)
+  readonly name: string;
+
+  @Field(() => Number)
+  readonly orderNumber: number;
+
+  @Field(() => String)
+  readonly confirmation_url: string;
 }

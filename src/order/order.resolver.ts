@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FindByKeyInput } from 'src/category/category.dto';
-import { AddOrderInput } from './order.dto';
+import { AddOrderInput, OrderResponse } from './order.dto';
 import { Order } from './order.entity';
 import { OrderService } from './order.service';
 

@@ -1,20 +1,37 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 import { AxiosResponse } from 'axios';
-import { map, Observable } from 'rxjs';
+import { firstValueFrom, lastValueFrom, map, Observable } from 'rxjs';
+import { Repository } from 'typeorm';
 import { processPaymentConfig } from './order-payment.config';
-import { PaymentStatusEnum } from './order-payment.dto';
+import {
+  AddOrderPaymentInput,
+  OrderPaymentDTO,
+  PaymentStatusEnum,
+} from './order-payment.dto';
+import { OrderPayment } from './order-payment.entity';
 
 @Injectable()
 export class OrderPaymentService {
-  constructor(private httpService: HttpService) {}
-  processPayment(address: string): Observable<AxiosResponse<any>> {
+  constructor(
+    @InjectRepository(OrderPayment)
+    private OrderPaymentRepository: Repository<OrderPayment>,
+    private httpService: HttpService,
+  ) {}
+
+  create(status: AddOrderPaymentInput): Promise<OrderPayment> {
+    return this.OrderPaymentRepository.save(status);
+  }
+
+  async createProcessPayment(body: OrderPaymentDTO): Promise<any> {
+    const { orderPaymentID: id, orderNumber, total } = body;
     const payload = {
-      id: '4',
+      id: orderNumber,
       status: PaymentStatusEnum.PENDIG,
       paid: true,
       amount: {
-        value: '2500.00',
+        value: total,
         currency: 'RUB',
       },
       payment_method: 'bank_card',
@@ -22,31 +39,21 @@ export class OrderPaymentService {
         type: 'redirect',
         return_url: 'https://google.com/',
       },
-      items: [
-        {
-          description: 'Capybara',
-          quantity: 1.0,
-          amount: {
-            value: '2500.00',
-            currency: 'RUB',
-          },
-          vat_code: 2,
-          payment_mode: 'full_payment',
-          payment_subject: 'commodity',
-        },
-      ],
     };
 
-    return this.httpService
-      .post(
+    const { data } = await firstValueFrom(
+      this.httpService.post(
         `${process.env.PAYMENT_API_URL}/payments`,
         payload,
         processPaymentConfig,
-      )
-      .pipe(
-        map((axiosResponse: AxiosResponse) => {
-          return axiosResponse.data;
-        }),
-      );
+      ),
+    );
+
+    const { confirmation = {} } = data;
+    const { confirmation_url = '' } = confirmation;
+    const { affected } = await this.OrderPaymentRepository.update(id, {
+      confirmation_url,
+    });
+    return affected ? true : false;
   }
 }

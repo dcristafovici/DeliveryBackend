@@ -9,7 +9,6 @@ import { OrderCustomer } from './OrderCustomer/order-customer.entity';
 import { OrderCustomerService } from './OrderCustomer/order-customer.service';
 import { OrderPayment } from './OrderPayment/order-payment.entity';
 import { OrderPaymentService } from './OrderPayment/order-payment.service';
-import { OrderPaymentResolver } from './OrderPayment/order-payment.resolver';
 import { HttpModule } from '@nestjs/axios';
 
 @Module({
@@ -23,7 +22,6 @@ import { HttpModule } from '@nestjs/axios';
     OrderCartService,
     OrderCustomerService,
     OrderPaymentService,
-    OrderPaymentResolver,
   ],
   exports: [
     OrderService,

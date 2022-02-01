@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { PaymentStatusEnum } from './order-payment.dto';
 
 @Entity({ name: 'ORDER_PAYMENT' })
 @ObjectType()
@@ -16,12 +15,12 @@ export class OrderPayment {
   id: string;
 
   @Field()
-  @Column({
-    type: 'enum',
-    enum: PaymentStatusEnum,
-    default: PaymentStatusEnum.PENDIG,
-  })
+  @Column()
   status: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  confirmation_url: string;
 
   @Field()
   @CreateDateColumn()

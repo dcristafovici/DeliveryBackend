@@ -2,10 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
 import { Repository } from 'typeorm';
-import { AddOrderInput } from './order.dto';
+import { AddOrderInput, OrderResponse } from './order.dto';
 import { Order } from './order.entity';
 import { OrderCartService } from './OrderCart/order-cart.service';
 import { OrderCustomerService } from './OrderCustomer/order-customer.service';
+import { PaymentStatusEnum } from './OrderPayment/order-payment.dto';
+import { OrderPaymentService } from './OrderPayment/order-payment.service';
 
 @Injectable()
 export class OrderService {
@@ -14,6 +16,7 @@ export class OrderService {
     private orderRepository: Repository<Order>,
     private orderCustomerService: OrderCustomerService,
     private orderCartService: OrderCartService,
+    private orderPaymentService: OrderPaymentService,
   ) {}
 
   find(): Promise<Order[]> {
@@ -43,16 +46,32 @@ export class OrderService {
 
   async create(data: AddOrderInput): Promise<Order> {
     const { orderCart, orderCustomer, ...order } = data;
+
     const orderCustomerCreated = await this.orderCustomerService.create(
       orderCustomer,
     );
     const orderCartCreated = await this.orderCartService.create(orderCart);
+    const orderPaymentCreate = await this.orderPaymentService.create({
+      status: PaymentStatusEnum.PENDIG,
+    });
+
     const combinedOrder = {
       ...order,
       orderCustomer: orderCustomerCreated,
       orderCart: orderCartCreated,
+      orderPayment: orderPaymentCreate,
     };
-    return this.orderRepository.save(combinedOrder);
+
+    const createdOrder = await this.orderRepository.save(combinedOrder);
+    const { orderNumber, total, orderPayment } = createdOrder;
+    await this.orderPaymentService.createProcessPayment({
+      orderPaymentID: orderPayment.id,
+      orderNumber,
+      total,
+    });
+
+    console.log(createdOrder);
+    return createdOrder;
   }
 
   async delete(id: string): Promise<boolean> {
