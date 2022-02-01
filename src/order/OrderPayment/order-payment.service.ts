@@ -37,7 +37,7 @@ export class OrderPaymentService {
       payment_method: 'bank_card',
       confirmation: {
         type: 'redirect',
-        return_url: 'https://google.com/',
+        return_url: 'http://localhost:3000/account',
       },
     };
 

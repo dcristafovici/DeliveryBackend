@@ -63,15 +63,15 @@ export class OrderService {
     };
 
     const createdOrder = await this.orderRepository.save(combinedOrder);
-    const { orderNumber, total, orderPayment } = createdOrder;
+    const { id, orderNumber, total, orderPayment } = createdOrder;
     await this.orderPaymentService.createProcessPayment({
       orderPaymentID: orderPayment.id,
       orderNumber,
       total,
     });
 
-    console.log(createdOrder);
-    return createdOrder;
+    const updatedCombinedOrder = await this.orderRepository.findOne(id);
+    return updatedCombinedOrder;
   }
 
   async delete(id: string): Promise<boolean> {
