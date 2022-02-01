@@ -17,7 +17,7 @@ import { OrderCart } from './OrderCart/order-cart.entity';
 import { OrderCustomer } from './OrderCustomer/order-customer.entity';
 import { OrderPayment } from './OrderPayment/order-payment.entity';
 
-@Entity({ name: 'ORDER' })
+@Entity({ name: 'ORDER', orderBy: { created_at: 'DESC' } })
 @ObjectType()
 export class Order {
   @Field()

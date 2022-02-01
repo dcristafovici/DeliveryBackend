@@ -10,6 +10,8 @@ export enum PaymentStatusEnum {
 export class AddOrderPaymentInput {
   @Field(() => String)
   readonly status: PaymentStatusEnum;
+  @Field(() => String)
+  readonly confirmation_url: string;
 }
 
 export interface OrderPaymentDTO {

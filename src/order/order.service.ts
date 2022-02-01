@@ -35,6 +35,7 @@ export class OrderService {
       .createQueryBuilder('order')
       .leftJoinAndSelect('order.restaurant', 'restaurant')
       .leftJoinAndSelect('order.user', 'user')
+      .leftJoinAndSelect('order.orderCustomer', 'orderCustomer')
       .where('order.id = :id', { id })
       .getOne();
   }
@@ -53,6 +54,7 @@ export class OrderService {
     const orderCartCreated = await this.orderCartService.create(orderCart);
     const orderPaymentCreate = await this.orderPaymentService.create({
       status: PaymentStatusEnum.PENDIG,
+      confirmation_url: 'Placeholder',
     });
 
     const combinedOrder = {

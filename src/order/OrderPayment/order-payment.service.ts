@@ -4,12 +4,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { firstValueFrom } from 'rxjs';
 import { Repository } from 'typeorm';
 import { processPaymentConfig } from './order-payment.config';
+import { v4 as uuid } from 'uuid';
+import { OrderPayment } from './order-payment.entity';
 import {
   AddOrderPaymentInput,
   OrderPaymentDTO,
   PaymentStatusEnum,
 } from './order-payment.dto';
-import { OrderPayment } from './order-payment.entity';
 
 @Injectable()
 export class OrderPaymentService {
@@ -44,7 +45,7 @@ export class OrderPaymentService {
       this.httpService.post(
         `${process.env.PAYMENT_API_URL}/payments`,
         payload,
-        processPaymentConfig,
+        processPaymentConfig(uuid()),
       ),
     );
 
