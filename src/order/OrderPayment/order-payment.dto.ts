@@ -2,6 +2,7 @@ import { Field, InputType } from '@nestjs/graphql';
 
 export enum PaymentStatusEnum {
   PENDIG = 'pending',
+  WAITING = 'waiting_for_capture',
   SUCCEEDED = 'succeeded',
   CANCELED = 'CANCELED',
 }

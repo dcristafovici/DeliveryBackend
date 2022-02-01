@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { firstValueFrom } from 'rxjs';
 import { Repository } from 'typeorm';
 import { processPaymentConfig } from './order-payment.config';
-import { v4 as uuid } from 'uuid';
 import { OrderPayment } from './order-payment.entity';
 import {
   AddOrderPaymentInput,
@@ -28,7 +27,7 @@ export class OrderPaymentService {
     const { orderPaymentID: id, orderNumber, total, orderID } = body;
     const payload = {
       id: orderNumber,
-      status: PaymentStatusEnum.PENDIG,
+      status: PaymentStatusEnum.WAITING,
       paid: true,
       amount: {
         value: total,
@@ -45,7 +44,7 @@ export class OrderPaymentService {
       this.httpService.post(
         `${process.env.PAYMENT_API_URL}/payments`,
         payload,
-        processPaymentConfig(uuid()),
+        processPaymentConfig(id),
       ),
     );
 
