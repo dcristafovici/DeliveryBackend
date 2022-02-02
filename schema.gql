@@ -173,6 +173,7 @@ type Query {
   findPossibleAddresses(address: String!): [SuggestionEntity!]!
   findUsers: [User!]!
   getUserByToken(token: String!): User!
+  seedUpdate: Boolean!
   findOrders: [Order!]!
   findOneOrder(id: String!): Order!
   findByKeyOrders(data: FindByKeyInput!): [Order!]!

@@ -5,12 +5,15 @@ import { verifyAccessToken } from 'src/utils/verifyAccessToken';
 import { Repository } from 'typeorm';
 import { UpdateUserInput } from './user.dto';
 import { User } from './user.entity';
+import * as seed from './csvjson.json';
+import { ProductService } from 'src/product/product.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private productService: ProductService,
   ) {}
 
   find(): Promise<User[]> {
@@ -60,5 +63,20 @@ export class UserService {
   async getUserByToken(token: string): Promise<User> {
     const { id } = await verifyAccessToken(token);
     return this.findOne(id);
+  }
+
+  async seedUpdate(): Promise<boolean> {
+    const seedParsed = JSON.parse(JSON.stringify(seed)).default;
+    const transformedArray = seedParsed.map((item) => ({
+      ...item,
+      restaurant: '328f93ab-e779-40cc-b15e-db055910f341',
+      description: 'Description placeholder',
+      categories: [item.category],
+    }));
+    await transformedArray.forEach(async (product) => {
+      const ds = await this.productService.create(product);
+    });
+
+    return true;
   }
 }

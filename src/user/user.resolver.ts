@@ -24,4 +24,9 @@ export class UserResolver {
   ): Promise<boolean> {
     return this.userService.update(id, data);
   }
+
+  @Query(() => Boolean)
+  seedUpdate(): Promise<boolean> {
+    return this.userService.seedUpdate();
+  }
 }

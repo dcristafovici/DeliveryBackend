@@ -27,6 +27,7 @@ export class ProductService {
       .leftJoinAndSelect('product.media', 'media')
       .leftJoinAndSelect('product.categories', 'category')
       .orderBy('product.created_at', 'DESC')
+      .limit(10)
       .getMany();
   }
 
