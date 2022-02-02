@@ -167,7 +167,8 @@ type Query {
   findOneRestaurant(id: String!): Restaurant!
   findByKeyRestaurants(data: FindByKeyInput!): [Restaurant!]!
   findByKeyResCat(data: FindByKeyInput!): [RestaurantCategory!]!
-  findProducts: [Product!]!
+  getProductsNumber: Float!
+  findProducts(data: GeneralGettingOptions!): [Product!]!
   findOneProduct(id: String!): Product!
   findByKeyProducts(data: FindByKeyInput!): [Product!]!
   findPossibleAddresses(address: String!): [SuggestionEntity!]!
@@ -182,6 +183,11 @@ type Query {
 input FindByKeyInput {
   field: String!
   value: String!
+}
+
+input GeneralGettingOptions {
+  limit: Float!
+  offset: Float!
 }
 
 type Mutation {

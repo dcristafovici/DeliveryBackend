@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
+import { GeneralGettingOptions } from 'src/constants/general.dto';
 import {
   RestaurantCategoryService,
   RestaurantService,
@@ -20,14 +21,20 @@ export class ProductService {
     private restaurantService: RestaurantService,
   ) {}
 
-  find(): Promise<Product[]> {
+  getCount(): Promise<number> {
+    return this.productRepository.createQueryBuilder('product').getCount();
+  }
+
+  find(data: GeneralGettingOptions): Promise<Product[]> {
+    const { limit, offset } = data;
     return this.productRepository
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.restaurant', 'restaurant')
       .leftJoinAndSelect('product.media', 'media')
       .leftJoinAndSelect('product.categories', 'category')
       .orderBy('product.created_at', 'DESC')
-      .limit(10)
+      .limit(limit)
+      .offset(offset)
       .getMany();
   }
 
