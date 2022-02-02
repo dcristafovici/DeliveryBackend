@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
 import { Repository } from 'typeorm';
-import { AddOrderInput, OrderResponse } from './order.dto';
+import { AddOrderInput } from './order.dto';
 import { Order } from './order.entity';
 import { OrderCartService } from './OrderCart/order-cart.service';
 import { OrderCustomerService } from './OrderCustomer/order-customer.service';
@@ -36,6 +36,7 @@ export class OrderService {
       .leftJoinAndSelect('order.restaurant', 'restaurant')
       .leftJoinAndSelect('order.user', 'user')
       .leftJoinAndSelect('order.orderCustomer', 'orderCustomer')
+      .leftJoinAndSelect('order.orderPayment', 'orderPayment')
       .where('order.id = :id', { id })
       .getOne();
   }
