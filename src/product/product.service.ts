@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindByKeyInput } from 'src/category/category.dto';
+import {
+  FindByKeyInput,
+  FindByResCatCombInput,
+} from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
 import { GeneralGettingOptions } from 'src/constants/general.dto';
 import {
@@ -48,9 +51,20 @@ export class ProductService {
       .getOne();
   }
 
-  findByKey(data: FindByKeyInput): Promise<Product[]> {
+  async findByKey(data: FindByKeyInput): Promise<Product[]> {
     const { field, value } = data;
     return this.productRepository.find({ where: { [field]: value } });
+  }
+
+  findByResCatComb(data: FindByResCatCombInput): Promise<Product[]> {
+    const { restaurant, category } = data;
+    return this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.restaurant', 'restaurant')
+      .leftJoinAndSelect('product.categories', 'categories')
+      .where('restaurant.id = :restaurant', { restaurant })
+      .andWhere('categories.id = :category', { category })
+      .getMany();
   }
 
   async create(data: AddProductInput): Promise<Product> {

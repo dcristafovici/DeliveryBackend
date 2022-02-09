@@ -26,3 +26,13 @@ export class UpdateCategoryInput {
   @Field(() => String, { nullable: true })
   readonly slug: string;
 }
+
+@InputType()
+@ObjectType()
+export class FindByResCatCombInput {
+  @Field(() => String)
+  readonly restaurant: string;
+
+  @Field(() => String)
+  readonly category: string;
+}

@@ -86,6 +86,7 @@ type User {
   address: String
   address_lat: String
   address_lon: String
+  language: String
   created_at: DateTime!
   updated_at: DateTime!
 }
@@ -171,6 +172,7 @@ type Query {
   findProducts(data: GeneralGettingOptions!): [Product!]!
   findOneProduct(id: String!): Product!
   findByKeyProducts(data: FindByKeyInput!): [Product!]!
+  findByResCatCombProducts(data: FindByResCatCombInput!): [Product!]!
   findPossibleAddresses(address: String!): [SuggestionEntity!]!
   findUsers: [User!]!
   getUserByToken(token: String!): User!
@@ -188,6 +190,11 @@ input FindByKeyInput {
 input GeneralGettingOptions {
   limit: Float!
   offset: Float!
+}
+
+input FindByResCatCombInput {
+  restaurant: String!
+  category: String!
 }
 
 type Mutation {

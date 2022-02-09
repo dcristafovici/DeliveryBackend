@@ -5,7 +5,6 @@ import { verifyAccessToken } from 'src/utils/verifyAccessToken';
 import { Repository } from 'typeorm';
 import { UpdateUserInput } from './user.dto';
 import { User } from './user.entity';
-import * as seed from './csvjson.json';
 import { ProductService } from 'src/product/product.service';
 
 @Injectable()
@@ -66,7 +65,7 @@ export class UserService {
   }
 
   async seedUpdate(): Promise<boolean> {
-    const seedParsed = JSON.parse(JSON.stringify(seed)).default;
+    const seedParsed = JSON.parse(JSON.stringify({})).default;
     const transformedArray = seedParsed.map((item) => ({
       ...item,
       restaurant: '328f93ab-e779-40cc-b15e-db055910f341',

@@ -1,5 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FindByKeyInput } from 'src/category/category.dto';
+import {
+  FindByKeyInput,
+  FindByResCatCombInput,
+} from 'src/category/category.dto';
 import { GeneralGettingOptions } from 'src/constants/general.dto';
 import { AddProductInput, UpdateProductInput } from './product.dto';
 import { Product } from './product.entity';
@@ -30,6 +33,13 @@ export class ProductResolver {
     @Args('data') data: FindByKeyInput,
   ): Promise<Product[]> {
     return this.productService.findByKey(data);
+  }
+
+  @Query(() => [Product])
+  findByResCatCombProducts(
+    @Args('data') data: FindByResCatCombInput,
+  ): Promise<Product[]> {
+    return this.productService.findByResCatComb(data);
   }
 
   @Mutation(() => Product)
