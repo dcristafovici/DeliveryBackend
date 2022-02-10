@@ -62,6 +62,7 @@ export class ProductService {
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.restaurant', 'restaurant')
       .leftJoinAndSelect('product.categories', 'categories')
+      .leftJoinAndSelect('product.media', 'media')
       .where('restaurant.id = :restaurant', { restaurant })
       .andWhere('categories.id = :category', { category })
       .getMany();
