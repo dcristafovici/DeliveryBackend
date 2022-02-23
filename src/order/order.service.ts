@@ -48,40 +48,39 @@ export class OrderService {
     return this.orderRepository.find({ where: { [field]: value } });
   }
 
-  async create(data: AddOrderInput): Promise<boolean> {
+  async create(data: AddOrderInput): Promise<Order> {
     const { orderCart, orderCustomer, ...order } = data;
 
-    // const orderCustomerCreated = await this.orderCustomerService.create(
-    //   orderCustomer,
-    // );
-    // const orderCartCreated = await this.orderCartService.create(orderCart);
-    // const orderPaymentCreate = await this.orderPaymentService.create({
-    //   status: PaymentStatusEnum.PENDIG,
-    //   confirmation_url: 'Placeholder',
-    // });
+    const orderCustomerCreated = await this.orderCustomerService.create(
+      orderCustomer,
+    );
+    const orderCartCreated = await this.orderCartService.create(orderCart);
+    const orderPaymentCreate = await this.orderPaymentService.create({
+      status: PaymentStatusEnum.PENDIG,
+      confirmation_url: 'Placeholder',
+    });
 
-    // const combinedOrder = {
-    //   ...order,
-    //   orderCustomer: orderCustomerCreated,
-    //   orderCart: orderCartCreated,
-    //   orderPayment: orderPaymentCreate,
-    // };
+    const combinedOrder = {
+      ...order,
+      orderCustomer: orderCustomerCreated,
+      orderCart: orderCartCreated,
+      orderPayment: orderPaymentCreate,
+    };
 
-    // const createdOrder = await this.orderRepository.save(combinedOrder);
-    // const { id, orderNumber, total, orderPayment } = createdOrder;
-    // await this.orderPaymentService.createProcessPayment({
-    //   orderPaymentID: orderPayment.id,
-    //   orderNumber,
-    //   total,
-    //   orderID: id,
-    // });
+    const createdOrder = await this.orderRepository.save(combinedOrder);
+    const { id, orderNumber, total, orderPayment } = createdOrder;
+    await this.orderPaymentService.createProcessPayment({
+      orderPaymentID: orderPayment.id,
+      orderNumber,
+      total,
+      orderID: id,
+    });
 
-    // const updatedCombinedOrder = await this.orderRepository.findOne(id);
+    const updatedCombinedOrder = await this.orderRepository.findOne(id);
 
-    await this.orderNotificationService.sendNotification(data);
+    this.orderNotificationService.sendNotification(data);
 
-    // return updatedCombinedOrder;
-    return true;
+    return updatedCombinedOrder;
   }
 
   async delete(id: string): Promise<boolean> {

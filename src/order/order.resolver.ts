@@ -23,7 +23,7 @@ export class OrderResolver {
   }
 
   @Mutation(() => Order)
-  async createOrder(@Args('data') data: AddOrderInput): Promise<boolean> {
+  async createOrder(@Args('data') data: AddOrderInput): Promise<Order> {
     return this.orderService.create(data);
   }
 
