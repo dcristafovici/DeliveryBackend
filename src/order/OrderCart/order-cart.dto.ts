@@ -6,6 +6,9 @@ export class AddOrderCartInput {
   @Field(() => String)
   readonly product: Product;
 
+  @Field(() => String)
+  readonly productName: string;
+
   @Field(() => Number)
   readonly quantity: number;
 }

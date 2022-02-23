@@ -6,6 +6,7 @@ import { AddOrderInput } from './order.dto';
 import { Order } from './order.entity';
 import { OrderCartService } from './OrderCart/order-cart.service';
 import { OrderCustomerService } from './OrderCustomer/order-customer.service';
+import { OrderNotificationService } from './OrderNotification/order-notification.service';
 import { PaymentStatusEnum } from './OrderPayment/order-payment.dto';
 import { OrderPaymentService } from './OrderPayment/order-payment.service';
 
@@ -17,6 +18,7 @@ export class OrderService {
     private orderCustomerService: OrderCustomerService,
     private orderCartService: OrderCartService,
     private orderPaymentService: OrderPaymentService,
+    private orderNotificationService: OrderNotificationService,
   ) {}
 
   find(): Promise<Order[]> {
@@ -46,36 +48,40 @@ export class OrderService {
     return this.orderRepository.find({ where: { [field]: value } });
   }
 
-  async create(data: AddOrderInput): Promise<Order> {
+  async create(data: AddOrderInput): Promise<boolean> {
     const { orderCart, orderCustomer, ...order } = data;
 
-    const orderCustomerCreated = await this.orderCustomerService.create(
-      orderCustomer,
-    );
-    const orderCartCreated = await this.orderCartService.create(orderCart);
-    const orderPaymentCreate = await this.orderPaymentService.create({
-      status: PaymentStatusEnum.PENDIG,
-      confirmation_url: 'Placeholder',
-    });
+    // const orderCustomerCreated = await this.orderCustomerService.create(
+    //   orderCustomer,
+    // );
+    // const orderCartCreated = await this.orderCartService.create(orderCart);
+    // const orderPaymentCreate = await this.orderPaymentService.create({
+    //   status: PaymentStatusEnum.PENDIG,
+    //   confirmation_url: 'Placeholder',
+    // });
 
-    const combinedOrder = {
-      ...order,
-      orderCustomer: orderCustomerCreated,
-      orderCart: orderCartCreated,
-      orderPayment: orderPaymentCreate,
-    };
+    // const combinedOrder = {
+    //   ...order,
+    //   orderCustomer: orderCustomerCreated,
+    //   orderCart: orderCartCreated,
+    //   orderPayment: orderPaymentCreate,
+    // };
 
-    const createdOrder = await this.orderRepository.save(combinedOrder);
-    const { id, orderNumber, total, orderPayment } = createdOrder;
-    await this.orderPaymentService.createProcessPayment({
-      orderPaymentID: orderPayment.id,
-      orderNumber,
-      total,
-      orderID: id,
-    });
+    // const createdOrder = await this.orderRepository.save(combinedOrder);
+    // const { id, orderNumber, total, orderPayment } = createdOrder;
+    // await this.orderPaymentService.createProcessPayment({
+    //   orderPaymentID: orderPayment.id,
+    //   orderNumber,
+    //   total,
+    //   orderID: id,
+    // });
 
-    const updatedCombinedOrder = await this.orderRepository.findOne(id);
-    return updatedCombinedOrder;
+    // const updatedCombinedOrder = await this.orderRepository.findOne(id);
+
+    await this.orderNotificationService.sendNotification(data);
+
+    // return updatedCombinedOrder;
+    return true;
   }
 
   async delete(id: string): Promise<boolean> {

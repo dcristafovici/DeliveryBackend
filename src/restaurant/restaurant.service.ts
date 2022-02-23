@@ -19,7 +19,7 @@ export class RestaurantService {
     private restaurantRepository: Repository<Restaurant>,
   ) {}
 
-  find(): Promise<Restaurant[]> {
+  async find(): Promise<Restaurant[]> {
     return this.restaurantRepository
       .createQueryBuilder('restaurant')
       .leftJoinAndSelect('restaurant.media', 'media')

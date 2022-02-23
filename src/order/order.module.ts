@@ -10,6 +10,7 @@ import { OrderCustomerService } from './OrderCustomer/order-customer.service';
 import { OrderPayment } from './OrderPayment/order-payment.entity';
 import { OrderPaymentService } from './OrderPayment/order-payment.service';
 import { HttpModule } from '@nestjs/axios';
+import { OrderNotificationService } from './OrderNotification/order-notification.service';
 
 @Module({
   imports: [
@@ -22,12 +23,14 @@ import { HttpModule } from '@nestjs/axios';
     OrderCartService,
     OrderCustomerService,
     OrderPaymentService,
+    OrderNotificationService,
   ],
   exports: [
     OrderService,
     OrderCartService,
     OrderCustomerService,
     OrderPaymentService,
+    OrderNotificationService,
   ],
 })
 export class OrderModule {}

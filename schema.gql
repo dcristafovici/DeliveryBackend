@@ -144,6 +144,7 @@ input OneBunchInput {
 
 input AddOrderCartInput {
   product: String!
+  productName: String!
   quantity: Float!
 }
 
