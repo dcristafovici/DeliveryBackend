@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserLanguages } from './user.dto';
 
 @Entity({ name: 'USER' })
 @ObjectType()
@@ -38,10 +37,6 @@ export class User {
   @Field({ nullable: true })
   @Column({ nullable: true })
   address_lon: string;
-
-  @Field({ nullable: true })
-  @Column({ type: 'enum', enum: UserLanguages, default: UserLanguages.EN })
-  language: UserLanguages;
 
   @Field()
   @CreateDateColumn()

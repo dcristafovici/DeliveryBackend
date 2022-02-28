@@ -86,7 +86,6 @@ type User {
   address: String
   address_lat: String
   address_lon: String
-  language: String
   created_at: DateTime!
   updated_at: DateTime!
 }

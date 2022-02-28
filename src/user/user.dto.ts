@@ -33,8 +33,3 @@ export class UpdateUserInput {
   @Field(() => String, { nullable: true })
   readonly address_lon: string;
 }
-
-export enum UserLanguages {
-  EN = 'EN',
-  RU = 'RU',
-}
