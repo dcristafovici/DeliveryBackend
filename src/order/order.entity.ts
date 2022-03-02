@@ -64,11 +64,7 @@ export class Order {
 
   @Field()
   @Column()
-  day: string;
-
-  @Field()
-  @Column()
-  time: string;
+  date: string;
 
   @Field()
   @Column()

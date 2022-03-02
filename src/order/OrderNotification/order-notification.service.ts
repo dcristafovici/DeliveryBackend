@@ -5,14 +5,15 @@ import { AddOrderInput } from '../order.dto';
 @Injectable()
 export class OrderNotificationService {
   async sendNotification(data: AddOrderInput): Promise<any> {
-    const { day, time, orderCart, orderCustomer, total } = data;
+    const { date, orderCart, orderCustomer, total } = data;
     const { name, phone, email, address } = orderCustomer;
+    const dateToUTC = new Date(date);
+
     const orderMessage = `
       <b>Поступил новый заказ</b>
       <b>Имя </b><i>${name}</i>
       <b>Адрес </b><i>${address}</i>
-      <b>Дата </b><i>${day}</i> 
-      <b>Время </b><i>${time}</i>
+      <b>Дата </b><i>${dateToUTC.toString()}</i> 
       <b>Номер телефона </b><i>${phone}</i>
       <b>Email </b><i>${email}</i>
       <b>Итого </b><i>${total}</i>

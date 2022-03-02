@@ -8,10 +8,7 @@ import { AddOrderCustomerInput } from './OrderCustomer/order-customer.dto';
 @ObjectType()
 export class AddOrderInput {
   @Field(() => String)
-  readonly day: string;
-
-  @Field(() => String)
-  readonly time: string;
+  readonly date: string;
 
   @Field(() => Number)
   readonly total: number;

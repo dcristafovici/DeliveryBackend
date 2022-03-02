@@ -128,8 +128,7 @@ type Order {
   orderCart: [OrderCart!]!
   orderCustomer: OrderCustomer!
   orderPayment: OrderPayment!
-  day: String!
-  time: String!
+  date: String!
   total: Float!
   orderNumber: Float!
   created_at: DateTime!
@@ -291,8 +290,7 @@ input CheckOtpInput {
 }
 
 input AddOrderInput {
-  day: String!
-  time: String!
+  date: String!
   total: Float!
   restaurant: String!
   user: String!
