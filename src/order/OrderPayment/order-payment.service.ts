@@ -36,7 +36,7 @@ export class OrderPaymentService {
       payment_method: 'bank_card',
       confirmation: {
         type: 'redirect',
-        return_url: `http://localhost:3000/account?successOrdered=${orderID}`,
+        return_url: `${process.env.DOMAIN}/account?successOrdered=${orderID}`,
       },
     };
 
