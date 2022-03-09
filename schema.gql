@@ -213,6 +213,7 @@ type Mutation {
   authenticationUser(data: CheckOtpInput!): String!
   createOrder(data: AddOrderInput!): Order!
   deleteOrder(id: String!): Boolean!
+  updatePaymentStatus(data: UpdatePaymentStatusDTO!): Boolean!
 }
 
 input AddCategoryInput {
@@ -296,4 +297,9 @@ input AddOrderInput {
   user: String!
   orderCart: [AddOrderCartInput!]!
   orderCustomer: AddOrderCustomerInput!
+}
+
+input UpdatePaymentStatusDTO {
+  id: String!
+  status: String!
 }

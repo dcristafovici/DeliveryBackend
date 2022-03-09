@@ -1,25 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { Telegraf } from 'telegraf';
-import { AddOrderInput } from '../order.dto';
+import { Order } from '../order.entity';
 
 @Injectable()
 export class OrderNotificationService {
-  async sendNotification(data: AddOrderInput): Promise<any> {
-    const { date, orderCart, orderCustomer, total } = data;
+  async sendNotification(data: Order): Promise<any> {
+    const { orderNumber, date, orderCart, orderCustomer, total } = data;
     const { name, phone, email, address } = orderCustomer;
-    const dateToUTC = new Date(date);
+    const convertedTimeWithTimezone = new Date(date).toLocaleString('en-GB', {
+      timeZone: 'Europe/Moscow',
+    });
 
     const orderMessage = `
-      <b>Поступил новый заказ</b>
+      <b>Поступил новый заказ №${orderNumber}</b>
       <b>Имя </b><i>${name}</i>
       <b>Адрес </b><i>${address}</i>
-      <b>Дата </b><i>${dateToUTC.toString()}</i> 
+      <b>Время доставки: </b><i>${convertedTimeWithTimezone.toString()}</i> 
       <b>Номер телефона </b><i>${phone}</i>
       <b>Email </b><i>${email}</i>
       <b>Итого </b><i>${total}</i>
       <b>Продукты</b>${orderCart.map(
         (cart) => `
-          <b>${cart.productName}</b> - <i>${cart.quantity} шт.</i>`,
+          <b>${cart.product.name}</b> - <i>${cart.quantity} шт.</i>`,
       )}
     `;
     const bot = new Telegraf(process.env.TELEGRAM_TOKEN);

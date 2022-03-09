@@ -3,10 +3,15 @@ import { FindByKeyInput } from 'src/category/category.dto';
 import { AddOrderInput } from './order.dto';
 import { Order } from './order.entity';
 import { OrderService } from './order.service';
+import { UpdatePaymentStatusDTO } from './OrderPayment/order-payment.dto';
+import { OrderPaymentService } from './OrderPayment/order-payment.service';
 
 @Resolver()
 export class OrderResolver {
-  constructor(private orderService: OrderService) {}
+  constructor(
+    private orderService: OrderService,
+    private orderPaymentService: OrderPaymentService,
+  ) {}
 
   @Query(() => [Order])
   async findOrders(): Promise<Order[]> {
@@ -30,5 +35,14 @@ export class OrderResolver {
   @Mutation(() => Boolean)
   async deleteOrder(@Args('id') id: string): Promise<boolean> {
     return this.orderService.delete(id);
+  }
+
+  @Mutation(() => Boolean)
+  async updatePaymentStatus(
+    @Args('data') data: UpdatePaymentStatusDTO,
+  ): Promise<boolean> {
+    const updateResult = await this.orderPaymentService.updateStatus(data);
+    const { affected } = updateResult;
+    return affected ? true : false;
   }
 }

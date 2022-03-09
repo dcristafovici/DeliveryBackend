@@ -2,13 +2,14 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { firstValueFrom } from 'rxjs';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { processPaymentConfig } from './order-payment.config';
 import { OrderPayment } from './order-payment.entity';
 import {
   AddOrderPaymentInput,
   OrderPaymentDTO,
   PaymentStatusEnum,
+  UpdatePaymentStatusDTO,
 } from './order-payment.dto';
 
 @Injectable()
@@ -27,7 +28,7 @@ export class OrderPaymentService {
     const { orderPaymentID: id, orderNumber, total, orderID } = body;
     const payload = {
       id: orderNumber,
-      status: PaymentStatusEnum.WAITING,
+      status: PaymentStatusEnum.AWAITING_PAYMENT,
       paid: true,
       amount: {
         value: total,
@@ -54,5 +55,10 @@ export class OrderPaymentService {
       confirmation_url,
     });
     return affected ? true : false;
+  }
+
+  async updateStatus(data: UpdatePaymentStatusDTO): Promise<UpdateResult> {
+    const { id, status } = data;
+    return this.OrderPaymentRepository.update(id, { status: status });
   }
 }

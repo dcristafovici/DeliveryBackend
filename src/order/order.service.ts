@@ -29,6 +29,7 @@ export class OrderService {
       .leftJoinAndSelect('order.orderCustomer', 'orderCustomer')
       .innerJoinAndSelect('order.orderCart', 'orderCart')
       .leftJoinAndSelect('orderCart.product', 'product')
+      .leftJoinAndSelect('product.media', 'product_media')
       .getMany();
   }
 
@@ -56,7 +57,7 @@ export class OrderService {
     );
     const orderCartCreated = await this.orderCartService.create(orderCart);
     const orderPaymentCreate = await this.orderPaymentService.create({
-      status: PaymentStatusEnum.PENDIG,
+      status: PaymentStatusEnum.AWAITING_PAYMENT,
       confirmation_url: 'Placeholder',
     });
 
@@ -78,7 +79,7 @@ export class OrderService {
 
     const updatedCombinedOrder = await this.orderRepository.findOne(id);
 
-    this.orderNotificationService.sendNotification(data);
+    this.orderNotificationService.sendNotification(updatedCombinedOrder);
 
     return updatedCombinedOrder;
   }
