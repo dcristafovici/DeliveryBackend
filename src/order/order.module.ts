@@ -11,10 +11,12 @@ import { OrderPayment } from './OrderPayment/order-payment.entity';
 import { OrderPaymentService } from './OrderPayment/order-payment.service';
 import { HttpModule } from '@nestjs/axios';
 import { OrderNotificationService } from './OrderNotification/order-notification.service';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
   imports: [
     HttpModule,
+    MailModule,
     TypeOrmModule.forFeature([Order, OrderCart, OrderCustomer, OrderPayment]),
   ],
   providers: [

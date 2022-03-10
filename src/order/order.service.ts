@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
+import { MailService } from 'src/mail/mail.service';
 import { Repository } from 'typeorm';
 import { AddOrderInput } from './order.dto';
 import { Order } from './order.entity';
@@ -19,6 +20,8 @@ export class OrderService {
     private orderCartService: OrderCartService,
     private orderPaymentService: OrderPaymentService,
     private orderNotificationService: OrderNotificationService,
+
+    private mailService: MailService,
   ) {}
 
   find(): Promise<Order[]> {
@@ -80,6 +83,8 @@ export class OrderService {
     const updatedCombinedOrder = await this.orderRepository.findOne(id);
 
     this.orderNotificationService.sendNotification(updatedCombinedOrder);
+
+    this.mailService.sendUserConfirmation(updatedCombinedOrder);
 
     return updatedCombinedOrder;
   }

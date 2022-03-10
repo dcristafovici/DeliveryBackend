@@ -1,22 +1,24 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import { Order } from 'src/order/order.entity';
 
 @Injectable()
 export class MailService {
   constructor(private mailService: MailerService) {}
 
-  async sendUserConfirmation(): Promise<boolean> {
-    const ds = await this.mailService.sendMail({
+  async sendUserConfirmation(order: Order): Promise<boolean> {
+    // console.log(order);
+    const response = await this.mailService.sendMail({
       to: 'denbudeyko@yandex.ru',
       subject: 'Welcome to nice App',
       template: 'confirmation',
       context: {
-        name: 'Dan',
-        url: 'https://google.com',
+        name: order.orderCustomer.name,
+        order: order,
       },
     });
 
-    console.log(ds);
+    console.log(response);
     return true;
   }
 }

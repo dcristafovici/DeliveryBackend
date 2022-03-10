@@ -3,17 +3,16 @@ import { Module } from '@nestjs/common';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
 import { MailService } from './mail.service';
-import { MailResolver } from './mail.resolver';
 
 @Module({
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.yandex.com',
+        host: process.env.MAIL_SMTP,
         secure: true,
         auth: {
-          user: 'log',
-          pass: 'pass',
+          user: process.env.MAIL_LOGIN,
+          pass: process.env.MAIL_PASSWORD,
         },
       },
       defaults: {
@@ -28,7 +27,7 @@ import { MailResolver } from './mail.resolver';
       },
     }),
   ],
-  providers: [MailService, MailResolver],
+  providers: [MailService],
   exports: [MailService],
 })
 export class MailModule {}
