@@ -7,18 +7,26 @@ export class MailService {
   constructor(private mailService: MailerService) {}
 
   async sendUserConfirmation(order: Order): Promise<boolean> {
-    // console.log(order);
-    const response = await this.mailService.sendMail({
-      to: 'denbudeyko@yandex.ru',
-      subject: 'Welcome to nice App',
+    const { date, orderNumber, total } = order;
+    const { restaurant, orderCart, orderCustomer } = order;
+
+    const { name, email, phone, address } = orderCustomer;
+    await this.mailService.sendMail({
+      to: email,
+      subject: 'Your order has been created',
       template: 'confirmation',
       context: {
-        name: order.orderCustomer.name,
-        order: order,
+        date,
+        orderNumber,
+        total,
+        restaurant,
+        orderCart,
+        name,
+        email,
+        phone,
+        address,
       },
     });
-
-    console.log(response);
     return true;
   }
 }
