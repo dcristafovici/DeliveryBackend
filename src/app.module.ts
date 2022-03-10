@@ -15,6 +15,7 @@ import { AddressModule } from './address/address.module';
 import { UserModule } from './user/user.module';
 import { OTPModule } from './otp/otp.module';
 import { OrderModule } from './order/order.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { OrderModule } from './order/order.module';
       },
     }),
     ConfigModule.forRoot(),
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

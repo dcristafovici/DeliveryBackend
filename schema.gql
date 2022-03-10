@@ -178,6 +178,7 @@ type Query {
   findOrders: [Order!]!
   findOneOrder(id: String!): Order!
   findByKeyOrders(data: FindByKeyInput!): [Order!]!
+  sendUserConfirmation: Boolean!
 }
 
 input FindByKeyInput {
