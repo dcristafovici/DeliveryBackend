@@ -16,11 +16,11 @@ export class MediaResolver {
     return this.mediaService.findOne(id);
   }
 
-  @Mutation(() => Media)
+  @Mutation(() => Boolean)
   async createMedia(
     @Args({ name: 'file', type: () => GraphQLUpload })
     file,
-  ): Promise<Media> {
+  ): Promise<boolean> {
     return this.mediaService.create(file);
   }
 

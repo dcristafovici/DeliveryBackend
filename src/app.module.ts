@@ -19,10 +19,7 @@ import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: `${process.cwd()}/env/${process.env.NODE_ENV}.env`,
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot(),
     DatabaseModule,
     CategoryModule,
     MediaModule,
