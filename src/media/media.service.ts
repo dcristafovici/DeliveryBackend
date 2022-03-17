@@ -3,15 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FileDTO, MediaSizes } from './media.dto';
 import { Media } from './media.entity';
-import sharp from 'sharp';
 import slugify from 'slugify';
-import {
-  bucketParams,
-  parallelUploads3,
-  S3Client,
-  sharpFunction,
-} from './media.s3';
-import { Upload } from '@aws-sdk/lib-storage';
+import { bucketParams, parallelUploads3, sharpFunction } from './media.s3';
 
 @Injectable()
 export class MediaService {
@@ -34,59 +27,7 @@ export class MediaService {
       .getOne();
   }
 
-  // async create(file: FileDTO): Promise<Media> {
-  //   const { createReadStream, filename } = file;
-
-  //   const simpleFileName = slugify(filename.split('.')[0]);
-  //   const extension = filename.split('.')[1];
-  //   return new Promise((resolve, reject) => {
-  //     createReadStream()
-  //       .pipe(
-  //         createWriteStream(`./uploads/${simpleFileName}.${extension}`, {
-  //           flags: 'w+',
-  //         }),
-  //       )
-  //       .on('finish', async () => {
-  //         const newMediaEntity = new Media();
-
-  //         newMediaEntity.name = simpleFileName;
-  //         newMediaEntity.path = `${simpleFileName}.${extension}`;
-
-  //         const mediaResizesPromises = MediaSizes.map(async (size) => {
-  //           return sharp(`./uploads/${simpleFileName}.${extension}`)
-  //             .resize({ width: size.x })
-  //             .toFile(
-  //               `./uploads/build/${simpleFileName}_${size.path}.${extension}`,
-  //             )
-  //             .then(() => {
-  //               newMediaEntity[
-  //                 size.path
-  //               ] = `/build/${simpleFileName}_${size.path}.${extension}`;
-  //             });
-  //         });
-
-  //         Promise.all(mediaResizesPromises).then(async () => {
-  //           return await this.mediaRepository
-  //             .save(newMediaEntity)
-  //             .then((res) => resolve(res));
-  //         });
-  //       })
-  //       .on('error', (err) => reject(err));
-  //   })
-  //     .then((res: Promise<Media>) => res)
-  //     .catch((err) => {
-  //       console.log(err);
-  //       throw new HttpException(
-  //         {
-  //           status: HttpStatus.SERVICE_UNAVAILABLE,
-  //           errorCode: err.code,
-  //         },
-  //         HttpStatus.SERVICE_UNAVAILABLE,
-  //       );
-  //     });
-  // }
-
-  async create(file: FileDTO): Promise<boolean> {
+  async create(file: FileDTO): Promise<Media> {
     const MediaEntity = new Media();
 
     const { filename, createReadStream } = file;
@@ -127,10 +68,7 @@ export class MediaService {
             .catch(() => false);
         });
         return Promise.all(mediaResizesPromises).then(async () => {
-          return await this.mediaRepository
-            .save(MediaEntity)
-            .then(() => true)
-            .catch(() => false);
+          return await this.mediaRepository.save(MediaEntity);
         });
       })
       .catch(() => false);

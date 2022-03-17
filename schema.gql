@@ -199,7 +199,7 @@ type Mutation {
   createCategory(data: AddCategoryInput!): Category!
   deleteCategory(id: String!): Boolean!
   updateCategory(data: UpdateCategoryInput!, id: String!): Category!
-  createMedia(file: Upload!): Boolean!
+  createMedia(file: Upload!): Media!
   deleteMedia(id: String!): Media!
   createRestaurant(data: AddRestaurantInput!): Restaurant!
   deleteRestaurant(id: String!): Boolean!
