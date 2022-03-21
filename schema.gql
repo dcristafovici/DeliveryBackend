@@ -191,6 +191,7 @@ type Query {
   findOneOrder(id: String!): Order!
   findByKeyOrders(data: FindByKeyInput!): [Order!]!
   findManagers: [Manager!]!
+  getManagerByToken(token: String!): Manager!
 }
 
 input FindByKeyInput {
@@ -227,7 +228,8 @@ type Mutation {
   createOrder(data: AddOrderInput!): Order!
   deleteOrder(id: String!): Boolean!
   updatePaymentStatus(data: UpdatePaymentStatusDTO!): Boolean!
-  createManager(data: AddManagerInput!): Manager!
+  loginManager(data: AuthManagerInput!): String!
+  createManager(data: AuthManagerInput!): Manager!
 }
 
 input AddCategoryInput {
@@ -318,7 +320,7 @@ input UpdatePaymentStatusDTO {
   status: String!
 }
 
-input AddManagerInput {
+input AuthManagerInput {
   login: String!
   password: String!
 }

@@ -35,7 +35,7 @@ export class UserService {
   }
 
   async register(userPhone: string): Promise<string> {
-    return await this.userRepository
+    return this.userRepository
       .save({ phone: userPhone })
       .then((res) => {
         const { id } = res;

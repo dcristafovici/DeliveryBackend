@@ -7,7 +7,7 @@ export enum ManagerRolesEnum {
 
 @InputType()
 @ObjectType()
-export class AddManagerInput {
+export class AuthManagerInput {
   @Field(() => String)
   readonly login: string;
 
