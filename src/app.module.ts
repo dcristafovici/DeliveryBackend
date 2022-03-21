@@ -16,6 +16,7 @@ import { UserModule } from './user/user.module';
 import { OTPModule } from './otp/otp.module';
 import { OrderModule } from './order/order.module';
 import { MailModule } from './mail/mail.module';
+import { ManagerModule } from './manager/manager.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { MailModule } from './mail/mail.module';
     UserModule,
     OTPModule,
     OrderModule,
+    ManagerModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
     }),

@@ -135,6 +135,18 @@ type Order {
   updated_at: DateTime!
 }
 
+type Manager {
+  id: String!
+  login: String!
+  password: String!
+  name: String
+  phone: String
+  email: String
+  role: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 input OneBunchInput {
   id: String!
   order: Float!
@@ -178,6 +190,7 @@ type Query {
   findOrders: [Order!]!
   findOneOrder(id: String!): Order!
   findByKeyOrders(data: FindByKeyInput!): [Order!]!
+  findManagers: [Manager!]!
 }
 
 input FindByKeyInput {
@@ -214,6 +227,7 @@ type Mutation {
   createOrder(data: AddOrderInput!): Order!
   deleteOrder(id: String!): Boolean!
   updatePaymentStatus(data: UpdatePaymentStatusDTO!): Boolean!
+  createManager(data: AddManagerInput!): Manager!
 }
 
 input AddCategoryInput {
@@ -302,4 +316,9 @@ input AddOrderInput {
 input UpdatePaymentStatusDTO {
   id: String!
   status: String!
+}
+
+input AddManagerInput {
+  login: String!
+  password: String!
 }
