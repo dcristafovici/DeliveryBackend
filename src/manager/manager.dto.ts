@@ -2,7 +2,7 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
 export enum ManagerRolesEnum {
   ADMIN = 'ADMIN',
-  MANAGER = 'MANGER',
+  MANAGER = 'MANAGER',
 }
 
 @InputType()

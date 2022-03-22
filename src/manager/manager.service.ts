@@ -3,9 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import { AuthManagerInput } from './manager.dto';
+import { AuthManagerInput, ManagerRolesEnum } from './manager.dto';
 import { Manager } from './manager.entity';
 import { verifyAccessToken } from 'src/utils/verifyAccessToken';
+import { FindByKeyInput } from 'src/category/category.dto';
 
 @Injectable()
 export class ManagerService {
@@ -22,6 +23,15 @@ export class ManagerService {
     return this.managerRepository.findOne(id);
   }
 
+  findByField(data: FindByKeyInput): Promise<Manager[]> {
+    const { field, value } = data;
+    return this.managerRepository.find({ [field]: value });
+  }
+
+  findOnlyManagers(): Promise<Manager[]> {
+    return this.managerRepository.find({ role: ManagerRolesEnum.MANAGER });
+  }
+
   async login(data: AuthManagerInput): Promise<string> {
     const { login, password } = data;
     const existedManager = await this.managerRepository.findOne({ login });
@@ -30,7 +40,7 @@ export class ManagerService {
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,
-          message: 'Manger does not exist',
+          message: 'Manager does not exist',
         },
         HttpStatus.NOT_FOUND,
       );

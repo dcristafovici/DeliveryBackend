@@ -191,7 +191,9 @@ type Query {
   findOneOrder(id: String!): Order!
   findByKeyOrders(data: FindByKeyInput!): [Order!]!
   findManagers: [Manager!]!
+  findByKeyManagers(data: FindByKeyInput!): [Manager!]!
   getManagerByToken(token: String!): Manager!
+  findOnlyManagers: [Manager!]!
 }
 
 input FindByKeyInput {
