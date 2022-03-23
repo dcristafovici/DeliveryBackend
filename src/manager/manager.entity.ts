@@ -1,8 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { Media } from 'src/media/media.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -42,6 +45,11 @@ export class Manager {
     default: ManagerRolesEnum.MANAGER,
   })
   role: ManagerRolesEnum;
+
+  @Field(() => Media, { nullable: true })
+  @ManyToOne(() => Media, { eager: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'media' })
+  media: Media;
 
   @Field()
   @CreateDateColumn()

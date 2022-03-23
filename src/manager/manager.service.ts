@@ -3,7 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import { AuthManagerInput, ManagerRolesEnum } from './manager.dto';
+import {
+  AuthManagerInput,
+  ManagerRolesEnum,
+  UpdateManagerInput,
+} from './manager.dto';
 import { Manager } from './manager.entity';
 import { verifyAccessToken } from 'src/utils/verifyAccessToken';
 import { FindByKeyInput } from 'src/category/category.dto';
@@ -82,5 +86,14 @@ export class ManagerService {
   async getManagerByToken(token: string): Promise<Manager> {
     const { managerID: id } = await verifyAccessToken(token);
     return this.findOne(id);
+  }
+  async update(id: string, data: UpdateManagerInput): Promise<boolean> {
+    const { affected } = await this.managerRepository
+      .createQueryBuilder('category')
+      .update(Manager)
+      .set({ ...data })
+      .where('id = :id', { id })
+      .execute();
+    return affected ? true : false;
   }
 }

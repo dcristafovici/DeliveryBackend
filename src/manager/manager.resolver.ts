@@ -1,6 +1,6 @@
 import { Query, Args, Mutation, Resolver } from '@nestjs/graphql';
 import { FindByKeyInput } from 'src/category/category.dto';
-import { AuthManagerInput } from './manager.dto';
+import { AuthManagerInput, UpdateManagerInput } from './manager.dto';
 import { Manager } from './manager.entity';
 import { ManagerService } from './manager.service';
 
@@ -11,6 +11,11 @@ export class ManagerResolver {
   @Query(() => [Manager])
   async findManagers(): Promise<Manager[]> {
     return this.managerService.find();
+  }
+
+  @Query(() => Manager)
+  async findOneManager(@Args('id') id: string): Promise<Manager> {
+    return this.managerService.findOne(id);
   }
 
   @Query(() => [Manager])
@@ -38,5 +43,13 @@ export class ManagerResolver {
   @Mutation(() => Manager)
   createManager(@Args('data') data: AuthManagerInput): Promise<Manager> {
     return this.managerService.create(data);
+  }
+
+  @Mutation(() => Boolean)
+  async updateManager(
+    @Args('id') id: string,
+    @Args('data') data: UpdateManagerInput,
+  ): Promise<boolean> {
+    return this.managerService.update(id, data);
   }
 }

@@ -143,6 +143,7 @@ type Manager {
   phone: String
   email: String
   role: String!
+  media: Media
   created_at: DateTime!
   updated_at: DateTime!
 }
@@ -191,6 +192,7 @@ type Query {
   findOneOrder(id: String!): Order!
   findByKeyOrders(data: FindByKeyInput!): [Order!]!
   findManagers: [Manager!]!
+  findOneManager(id: String!): Manager!
   findByKeyManagers(data: FindByKeyInput!): [Manager!]!
   getManagerByToken(token: String!): Manager!
   findOnlyManagers: [Manager!]!
@@ -232,6 +234,7 @@ type Mutation {
   updatePaymentStatus(data: UpdatePaymentStatusDTO!): Boolean!
   loginManager(data: AuthManagerInput!): String!
   createManager(data: AuthManagerInput!): Manager!
+  updateManager(data: UpdateManagerInput!, id: String!): Boolean!
 }
 
 input AddCategoryInput {
@@ -325,4 +328,11 @@ input UpdatePaymentStatusDTO {
 input AuthManagerInput {
   login: String!
   password: String!
+}
+
+input UpdateManagerInput {
+  name: String
+  phone: String
+  email: String
+  media: String
 }
