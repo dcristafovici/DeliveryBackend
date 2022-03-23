@@ -33,6 +33,7 @@ export class OrderService {
       .innerJoinAndSelect('order.orderCart', 'orderCart')
       .leftJoinAndSelect('orderCart.product', 'product')
       .leftJoinAndSelect('product.media', 'product_media')
+      .leftJoinAndSelect('order.orderPayment', 'orderPayment')
       .getMany();
   }
 
