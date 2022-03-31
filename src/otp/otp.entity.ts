@@ -16,7 +16,7 @@ export class OTP {
 
   @Field()
   @Column()
-  OTP: string;
+  code: string;
 
   @Field()
   @Column()

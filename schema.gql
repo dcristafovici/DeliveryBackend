@@ -227,8 +227,9 @@ type Mutation {
   deleteProduct(id: String!): Boolean!
   updateProduct(data: UpdateProductInput!, id: String!): Product!
   updateUser(data: UpdateUserInput!, id: String!): Boolean!
-  createOTP(data: AddOtpInput!): Boolean!
-  authenticationUser(data: CheckOtpInput!): String!
+  authenticationUser(data: AuthenticationInput!): String!
+  createOTP(data: CreateOTPInput!): Boolean!
+  checkOTP(data: CheckOTPInput!): Boolean!
   createOrder(data: AddOrderInput!): Order!
   deleteOrder(id: String!): Boolean!
   updatePaymentStatus(data: UpdatePaymentStatusDTO!): Boolean!
@@ -300,14 +301,25 @@ input UpdateUserInput {
   address_lon: String
 }
 
-input AddOtpInput {
+input AuthenticationInput {
   phone: String!
+  code: String!
   sessionID: String!
 }
 
-input CheckOtpInput {
-  phone: String!
-  OTP: String!
+input CreateOTPInput {
+  value: String!
+  sessionID: String!
+  typeOfOTP: OTPEnumType!
+}
+
+enum OTPEnumType {
+  PHONE
+  EMAIL
+}
+
+input CheckOTPInput {
+  code: String!
   sessionID: String!
 }
 

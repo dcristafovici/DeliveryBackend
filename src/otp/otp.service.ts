@@ -1,46 +1,53 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
-import { AddOtpInput } from './otp.dto';
 import { OTP } from './otp.entity';
+import { CheckOTPInput, CreateOTPInput, OTPEnumType } from './otp.dto';
+import { compareCodes, randomHashedOTP } from 'src/utils/randomHashedOTP';
+import { MailService } from 'src/mail/mail.service';
 import axios from 'axios';
-import { CheckOtpInput } from 'src/otp/otp.dto';
-import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export default class OTPService {
   constructor(
     @InjectRepository(OTP)
     private OTPRepository: Repository<OTP>,
-    private userService: UserService,
+    private mailService: MailService,
   ) {}
 
-  async create(data: AddOtpInput): Promise<boolean> {
-    const { sessionID, phone } = data;
-
-    const OTP = Math.floor(1000 + Math.random() * 9000).toString();
-    const hashedOTP = await bcrypt.hash(
-      OTP,
-      parseFloat(process.env.saltOrRounds),
-    );
-
-    return await axios
-      .get(
-        `${process.env.SMS_URL}${phone}&code=${OTP}&${process.env.SMS_API_ID}`,
-      )
-      .then(async (res) => {
-        await this.OTPRepository.save({ OTP: hashedOTP, sessionID });
-        return true;
-      })
-      .catch(() => false);
+  save(data: CheckOTPInput): Promise<OTP> {
+    const { code, sessionID } = data;
+    return this.OTPRepository.save({ code, sessionID });
   }
 
-  async authentication(data: CheckOtpInput): Promise<string> {
-    const { phone, sessionID, OTP } = data;
-    const OtpEntity = await this.OTPRepository.findOne({ sessionID });
-    // Not finded Session
-    if (!OtpEntity) {
+  async create(data: CreateOTPInput): Promise<boolean> {
+    const { value, sessionID, typeOfOTP } = data;
+    const { code, hashedOTP } = await randomHashedOTP();
+
+    if (typeOfOTP === OTPEnumType.EMAIL) {
+      await this.mailService
+        .sendUserConfirmation({ code, email: value })
+        .catch(() => false);
+    }
+
+    if (typeOfOTP === OTPEnumType.PHONE) {
+      await axios
+        .get(
+          `${process.env.SMS_URL}${value}&code=${code}&${process.env.SMS_API_ID}`,
+        )
+        .catch(() => false);
+    }
+
+    await this.save({ code: hashedOTP, sessionID }).catch(() => false);
+
+    return true;
+  }
+
+  async check(data: CheckOTPInput): Promise<boolean> {
+    const { code, sessionID } = data;
+    const OTPEntity = await this.OTPRepository.findOne({ sessionID });
+
+    if (!OTPEntity) {
       throw new HttpException(
         {
           status: HttpStatus.NOT_FOUND,
@@ -50,24 +57,7 @@ export default class OTPService {
       );
     }
 
-    const { OTP: hashedOTP } = OtpEntity;
-    const isMatchOTP = await bcrypt.compare(OTP, hashedOTP);
-    // Passwords are not matched
-    if (!isMatchOTP) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNAUTHORIZED,
-          message: 'INCORRECT_CREDENTIALS',
-        },
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
-
-    const existedUser = await this.userService.findByField('phone', phone);
-    const token = existedUser
-      ? await this.userService.login(existedUser)
-      : await this.userService.register(phone);
-
-    return token;
+    const { code: hashedCode } = OTPEntity;
+    return compareCodes(code, hashedCode);
   }
 }

@@ -85,7 +85,7 @@ export class OrderService {
 
     this.orderNotificationService.sendNotification(updatedCombinedOrder);
 
-    this.mailService.sendUserConfirmation(updatedCombinedOrder);
+    this.mailService.sendUserOrder(updatedCombinedOrder);
 
     return updatedCombinedOrder;
   }

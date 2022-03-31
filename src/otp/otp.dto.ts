@@ -1,23 +1,36 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import {
+  Field,
+  InputType,
+  ObjectType,
+  registerEnumType,
+} from '@nestjs/graphql';
+
+export enum OTPEnumType {
+  PHONE = 'PHONE',
+  EMAIL = 'EMAIL',
+}
+registerEnumType(OTPEnumType, {
+  name: 'OTPEnumType',
+});
 
 @InputType()
 @ObjectType()
-export class AddOtpInput {
+export class CreateOTPInput {
   @Field(() => String)
-  readonly phone: string;
+  readonly value: string;
 
   @Field(() => String)
   readonly sessionID: string;
+
+  @Field(() => OTPEnumType)
+  readonly typeOfOTP: OTPEnumType;
 }
 
 @InputType()
 @ObjectType()
-export class CheckOtpInput {
+export class CheckOTPInput {
   @Field(() => String)
-  readonly phone: string;
-
-  @Field(() => String)
-  readonly OTP: string;
+  readonly code: string;
 
   @Field(() => String)
   readonly sessionID: string;

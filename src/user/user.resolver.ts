@@ -1,5 +1,5 @@
 import { Args, Resolver, Query, Mutation } from '@nestjs/graphql';
-import { UpdateUserInput } from './user.dto';
+import { AuthenticationInput, UpdateUserInput } from './user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -23,5 +23,10 @@ export class UserResolver {
     @Args('data') data: UpdateUserInput,
   ): Promise<boolean> {
     return this.userService.update(id, data);
+  }
+
+  @Mutation(() => String)
+  authenticationUser(@Args('data') data: AuthenticationInput): Promise<string> {
+    return this.userService.authentication(data);
   }
 }

@@ -33,3 +33,16 @@ export class UpdateUserInput {
   @Field(() => String, { nullable: true })
   readonly address_lon: string;
 }
+
+@InputType()
+@ObjectType()
+export class AuthenticationInput {
+  @Field(() => String)
+  readonly phone: string;
+
+  @Field(() => String)
+  readonly code: string;
+
+  @Field(() => String)
+  readonly sessionID: string;
+}
