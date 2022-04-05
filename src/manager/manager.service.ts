@@ -88,8 +88,24 @@ export class ManagerService {
     return this.findOne(id);
   }
   async update(id: string, data: UpdateManagerInput): Promise<boolean> {
+    const { phone, email } = data;
+
+    if (phone || email) {
+      const nonDublicatedValue = phone || email;
+      const nonDublicatedField = phone ? 'phone' : 'email';
+      const existedManager = await this.findByField({
+        field: nonDublicatedField,
+        value: nonDublicatedValue,
+      });
+      if (existedManager.length) {
+        throw new HttpException(
+          `This ${nonDublicatedField} is taken by another account`,
+          HttpStatus.CONFLICT,
+        );
+      }
+    }
     const { affected } = await this.managerRepository
-      .createQueryBuilder('category')
+      .createQueryBuilder('manager')
       .update(Manager)
       .set({ ...data })
       .where('id = :id', { id })

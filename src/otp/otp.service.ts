@@ -20,6 +20,14 @@ export default class OTPService {
     return this.OTPRepository.save({ code, sessionID });
   }
 
+  async delete(id: string): Promise<boolean> {
+    const { affected } = await this.OTPRepository.createQueryBuilder('OTP')
+      .delete()
+      .where('id = :id', { id })
+      .execute();
+    return affected ? true : false;
+  }
+
   async create(data: CreateOTPInput): Promise<boolean> {
     const { value, sessionID, typeOfOTP } = data;
     const { code, hashedOTP } = await randomHashedOTP();
@@ -58,6 +66,7 @@ export default class OTPService {
     }
 
     const { code: hashedCode } = OTPEntity;
+
     return compareCodes(code, hashedCode);
   }
 }

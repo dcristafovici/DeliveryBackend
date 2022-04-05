@@ -28,7 +28,7 @@ export class UserService {
 
   async update(id: string, data: UpdateUserInput): Promise<boolean> {
     const { affected } = await this.userRepository
-      .createQueryBuilder('category')
+      .createQueryBuilder('user')
       .update(User)
       .set({ ...data })
       .where('id = :id', { id })
