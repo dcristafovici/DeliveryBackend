@@ -5,13 +5,20 @@ import {
   FindByResCatCombInput,
 } from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
-import { GeneralGettingOptions } from 'src/constants/general.dto';
+import {
+  getGeneralResponse,
+  GraphqlRequestParams,
+} from 'src/constants/GraphqlGeneralTypes';
 import {
   RestaurantCategoryService,
   RestaurantService,
 } from 'src/restaurant/restaurant.service';
 import { Repository } from 'typeorm';
-import { AddProductInput, UpdateProductInput } from './product.dto';
+import {
+  AddProductInput,
+  GraphqlGettingProducts,
+  UpdateProductInput,
+} from './product.dto';
 import { Product } from './product.entity';
 
 @Injectable()
@@ -24,13 +31,9 @@ export class ProductService {
     private restaurantService: RestaurantService,
   ) {}
 
-  getCount(): Promise<number> {
-    return this.productRepository.createQueryBuilder('product').getCount();
-  }
-
-  find(data: GeneralGettingOptions): Promise<Product[]> {
+  async find(data: GraphqlRequestParams): Promise<GraphqlGettingProducts> {
     const { limit, offset } = data;
-    return this.productRepository
+    const items = await this.productRepository
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.restaurant', 'restaurant')
       .leftJoinAndSelect('product.media', 'media')
@@ -39,6 +42,9 @@ export class ProductService {
       .limit(limit)
       .offset(offset)
       .getMany();
+
+    const totalItems = await this.productRepository.count();
+    return getGeneralResponse(items, totalItems);
   }
 
   findOne(id: string): Promise<Product> {

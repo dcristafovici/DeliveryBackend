@@ -1,7 +1,8 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, Int, InputType, ObjectType } from '@nestjs/graphql';
 import { Category } from 'src/category/category.entity';
 import { Media } from 'src/media/media.entity';
 import { Restaurant } from 'src/restaurant/Restaurant.entity';
+import { Product } from './product.entity';
 
 @InputType()
 @ObjectType()
@@ -51,4 +52,13 @@ export class UpdateProductInput {
 
   @Field(() => [String], { nullable: true })
   readonly categories: Category[];
+}
+
+@ObjectType()
+export class GraphqlGettingProducts {
+  @Field(() => [Product])
+  readonly items: Product[];
+
+  @Field(() => Int)
+  readonly totalItems: number;
 }

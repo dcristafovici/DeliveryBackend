@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Media } from 'src/media/media.entity';
+import { Restaurant } from 'src/restaurant/Restaurant.entity';
 import {
   Column,
   CreateDateColumn,
@@ -37,6 +38,11 @@ export class Manager {
   @Field({ nullable: true })
   @Column({ nullable: true })
   email: string;
+
+  @Field(() => Restaurant, { nullable: true })
+  @ManyToOne(() => Restaurant, { eager: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'restaurant' })
+  restaurant: Restaurant;
 
   @Field()
   @Column({

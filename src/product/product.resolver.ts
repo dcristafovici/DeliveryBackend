@@ -3,8 +3,12 @@ import {
   FindByKeyInput,
   FindByResCatCombInput,
 } from 'src/category/category.dto';
-import { GeneralGettingOptions } from 'src/constants/general.dto';
-import { AddProductInput, UpdateProductInput } from './product.dto';
+import { GraphqlRequestParams } from 'src/constants/GraphqlGeneralTypes';
+import {
+  AddProductInput,
+  GraphqlGettingProducts,
+  UpdateProductInput,
+} from './product.dto';
 import { Product } from './product.entity';
 import { ProductService } from './product.service';
 
@@ -12,15 +16,10 @@ import { ProductService } from './product.service';
 export class ProductResolver {
   constructor(private productService: ProductService) {}
 
-  @Query(() => Number)
-  getProductsNumber(): Promise<number> {
-    return this.productService.getCount();
-  }
-
-  @Query(() => [Product])
+  @Query(() => GraphqlGettingProducts)
   async findProducts(
-    @Args('data') data: GeneralGettingOptions,
-  ): Promise<Product[]> {
+    @Args('data') data: GraphqlRequestParams,
+  ): Promise<GraphqlGettingProducts> {
     return this.productService.find(data);
   }
   @Query(() => Product)

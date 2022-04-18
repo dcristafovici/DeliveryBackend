@@ -1,5 +1,6 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Media } from 'src/media/media.entity';
+import { Restaurant } from 'src/restaurant/Restaurant.entity';
 
 export enum ManagerRolesEnum {
   ADMIN = 'ADMIN',
@@ -27,6 +28,9 @@ export class UpdateManagerInput {
 
   @Field(() => String, { nullable: true })
   readonly email: string;
+
+  @Field(() => String, { nullable: true })
+  readonly restaurant: Restaurant;
 
   @Field(() => String, { nullable: true })
   readonly media: Media;

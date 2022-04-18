@@ -62,6 +62,11 @@ type RestaurantCategory {
   updated_at: DateTime!
 }
 
+type GraphqlGettingProducts {
+  items: [Product!]!
+  totalItems: Int!
+}
+
 type SuggestionDataEntity {
   geo_lat: String
   geo_lon: String
@@ -142,6 +147,7 @@ type Manager {
   name: String
   phone: String
   email: String
+  restaurant: Restaurant
   role: String!
   media: Media
   created_at: DateTime!
@@ -180,8 +186,7 @@ type Query {
   findOneRestaurant(id: String!): Restaurant!
   findByKeyRestaurants(data: FindByKeyInput!): [Restaurant!]!
   findByKeyResCat(data: FindByKeyInput!): [RestaurantCategory!]!
-  getProductsNumber: Float!
-  findProducts(data: GeneralGettingOptions!): [Product!]!
+  findProducts(data: GraphqlRequestParams!): GraphqlGettingProducts!
   findOneProduct(id: String!): Product!
   findByKeyProducts(data: FindByKeyInput!): [Product!]!
   findByResCatCombProducts(data: FindByResCatCombInput!): [Product!]!
@@ -203,9 +208,9 @@ input FindByKeyInput {
   value: String!
 }
 
-input GeneralGettingOptions {
-  limit: Float!
-  offset: Float!
+input GraphqlRequestParams {
+  limit: Int!
+  offset: Int!
 }
 
 input FindByResCatCombInput {
@@ -346,5 +351,6 @@ input UpdateManagerInput {
   name: String
   phone: String
   email: String
+  restaurant: String
   media: String
 }
