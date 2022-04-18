@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
+import {
+  getGeneralResponse,
+  GraphqlRequestParams,
+} from 'src/constants/GraphqlGeneralTypes';
 import { MailService } from 'src/mail/mail.service';
 import { Repository } from 'typeorm';
-import { AddOrderInput } from './order.dto';
+import { AddOrderInput, GraphqlGettingOrders } from './order.dto';
 import { Order } from './order.entity';
 import { OrderCartService } from './OrderCart/order-cart.service';
 import { OrderCustomerService } from './OrderCustomer/order-customer.service';
@@ -24,8 +28,9 @@ export class OrderService {
     private mailService: MailService,
   ) {}
 
-  find(): Promise<Order[]> {
-    return this.orderRepository
+  async find(data: GraphqlRequestParams): Promise<GraphqlGettingOrders> {
+    const { offset, limit } = data;
+    const items = await this.orderRepository
       .createQueryBuilder('order')
       .leftJoinAndSelect('order.restaurant', 'restaurant')
       .leftJoinAndSelect('order.user', 'media')
@@ -34,7 +39,12 @@ export class OrderService {
       .leftJoinAndSelect('orderCart.product', 'product')
       .leftJoinAndSelect('product.media', 'product_media')
       .leftJoinAndSelect('order.orderPayment', 'orderPayment')
+      .offset(offset)
+      .limit(limit)
       .getMany();
+
+    const totalItems = await this.orderRepository.count();
+    return getGeneralResponse(items, totalItems);
   }
 
   findOne(id: string): Promise<Order> {

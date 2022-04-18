@@ -4,10 +4,15 @@ import { In, Repository } from 'typeorm';
 import {
   AddCategoryInput,
   FindByKeyInput,
+  GraphqlGettingCategories,
   UpdateCategoryInput,
 } from './category.dto';
 import { Category } from './category.entity';
 import slugify from 'slugify';
+import {
+  getGeneralResponse,
+  GraphqlRequestParams,
+} from 'src/constants/GraphqlGeneralTypes';
 
 @Injectable()
 export class CategoryService {
@@ -16,8 +21,16 @@ export class CategoryService {
     private categoryRepository: Repository<Category>,
   ) {}
 
-  find(): Promise<Category[]> {
-    return this.categoryRepository.createQueryBuilder('category').getMany();
+  async find(data: GraphqlRequestParams): Promise<GraphqlGettingCategories> {
+    const { limit, offset } = data;
+    const items = await this.categoryRepository
+      .createQueryBuilder('category')
+      .limit(limit)
+      .offset(offset)
+      .getMany();
+
+    const totalItems = await this.categoryRepository.count();
+    return getGeneralResponse(items, totalItems);
   }
 
   findOne(id: string): Promise<Category> {

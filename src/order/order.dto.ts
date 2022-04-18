@@ -1,6 +1,7 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, Int, InputType, ObjectType } from '@nestjs/graphql';
 import { Restaurant } from 'src/restaurant/Restaurant.entity';
 import { User } from 'src/user/user.entity';
+import { Order } from './order.entity';
 import { AddOrderCartInput } from './OrderCart/order-cart.dto';
 import { AddOrderCustomerInput } from './OrderCustomer/order-customer.dto';
 
@@ -36,4 +37,13 @@ export class OrderResponse {
 
   @Field(() => String)
   readonly confirmation_url: string;
+}
+
+@ObjectType()
+export class GraphqlGettingOrders {
+  @Field(() => [Order])
+  readonly items: Order[];
+
+  @Field(() => Int)
+  readonly totalItems: number;
 }

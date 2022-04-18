@@ -53,6 +53,11 @@ type Category {
   updated_at: DateTime!
 }
 
+type GraphqlGettingCategories {
+  items: [Category!]!
+  totalItems: Int!
+}
+
 type RestaurantCategory {
   id: String!
   category: Category!
@@ -60,6 +65,11 @@ type RestaurantCategory {
   order: Float!
   created_at: DateTime!
   updated_at: DateTime!
+}
+
+type GraphqlGettingRestaurants {
+  items: [Restaurant!]!
+  totalItems: Int!
 }
 
 type GraphqlGettingProducts {
@@ -140,6 +150,11 @@ type Order {
   updated_at: DateTime!
 }
 
+type GraphqlGettingOrders {
+  items: [Order!]!
+  totalItems: Int!
+}
+
 type Manager {
   id: String!
   login: String!
@@ -177,12 +192,12 @@ input AddOrderCustomerInput {
 }
 
 type Query {
-  findCategories: [Category!]!
+  findCategories(data: GraphqlRequestParams!): GraphqlGettingCategories!
   findOneCategory(id: String!): Category!
   findByKeyCategories(data: FindByKeyInput!): [Category!]!
   findMedia: [Media!]!
   findOneMedia(id: String!): Media!
-  findRestaurants: [Restaurant!]!
+  findRestaurants(data: GraphqlRequestParams!): GraphqlGettingRestaurants!
   findOneRestaurant(id: String!): Restaurant!
   findByKeyRestaurants(data: FindByKeyInput!): [Restaurant!]!
   findByKeyResCat(data: FindByKeyInput!): [RestaurantCategory!]!
@@ -193,7 +208,7 @@ type Query {
   findPossibleAddresses(address: String!): [SuggestionEntity!]!
   findUsers: [User!]!
   getUserByToken(token: String!): User!
-  findOrders: [Order!]!
+  findOrders(data: GraphqlRequestParams!): GraphqlGettingOrders!
   findOneOrder(id: String!): Order!
   findByKeyOrders(data: FindByKeyInput!): [Order!]!
   findManagers: [Manager!]!
@@ -203,14 +218,14 @@ type Query {
   findOnlyManagers: [Manager!]!
 }
 
-input FindByKeyInput {
-  field: String!
-  value: String!
-}
-
 input GraphqlRequestParams {
   limit: Int!
   offset: Int!
+}
+
+input FindByKeyInput {
+  field: String!
+  value: String!
 }
 
 input FindByResCatCombInput {

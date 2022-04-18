@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, Int, InputType, ObjectType } from '@nestjs/graphql';
 import { Category } from 'src/category/category.entity';
 import { Media } from 'src/media/media.entity';
 import { Restaurant } from './Restaurant.entity';
@@ -71,4 +71,13 @@ export class OneBunchInput {
 
   @Field(() => Number)
   readonly order: number;
+}
+
+@ObjectType()
+export class GraphqlGettingRestaurants {
+  @Field(() => [Restaurant])
+  readonly items: Restaurant[];
+
+  @Field(() => Int)
+  readonly totalItems: number;
 }
