@@ -29,7 +29,10 @@ export class ManagerService {
 
   findByField(data: FindByKeyInput): Promise<Manager[]> {
     const { field, value } = data;
-    return this.managerRepository.find({ [field]: value });
+    return this.managerRepository
+      .createQueryBuilder('manager')
+      .where(`manager.${field} = ${field}`, { value })
+      .getMany();
   }
 
   findOnlyManagers(): Promise<Manager[]> {
