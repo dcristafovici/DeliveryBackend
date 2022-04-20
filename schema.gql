@@ -53,9 +53,21 @@ type Category {
   updated_at: DateTime!
 }
 
-type GraphqlGettingCategories {
-  items: [Category!]!
-  totalItems: Int!
+type CategoryConnection {
+  edges: [Edge!]!
+  pageInfo: PageInfo!
+}
+
+type Edge {
+  node: Category!
+  cursor: String!
+}
+
+type PageInfo {
+  startCursor: String
+  endCursor: String
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
 }
 
 type RestaurantCategory {
@@ -65,16 +77,6 @@ type RestaurantCategory {
   order: Float!
   created_at: DateTime!
   updated_at: DateTime!
-}
-
-type GraphqlGettingRestaurants {
-  items: [Restaurant!]!
-  totalItems: Int!
-}
-
-type GraphqlGettingProducts {
-  items: [Product!]!
-  totalItems: Int!
 }
 
 type SuggestionDataEntity {
@@ -150,11 +152,6 @@ type Order {
   updated_at: DateTime!
 }
 
-type GraphqlGettingOrders {
-  items: [Order!]!
-  totalItems: Int!
-}
-
 type Manager {
   id: String!
   login: String!
@@ -192,23 +189,23 @@ input AddOrderCustomerInput {
 }
 
 type Query {
-  findCategories(data: GraphqlRequestParams!): GraphqlGettingCategories!
+  findCategories(data: GraphqlRelayParams!): CategoryConnection!
   findOneCategory(id: String!): Category!
   findByKeyCategories(data: FindByKeyInput!): [Category!]!
   findMedia: [Media!]!
   findOneMedia(id: String!): Media!
-  findRestaurants(data: GraphqlRequestParams!): GraphqlGettingRestaurants!
+  findRestaurants: [Restaurant!]!
   findOneRestaurant(id: String!): Restaurant!
   findByKeyRestaurants(data: FindByKeyInput!): [Restaurant!]!
   findByKeyResCat(data: FindByKeyInput!): [RestaurantCategory!]!
-  findProducts(data: GraphqlRequestParams!): GraphqlGettingProducts!
+  findProducts: [Product!]!
   findOneProduct(id: String!): Product!
   findByKeyProducts(data: FindByKeyInput!): [Product!]!
   findByResCatCombProducts(data: FindByResCatCombInput!): [Product!]!
   findPossibleAddresses(address: String!): [SuggestionEntity!]!
   findUsers: [User!]!
   getUserByToken(token: String!): User!
-  findOrders(data: GraphqlRequestParams!): GraphqlGettingOrders!
+  findOrders: [Order!]!
   findOneOrder(id: String!): Order!
   findByKeyOrders(data: FindByKeyInput!): [Order!]!
   findManagers: [Manager!]!
@@ -218,9 +215,9 @@ type Query {
   findOnlyManagers: [Manager!]!
 }
 
-input GraphqlRequestParams {
-  limit: Int!
-  offset: Int!
+input GraphqlRelayParams {
+  first: Int
+  after: String
 }
 
 input FindByKeyInput {

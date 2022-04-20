@@ -1,5 +1,9 @@
-import { Field, Int, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Category } from './category.entity';
+import { Connection } from '../GraphQL/Connection';
+
+@ObjectType()
+export class CategoryConnection extends Connection<Category>(Category) {}
 
 @InputType()
 @ObjectType()
@@ -36,13 +40,4 @@ export class FindByResCatCombInput {
 
   @Field(() => String)
   readonly category: string;
-}
-
-@ObjectType()
-export class GraphqlGettingCategories {
-  @Field(() => [Category])
-  readonly items: Category[];
-
-  @Field(() => Int)
-  readonly totalItems: number;
 }

@@ -72,12 +72,3 @@ export class OneBunchInput {
   @Field(() => Number)
   readonly order: number;
 }
-
-@ObjectType()
-export class GraphqlGettingRestaurants {
-  @Field(() => [Restaurant])
-  readonly items: Restaurant[];
-
-  @Field(() => Int)
-  readonly totalItems: number;
-}

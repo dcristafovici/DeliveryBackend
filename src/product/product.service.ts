@@ -1,25 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ConnectableObservable } from 'rxjs';
 import {
   FindByKeyInput,
   FindByResCatCombInput,
 } from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
 import {
-  getGeneralResponse,
-  GraphqlRequestParams,
-} from 'src/constants/GraphqlGeneralTypes';
-import {
   RestaurantCategoryService,
   RestaurantService,
 } from 'src/restaurant/restaurant.service';
 import { Repository } from 'typeorm';
-import {
-  AddProductInput,
-  GraphqlGettingProducts,
-  UpdateProductInput,
-} from './product.dto';
+import { AddProductInput, UpdateProductInput } from './product.dto';
 import { Product } from './product.entity';
 
 @Injectable()
@@ -32,20 +23,14 @@ export class ProductService {
     private restaurantService: RestaurantService,
   ) {}
 
-  async find(data: GraphqlRequestParams): Promise<GraphqlGettingProducts> {
-    const { limit, offset } = data;
-    const items = await this.productRepository
+  async find(): Promise<Product[]> {
+    return await this.productRepository
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.restaurant', 'restaurant')
       .leftJoinAndSelect('product.media', 'media')
       .leftJoinAndSelect('product.categories', 'category')
       .orderBy('product.created_at', 'DESC')
-      .limit(limit)
-      .offset(offset)
       .getMany();
-
-    const totalItems = await this.productRepository.count();
-    return getGeneralResponse(items, totalItems);
   }
 
   findOne(id: string): Promise<Product> {

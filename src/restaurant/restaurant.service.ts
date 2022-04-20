@@ -1,16 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
-import {
-  getGeneralResponse,
-  GraphqlRequestParams,
-} from 'src/constants/GraphqlGeneralTypes';
 import { Repository } from 'typeorm';
 import { RestaurantCategory } from './restaurant-category.entity';
 import {
   AddRestaurantInput,
   FindBunchInput,
-  GraphqlGettingRestaurants,
   OneBunchInput,
   UpdateBunchInput,
   UpdateRestaurantInput,
@@ -24,18 +19,11 @@ export class RestaurantService {
     private restaurantRepository: Repository<Restaurant>,
   ) {}
 
-  async find(data: GraphqlRequestParams): Promise<GraphqlGettingRestaurants> {
-    const { limit, offset } = data;
-
-    const items = await this.restaurantRepository
+  async find(): Promise<Restaurant[]> {
+    return await this.restaurantRepository
       .createQueryBuilder('restaurant')
       .leftJoinAndSelect('restaurant.media', 'media')
-      .limit(limit)
-      .offset(offset)
       .getMany();
-
-    const totalItems = await this.restaurantRepository.count();
-    return getGeneralResponse(items, totalItems);
   }
 
   findOne(id: string): Promise<Restaurant> {

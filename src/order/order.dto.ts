@@ -38,12 +38,3 @@ export class OrderResponse {
   @Field(() => String)
   readonly confirmation_url: string;
 }
-
-@ObjectType()
-export class GraphqlGettingOrders {
-  @Field(() => [Order])
-  readonly items: Order[];
-
-  @Field(() => Int)
-  readonly totalItems: number;
-}

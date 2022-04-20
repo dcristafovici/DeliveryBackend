@@ -53,12 +53,3 @@ export class UpdateProductInput {
   @Field(() => [String], { nullable: true })
   readonly categories: Category[];
 }
-
-@ObjectType()
-export class GraphqlGettingProducts {
-  @Field(() => [Product])
-  readonly items: Product[];
-
-  @Field(() => Int)
-  readonly totalItems: number;
-}
