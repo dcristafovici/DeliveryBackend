@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ConnectableObservable } from 'rxjs';
 import {
   FindByKeyInput,
   FindByResCatCombInput,

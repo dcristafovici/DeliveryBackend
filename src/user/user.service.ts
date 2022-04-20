@@ -19,7 +19,7 @@ export class UserService {
     return this.userRepository.createQueryBuilder('User').getMany();
   }
   findOne(id: string): Promise<User> {
-    return this.userRepository.findOne(id);
+    return this.userRepository.findOneBy({ id });
   }
 
   findByField(key: string, value: string): Promise<User> {

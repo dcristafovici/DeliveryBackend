@@ -91,7 +91,7 @@ export class OrderService {
       orderID: id,
     });
 
-    const updatedCombinedOrder = await this.orderRepository.findOne(id);
+    const updatedCombinedOrder = await this.orderRepository.findOneBy({ id });
 
     this.orderNotificationService.sendNotification(updatedCombinedOrder);
 

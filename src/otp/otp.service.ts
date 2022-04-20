@@ -53,7 +53,7 @@ export default class OTPService {
 
   async check(data: CheckOTPInput): Promise<boolean> {
     const { code, sessionID } = data;
-    const OTPEntity = await this.OTPRepository.findOne({ sessionID });
+    const OTPEntity = await this.OTPRepository.findOneBy({ sessionID });
 
     if (!OTPEntity) {
       throw new HttpException(

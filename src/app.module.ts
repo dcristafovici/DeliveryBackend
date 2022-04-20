@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 import { GraphQLUpload } from 'graphql-upload';
 import { DatabaseModule } from './database/database.module';
 import { CategoryModule } from './category/category.module';
@@ -32,10 +31,8 @@ import { ManagerModule } from './manager/manager.module';
     OTPModule,
     OrderModule,
     ManagerModule,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
-    }),
-    GraphQLModule.forRoot({
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
       resolvers: {
         Upload: GraphQLUpload,

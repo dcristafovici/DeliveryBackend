@@ -51,7 +51,7 @@ export class CategoryService {
 
   async create(data: AddCategoryInput): Promise<Category> {
     const { name } = data;
-    const existingCategory = await this.categoryRepository.find({ name });
+    const existingCategory = await this.categoryRepository.findBy({ name });
 
     if (existingCategory.length) {
       throw new HttpException(
@@ -78,7 +78,7 @@ export class CategoryService {
 
   async update(id: string, data: UpdateCategoryInput): Promise<Category> {
     const { name } = data;
-    const existingCategory = await this.categoryRepository.find({ name });
+    const existingCategory = await this.categoryRepository.findBy({ name });
 
     if (existingCategory.length) {
       throw new HttpException(

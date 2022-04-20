@@ -236,17 +236,17 @@ input FindByResCatCombInput {
 type Mutation {
   createCategory(data: AddCategoryInput!): Category!
   deleteCategory(id: String!): Boolean!
-  updateCategory(data: UpdateCategoryInput!, id: String!): Category!
+  updateCategory(id: String!, data: UpdateCategoryInput!): Category!
   createMedia(file: Upload!): Media!
   deleteMedia(id: String!): Media!
   createRestaurant(data: AddRestaurantInput!): Restaurant!
   deleteRestaurant(id: String!): Boolean!
-  updateRestaurant(data: UpdateRestaurantInput!, id: String!): Restaurant!
+  updateRestaurant(id: String!, data: UpdateRestaurantInput!): Restaurant!
   updateResCatBunch(data: UpdateBunchInput!): Boolean!
   createProduct(data: AddProductInput!): Product!
   deleteProduct(id: String!): Boolean!
-  updateProduct(data: UpdateProductInput!, id: String!): Product!
-  updateUser(data: UpdateUserInput!, id: String!): Boolean!
+  updateProduct(id: String!, data: UpdateProductInput!): Product!
+  updateUser(id: String!, data: UpdateUserInput!): Boolean!
   authenticationUser(data: AuthenticationInput!): String!
   createOTP(data: CreateOTPInput!): Boolean!
   checkOTP(data: CheckOTPInput!): Boolean!
@@ -255,7 +255,7 @@ type Mutation {
   updatePaymentStatus(data: UpdatePaymentStatusDTO!): Boolean!
   loginManager(data: AuthManagerInput!): String!
   createManager(data: AuthManagerInput!): Manager!
-  updateManager(data: UpdateManagerInput!, id: String!): Boolean!
+  updateManager(id: String!, data: UpdateManagerInput!): Boolean!
 }
 
 input AddCategoryInput {

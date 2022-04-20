@@ -8,11 +8,9 @@ declare module 'jsonwebtoken' {
     id: string;
   }
 }
-export const verifyAccessToken = (
-  token: string,
-): Promise<jwt.JwtPayload | undefined> => {
+export const verifyAccessToken = (token: string): Promise<jwt.JwtPayload> => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, JWT_SECRET as string, (err, payload) => {
+    jwt.verify(token, JWT_SECRET as string, (err, payload: jwt.JwtPayload) => {
       if (err) {
         return reject(new httpError.Unauthorized());
       }

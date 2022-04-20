@@ -83,17 +83,19 @@ export class RestaurantCategoryService {
 
   findBunch(data: FindBunchInput): Promise<RestaurantCategory[]> {
     const { restaurant, category } = data;
-    return this.restaurantCategoryRepository.find({
-      where: { restaurant, category },
-    });
+    return this.restaurantCategoryRepository
+      .createQueryBuilder('restaurantCategory')
+      .where('restaurantCategory.category = :category', { category })
+      .andWhere('restaurantCategory.restaurant = :restaurant', { restaurant })
+      .getMany();
   }
 
   findByKey(data: FindByKeyInput): Promise<RestaurantCategory[]> {
     const { field, value } = data;
-    return this.restaurantCategoryRepository.find({
-      where: { [field]: value },
-      order: { order: 'ASC' },
-    });
+    return this.restaurantCategoryRepository
+      .createQueryBuilder('restaurantCategory')
+      .where(`restaurantCategory.${field} = ${field}`, { value })
+      .getMany();
   }
 
   createBunch(data: FindBunchInput): Promise<RestaurantCategory> {

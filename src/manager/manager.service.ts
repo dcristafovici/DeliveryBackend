@@ -24,7 +24,7 @@ export class ManagerService {
   }
 
   findOne(id: string): Promise<Manager> {
-    return this.managerRepository.findOne(id);
+    return this.managerRepository.findOneBy({ id });
   }
 
   findByField(data: FindByKeyInput): Promise<Manager[]> {
@@ -33,12 +33,12 @@ export class ManagerService {
   }
 
   findOnlyManagers(): Promise<Manager[]> {
-    return this.managerRepository.find({ role: ManagerRolesEnum.MANAGER });
+    return this.managerRepository.findBy({ role: ManagerRolesEnum.MANAGER });
   }
 
   async login(data: AuthManagerInput): Promise<string> {
     const { login, password } = data;
-    const existedManager = await this.managerRepository.findOne({ login });
+    const existedManager = await this.managerRepository.findOneBy({ login });
 
     if (!existedManager) {
       throw new HttpException(
@@ -51,7 +51,7 @@ export class ManagerService {
     }
 
     const { id: managerID, password: managerPassword } =
-      await this.managerRepository.findOne({ login });
+      await this.managerRepository.findOneBy({ login });
 
     const isMatchPassword = await bcrypt.compare(password, managerPassword);
     if (!isMatchPassword) {
@@ -69,7 +69,7 @@ export class ManagerService {
   async create(data: AuthManagerInput): Promise<Manager> {
     const { login, password: unencryptedPassword } = data;
 
-    const existedUser = await this.managerRepository.findOne({ login });
+    const existedUser = await this.managerRepository.findOneBy({ login });
 
     if (existedUser) {
       throw new HttpException('Login already exists', HttpStatus.CONFLICT);

@@ -12,7 +12,7 @@ import {
 } from 'typeorm';
 import { Restaurant } from './Restaurant.entity';
 
-@Entity({ name: 'DELIVERY_RESTAURANT_CATEGORY' })
+@Entity()
 @ObjectType()
 export class RestaurantCategory {
   @Field()
