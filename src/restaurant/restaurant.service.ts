@@ -48,7 +48,10 @@ export class RestaurantService {
 
   findByKey(data: FindByKeyInput): Promise<Restaurant[]> {
     const { field, value } = data;
-    return this.restaurantRepository.find({ where: { [field]: value } });
+    return this.restaurantRepository
+      .createQueryBuilder('restaurant')
+      .where(`restaurant.${field} = :${field}`, { [field]: value })
+      .getMany();
   }
 
   create(data: AddRestaurantInput): Promise<Restaurant> {
@@ -94,7 +97,7 @@ export class RestaurantCategoryService {
     const { field, value } = data;
     return this.restaurantCategoryRepository
       .createQueryBuilder('restaurantCategory')
-      .where(`restaurantCategory.${field} = ${field}`, { value })
+      .where(`restaurantCategory.${field} = :${field}`, { [field]: value })
       .getMany();
   }
 

@@ -42,7 +42,10 @@ export class CategoryService {
 
   findByKey(data: FindByKeyInput): Promise<Category[]> {
     const { field, value } = data;
-    return this.categoryRepository.find({ where: { [field]: value } });
+    return this.categoryRepository
+      .createQueryBuilder('category')
+      .where(`category.${field} = :${field}`, { [field]: value })
+      .getMany();
   }
 
   findInData(data: Array<Category>): Promise<Category[]> {
