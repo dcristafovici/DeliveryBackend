@@ -1,11 +1,11 @@
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { connectionFromPromisedArray } from 'graphql-relay';
 import { GraphqlRelayParams } from 'src/constants/GraphqlGeneralTypes';
-import { CategoryConnection } from './category.dto';
 import {
   AddCategoryInput,
   FindByKeyInput,
   UpdateCategoryInput,
+  CategoryConnection,
 } from './category.dto';
 import { Category } from './category.entity';
 import { CategoryService } from './category.service';

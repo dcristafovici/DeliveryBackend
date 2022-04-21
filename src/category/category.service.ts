@@ -16,10 +16,8 @@ export class CategoryService {
     private categoryRepository: Repository<Category>,
   ) {}
 
-  async find(): Promise<Category[]> {
-    return await this.categoryRepository
-      .createQueryBuilder('category')
-      .getMany();
+  find(): Promise<Category[]> {
+    return this.categoryRepository.createQueryBuilder('category').getMany();
   }
 
   findOne(id: string): Promise<Category> {
