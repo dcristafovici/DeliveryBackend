@@ -1,6 +1,6 @@
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
-import { connectionFromPromisedArray } from 'graphql-relay';
 import { GraphqlRelayParams } from 'src/constants/GraphqlGeneralTypes';
+import { connectionFromPromisedArray } from 'src/GraphQL/arrayConnection';
 import {
   AddCategoryInput,
   FindByKeyInput,
@@ -18,7 +18,7 @@ export class CategoryResolver {
   async findCategories(
     @Args('data') data: GraphqlRelayParams,
   ): Promise<CategoryConnection> {
-    return connectionFromPromisedArray(this.categoryService.find(), data);
+    return connectionFromPromisedArray(this.categoryService.find(data));
   }
   @Query(() => Category)
   async findOneCategory(@Args('id') id: string): Promise<Category> {

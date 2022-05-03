@@ -8,6 +8,7 @@ import {
 } from './category.dto';
 import { Category } from './category.entity';
 import slugify from 'slugify';
+import { GraphqlRelayParams } from 'src/constants/GraphqlGeneralTypes';
 
 @Injectable()
 export class CategoryService {
@@ -16,8 +17,16 @@ export class CategoryService {
     private categoryRepository: Repository<Category>,
   ) {}
 
-  find(): Promise<Category[]> {
-    return this.categoryRepository.createQueryBuilder('category').getMany();
+  async find(data: GraphqlRelayParams): Promise<Category[]> {
+    const { first = null, after = '' } = data;
+    const ds = await this.categoryRepository
+      .createQueryBuilder('category')
+      .limit(first)
+      .getManyAndCount();
+    return this.categoryRepository
+      .createQueryBuilder('category')
+      .limit(first)
+      .getMany();
   }
 
   findOne(id: string): Promise<Category> {

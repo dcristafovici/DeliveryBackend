@@ -2,9 +2,9 @@ import { Type } from '@nestjs/common';
 import { Field, ObjectType } from '@nestjs/graphql';
 import {
   Connection as RelayConnection,
-  Edge as RelayEdge,
   PageInfo as RelayPageInfo,
-} from 'graphql-relay';
+  Edge as RelayEdge,
+} from './arrayConnectionTypes';
 
 export function Connection<GraphQLObject>(
   GenericClass?: Type<GraphQLObject>,
