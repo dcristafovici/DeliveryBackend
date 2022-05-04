@@ -6,9 +6,9 @@ export const connectionFromPromisedArray = (
   dataPromise.then((data) => connectionFromArray(data));
 
 const connectionFromArray = (data: ReadonlyArray<any>): Connection<any> => {
-  const firstElement = data[0].id;
-  const lastElement = data[data.length - 1].id;
-  const edges = data.map((item) => ({ cursor: item.id, node: item }));
+  const firstElement = data[0].created_at;
+  const lastElement = data[data.length - 1].created_at;
+  const edges = data.map((item) => ({ cursor: item.created_at, node: item }));
   return {
     edges,
     pageInfo: {

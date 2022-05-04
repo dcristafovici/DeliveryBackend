@@ -18,13 +18,11 @@ export class CategoryService {
   ) {}
 
   async find(data: GraphqlRelayParams): Promise<Category[]> {
-    const { first = null, after = '' } = data;
-    const ds = await this.categoryRepository
-      .createQueryBuilder('category')
-      .limit(first)
-      .getManyAndCount();
+    const { first = null, after = '0' } = data;
+    const cursor = new Date(parseFloat(after));
     return this.categoryRepository
       .createQueryBuilder('category')
+      .where('category.created_at >= :cursor', { cursor })
       .limit(first)
       .getMany();
   }

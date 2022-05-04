@@ -5,6 +5,11 @@ import { Connection } from '../GraphQL/Connection';
 @ObjectType()
 export class CategoryConnection extends Connection<Category>(Category) {}
 
+export interface testDTO {
+  totalItems: string;
+  node: Category[];
+}
+
 @InputType()
 @ObjectType()
 export class AddCategoryInput {

@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'CATEGORY', orderBy: { created_at: 'ASC' } })
+@Entity({ name: 'CATEGORY' })
 @ObjectType()
 export class Category {
   @Field()
@@ -31,10 +31,10 @@ export class Category {
   products: Promise<Product[]>;
 
   @Field()
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz' })
   created_at: Date;
 
   @Field()
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamptz' })
   updated_at: Date;
 }

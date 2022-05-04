@@ -15,7 +15,7 @@ export const bucketParams = (
   Key: string,
   Body: string | ReadableStream<any> | Blob | Uint8Array | Buffer,
 ) => ({
-  Bucket: 'delivery-media',
+  Bucket: process.env.OCEAN_S3_BUCKET_NAME,
   Key: Key,
   ACL: 'public-read',
   Body,
