@@ -19,10 +19,13 @@ export class CategoryService {
 
   async find(data: GraphqlRelayParams): Promise<Category[]> {
     const { first = null, after = '0' } = data;
-    const cursor = new Date(parseFloat(after));
+    // TODO: To investigate this workaround ( if we do not add + 1 to timestamp, the service takes the record that contains same timestamp as after constant )
+    const stringToTimestamp = parseFloat(after) + 1;
+    const cursor = new Date(stringToTimestamp);
+    // TODO: If we have 0 items, backend is down. Should be fixed.
     return this.categoryRepository
       .createQueryBuilder('category')
-      .where('category.created_at >= :cursor', { cursor })
+      .where('category.created_at > :cursor', { cursor })
       .limit(first)
       .getMany();
   }

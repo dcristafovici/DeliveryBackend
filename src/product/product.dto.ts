@@ -1,4 +1,4 @@
-import { Field, Int, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Category } from 'src/category/category.entity';
 import { Media } from 'src/media/media.entity';
 import { Restaurant } from 'src/restaurant/Restaurant.entity';
