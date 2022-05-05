@@ -5,6 +5,7 @@ import {
   FindByResCatCombInput,
 } from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
+import { GraphqlRelayParams } from 'src/constants/GraphqlGeneralTypes';
 import {
   RestaurantCategoryService,
   RestaurantService,
@@ -23,13 +24,16 @@ export class ProductService {
     private restaurantService: RestaurantService,
   ) {}
 
-  async find(): Promise<Product[]> {
-    return await this.productRepository
+  async find(data: GraphqlRelayParams): Promise<Product[]> {
+    const { first = null, after = '0' } = data;
+    const cursor = new Date(parseFloat(after));
+    return this.productRepository
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.restaurant', 'restaurant')
       .leftJoinAndSelect('product.media', 'media')
       .leftJoinAndSelect('product.categories', 'category')
-      .orderBy('product.created_at', 'DESC')
+      .where('category.created_at >= :cursor', { cursor })
+      .limit(first)
       .getMany();
   }
 

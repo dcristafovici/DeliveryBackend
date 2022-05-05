@@ -9,7 +9,7 @@ import {
 export function Connection<GraphQLObject>(
   GenericClass?: Type<GraphQLObject>,
 ): any {
-  @ObjectType({ isAbstract: true })
+  @ObjectType(`${GenericClass.name}PageInfo`, { isAbstract: true })
   class PageInfo implements RelayPageInfo {
     @Field(() => String, { nullable: true })
     startCursor: string;
@@ -24,7 +24,7 @@ export function Connection<GraphQLObject>(
     hasNextPage: boolean;
   }
 
-  @ObjectType({ isAbstract: true })
+  @ObjectType(`${GenericClass.name}Edge`, { isAbstract: true })
   abstract class Edge<GraphQLObject> implements RelayEdge<GraphQLObject> {
     @Field(() => GenericClass, { nullable: false })
     node: GraphQLObject;

@@ -54,16 +54,16 @@ type Category {
 }
 
 type CategoryConnection {
-  edges: [Edge!]!
-  pageInfo: PageInfo!
+  edges: [CategoryEdge!]!
+  pageInfo: CategoryPageInfo!
 }
 
-type Edge {
+type CategoryEdge {
   node: Category!
   cursor: String!
 }
 
-type PageInfo {
+type CategoryPageInfo {
   startCursor: String
   endCursor: String
   hasPreviousPage: Boolean!
@@ -77,6 +77,23 @@ type RestaurantCategory {
   order: Float!
   created_at: DateTime!
   updated_at: DateTime!
+}
+
+type RestaurantConnection {
+  edges: [RestaurantEdge!]!
+  pageInfo: RestaurantPageInfo!
+}
+
+type RestaurantEdge {
+  node: Restaurant!
+  cursor: String!
+}
+
+type RestaurantPageInfo {
+  startCursor: String
+  endCursor: String
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
 }
 
 type SuggestionDataEntity {
@@ -194,11 +211,11 @@ type Query {
   findByKeyCategories(data: FindByKeyInput!): [Category!]!
   findMedia: [Media!]!
   findOneMedia(id: String!): Media!
-  findRestaurants: [Restaurant!]!
+  findRestaurants(data: GraphqlRelayParams!): RestaurantConnection!
   findOneRestaurant(id: String!): Restaurant!
   findByKeyRestaurants(data: FindByKeyInput!): [Restaurant!]!
   findByKeyResCat(data: FindByKeyInput!): [RestaurantCategory!]!
-  findProducts: [Product!]!
+  findProducts(data: GraphqlRelayParams!): [Product!]!
   findOneProduct(id: String!): Product!
   findByKeyProducts(data: FindByKeyInput!): [Product!]!
   findByResCatCombProducts(data: FindByResCatCombInput!): [Product!]!

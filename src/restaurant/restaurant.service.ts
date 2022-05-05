@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
+import { GraphqlRelayParams } from 'src/constants/GraphqlGeneralTypes';
 import { Repository } from 'typeorm';
 import { RestaurantCategory } from './restaurant-category.entity';
 import {
@@ -19,10 +20,14 @@ export class RestaurantService {
     private restaurantRepository: Repository<Restaurant>,
   ) {}
 
-  async find(): Promise<Restaurant[]> {
-    return await this.restaurantRepository
+  find(data: GraphqlRelayParams): Promise<Restaurant[]> {
+    const { first = null, after = '0' } = data;
+    const cursor = new Date(parseFloat(after));
+    return this.restaurantRepository
       .createQueryBuilder('restaurant')
       .leftJoinAndSelect('restaurant.media', 'media')
+      .where('restaurant.created_at >= :cursor', { cursor })
+      .limit(first)
       .getMany();
   }
 

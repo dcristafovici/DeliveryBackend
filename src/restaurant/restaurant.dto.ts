@@ -1,7 +1,11 @@
-import { Field, Int, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Category } from 'src/category/category.entity';
 import { Media } from 'src/media/media.entity';
 import { Restaurant } from './Restaurant.entity';
+import { Connection } from '../GraphQL/Connection';
+
+@ObjectType()
+export class RestaurantConnection extends Connection<Restaurant>(Restaurant) {}
 
 @InputType()
 @ObjectType()
