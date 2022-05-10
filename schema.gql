@@ -96,6 +96,23 @@ type RestaurantPageInfo {
   hasNextPage: Boolean!
 }
 
+type ProductConnection {
+  edges: [ProductEdge!]!
+  pageInfo: ProductPageInfo!
+}
+
+type ProductEdge {
+  node: Product!
+  cursor: String!
+}
+
+type ProductPageInfo {
+  startCursor: String
+  endCursor: String
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
 type SuggestionDataEntity {
   geo_lat: String
   geo_lon: String
@@ -183,6 +200,18 @@ type Manager {
   updated_at: DateTime!
 }
 
+type Cars {
+  id: String!
+  name: String!
+  image: String!
+  enginePower: String!
+  manufacturer: String!
+  yearOfProduction: Float!
+  isNew: Boolean
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 input OneBunchInput {
   id: String!
   order: Float!
@@ -215,7 +244,7 @@ type Query {
   findOneRestaurant(id: String!): Restaurant!
   findByKeyRestaurants(data: FindByKeyInput!): [Restaurant!]!
   findByKeyResCat(data: FindByKeyInput!): [RestaurantCategory!]!
-  findProducts(data: GraphqlRelayParams!): [Product!]!
+  findProducts(data: GraphqlRelayParams!): ProductConnection!
   findOneProduct(id: String!): Product!
   findByKeyProducts(data: FindByKeyInput!): [Product!]!
   findByResCatCombProducts(data: FindByResCatCombInput!): [Product!]!
@@ -230,6 +259,8 @@ type Query {
   findByKeyManagers(data: FindByKeyInput!): [Manager!]!
   getManagerByToken(token: String!): Manager!
   findOnlyManagers: [Manager!]!
+  findCars: [Cars!]!
+  findOneCar(id: String!): Cars!
 }
 
 input GraphqlRelayParams {
@@ -270,6 +301,7 @@ type Mutation {
   loginManager(data: AuthManagerInput!): String!
   createManager(data: AuthManagerInput!): Manager!
   updateManager(id: String!, data: UpdateManagerInput!): Boolean!
+  createCars(data: AddCarsInput!): Cars!
 }
 
 input AddCategoryInput {
@@ -382,4 +414,13 @@ input UpdateManagerInput {
   email: String
   restaurant: String
   media: String
+}
+
+input AddCarsInput {
+  name: String!
+  enginePower: String!
+  image: String!
+  manufacturer: String!
+  yearOfProduction: Float!
+  isNew: Boolean
 }

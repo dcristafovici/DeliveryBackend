@@ -17,7 +17,7 @@ import { ProductService } from './product.service';
 export class ProductResolver {
   constructor(private productService: ProductService) {}
 
-  @Query(() => [Product])
+  @Query(() => ProductConnection)
   async findProducts(
     @Args('data') data: GraphqlRelayParams,
   ): Promise<ProductConnection> {
