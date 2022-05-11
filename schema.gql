@@ -302,6 +302,8 @@ type Mutation {
   createManager(data: AuthManagerInput!): Manager!
   updateManager(id: String!, data: UpdateManagerInput!): Boolean!
   createCars(data: AddCarsInput!): Cars!
+  updateCars(id: String!, data: UpdateCarsInput!): Cars!
+  deleteCars(id: String!): Boolean!
 }
 
 input AddCategoryInput {
@@ -422,5 +424,14 @@ input AddCarsInput {
   image: String!
   manufacturer: String!
   yearOfProduction: Float!
+  isNew: Boolean
+}
+
+input UpdateCarsInput {
+  name: String
+  enginePower: String
+  image: String
+  manufacturer: String
+  yearOfProduction: Float
   isNew: Boolean
 }

@@ -21,3 +21,25 @@ export class AddCarsInput {
   @Field(() => Boolean, { nullable: true })
   isNew: boolean;
 }
+
+@InputType()
+@ObjectType()
+export class UpdateCarsInput {
+  @Field(() => String, { nullable: true })
+  name: string;
+
+  @Field(() => String, { nullable: true })
+  enginePower: string;
+
+  @Field(() => String, { nullable: true })
+  image: string;
+
+  @Field(() => String, { nullable: true })
+  manufacturer: string;
+
+  @Field(() => Number, { nullable: true })
+  yearOfProduction: number;
+
+  @Field(() => Boolean, { nullable: true })
+  isNew: boolean;
+}
