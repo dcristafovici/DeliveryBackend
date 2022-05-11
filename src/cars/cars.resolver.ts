@@ -1,5 +1,12 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { AddCarsInput, UpdateCarsInput } from './cars.dto';
+import { AxiosResponse } from 'axios';
+import { lastValueFrom } from 'rxjs';
+import {
+  AddCarsInput,
+  PositionEntity,
+  PositionResultsInterface,
+  UpdateCarsInput,
+} from './cars.dto';
 import { Cars } from './cars.entity';
 import { CarsService } from './cars.service';
 
@@ -33,5 +40,16 @@ export class CarsResolver {
   @Mutation(() => Boolean)
   async deleteCars(@Args('id') id: string): Promise<boolean> {
     return this.carsService.delete(id);
+  }
+
+  @Query(() => [PositionEntity])
+  async findPosition(
+    @Args('address') address: string,
+  ): Promise<PositionEntity> {
+    return lastValueFrom(this.carsService.findPosition(address))
+      .then((response: AxiosResponse<any>) => {
+        return response['data'];
+      })
+      .catch((err) => console.log(err));
   }
 }

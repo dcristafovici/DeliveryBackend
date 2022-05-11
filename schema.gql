@@ -212,6 +212,26 @@ type Cars {
   updated_at: DateTime!
 }
 
+type PositionEntity {
+  latitude: Float!
+  longitude: Float!
+  type: String!
+  name: String!
+  number: Float
+  postal_code: String
+  street: String
+  confidence: Float!
+  region: String!
+  region_code: String!
+  county: String!
+  locality: String!
+  administrative_area: String!
+  neighbourhood: String!
+  country_code: String!
+  continent: String!
+  label: String!
+}
+
 input OneBunchInput {
   id: String!
   order: Float!
@@ -261,6 +281,7 @@ type Query {
   findOnlyManagers: [Manager!]!
   findCars: [Cars!]!
   findOneCar(id: String!): Cars!
+  findPosition(address: String!): [PositionEntity!]!
 }
 
 input GraphqlRelayParams {
