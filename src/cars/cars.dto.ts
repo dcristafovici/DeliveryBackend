@@ -69,16 +69,16 @@ export interface PositionElementInterface {
 
 @ObjectType()
 export class PositionEntity {
-  @Field(() => Number)
+  @Field(() => Number, { nullable: true })
   readonly latitude: number;
 
-  @Field(() => Number)
+  @Field(() => Number, { nullable: true })
   readonly longitude: number;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   readonly type: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   readonly name: string;
 
   @Field(() => Number, { nullable: true })
@@ -90,33 +90,33 @@ export class PositionEntity {
   @Field(() => String, { nullable: true })
   readonly street: string;
 
-  @Field(() => Number)
+  @Field(() => Number, { nullable: true })
   readonly confidence: number;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   readonly region: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   readonly region_code: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   readonly county: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   readonly locality: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   readonly administrative_area: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   readonly neighbourhood: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   readonly country_code: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   readonly continent: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   readonly label: string;
 }

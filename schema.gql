@@ -213,23 +213,23 @@ type Cars {
 }
 
 type PositionEntity {
-  latitude: Float!
-  longitude: Float!
-  type: String!
-  name: String!
+  latitude: Float
+  longitude: Float
+  type: String
+  name: String
   number: Float
   postal_code: String
   street: String
-  confidence: Float!
-  region: String!
-  region_code: String!
-  county: String!
-  locality: String!
-  administrative_area: String!
-  neighbourhood: String!
-  country_code: String!
-  continent: String!
-  label: String!
+  confidence: Float
+  region: String
+  region_code: String
+  county: String
+  locality: String
+  administrative_area: String
+  neighbourhood: String
+  country_code: String
+  continent: String
+  label: String
 }
 
 input OneBunchInput {
