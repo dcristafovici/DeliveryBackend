@@ -37,10 +37,6 @@ export class Cars {
   @Column()
   yearOfProduction: number;
 
-  @Field({ nullable: true })
-  @Column({ default: true })
-  isNew: boolean;
-
   @Field()
   @CreateDateColumn({ type: 'timestamptz' })
   created_at: Date;

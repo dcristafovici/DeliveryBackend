@@ -17,9 +17,6 @@ export class AddCarsInput {
 
   @Field(() => Number)
   yearOfProduction: number;
-
-  @Field(() => Boolean, { nullable: true })
-  isNew: boolean;
 }
 
 @InputType()
@@ -39,9 +36,6 @@ export class UpdateCarsInput {
 
   @Field(() => Number, { nullable: true })
   yearOfProduction: number;
-
-  @Field(() => Boolean, { nullable: true })
-  isNew: boolean;
 }
 
 export interface PositionResultsInterface {

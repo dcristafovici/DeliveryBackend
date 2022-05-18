@@ -207,7 +207,6 @@ type Cars {
   enginePower: String!
   manufacturer: String!
   yearOfProduction: Float!
-  isNew: Boolean
   created_at: DateTime!
   updated_at: DateTime!
 }
@@ -445,7 +444,6 @@ input AddCarsInput {
   image: String!
   manufacturer: String!
   yearOfProduction: Float!
-  isNew: Boolean
 }
 
 input UpdateCarsInput {
@@ -454,5 +452,4 @@ input UpdateCarsInput {
   image: String
   manufacturer: String
   yearOfProduction: Float
-  isNew: Boolean
 }
