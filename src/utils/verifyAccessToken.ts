@@ -8,9 +8,18 @@ declare module 'jsonwebtoken' {
     id: string;
   }
 }
-export const verifyAccessToken = (token: string): Promise<jwt.JwtPayload> => {
+export const verifyAccessToken = (
+  fullToken: string,
+): Promise<jwt.JwtPayload> => {
+  const typeOfToken = fullToken.split(' ')[0];
+
+  // If type of token is different from expected
+  typeOfToken !== 'Bearer' && new httpError.Unauthorized();
+
+  const token = fullToken.split(' ')[1];
+
   return new Promise((resolve, reject) => {
-    jwt.verify(token, JWT_SECRET as string, (err, payload: jwt.JwtPayload) => {
+    jwt.verify(token, JWT_SECRET, (err, payload: jwt.JwtPayload) => {
       if (err) {
         return reject(new httpError.Unauthorized());
       }

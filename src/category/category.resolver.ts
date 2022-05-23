@@ -1,6 +1,8 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { GraphqlRelayParams } from 'src/constants/GraphqlGeneralTypes';
 import { connectionFromPromisedArray } from 'src/GraphQL/arrayConnection';
+import { ManagerGuard } from 'src/manager/manager.guard';
 import {
   AddCategoryInput,
   FindByKeyInput,
@@ -14,6 +16,7 @@ import { CategoryService } from './category.service';
 export class CategoryResolver {
   constructor(private categoryService: CategoryService) {}
 
+  @UseGuards(new ManagerGuard())
   @Query(() => CategoryConnection)
   async findCategories(
     @Args('data') data: GraphqlRelayParams,

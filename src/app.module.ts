@@ -39,6 +39,7 @@ import { CarsModule } from './cars/cars.module';
       resolvers: {
         Upload: GraphQLUpload,
       },
+      context: ({ req }) => ({ headers: req.headers }),
     }),
     MailModule,
   ],
