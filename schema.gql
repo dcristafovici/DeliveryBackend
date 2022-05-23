@@ -53,21 +53,11 @@ type Category {
   updated_at: DateTime!
 }
 
-type CategoryConnection {
-  edges: [CategoryEdge!]!
-  pageInfo: CategoryPageInfo!
-}
-
-type CategoryEdge {
-  node: Category!
-  cursor: String!
-}
-
-type CategoryPageInfo {
-  startCursor: String
-  endCursor: String
-  hasPreviousPage: Boolean!
-  hasNextPage: Boolean!
+type CategoryListConnection {
+  list: [Category!]!
+  page: Float!
+  pageSize: Float!
+  count: Float!
 }
 
 type RestaurantCategory {
@@ -254,7 +244,7 @@ input AddOrderCustomerInput {
 }
 
 type Query {
-  findCategories(data: GraphqlRelayParams!): CategoryConnection!
+  findCategories(data: GraphQLGeneralRequest!): CategoryListConnection!
   findOneCategory(id: String!): Category!
   findByKeyCategories(data: FindByKeyInput!): [Category!]!
   findMedia: [Media!]!
@@ -283,14 +273,19 @@ type Query {
   findPosition(address: String!): [PositionEntity!]!
 }
 
-input GraphqlRelayParams {
-  first: Int
-  after: String
+input GraphQLGeneralRequest {
+  page: Int
+  pageSize: Int
 }
 
 input FindByKeyInput {
   field: String!
   value: String!
+}
+
+input GraphqlRelayParams {
+  first: Int
+  after: String
 }
 
 input FindByResCatCombInput {

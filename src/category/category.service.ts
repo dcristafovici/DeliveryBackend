@@ -8,7 +8,9 @@ import {
 } from './category.dto';
 import { Category } from './category.entity';
 import slugify from 'slugify';
-import { GraphqlRelayParams } from 'src/constants/GraphqlGeneralTypes';
+import { GraphQLGeneralRequest } from 'src/constants/GraphqlGeneralTypes';
+import { ListResult } from 'src/constants/TypeormGeneralTypes';
+import { getListAndCount } from 'src/utils/getListAndCount';
 
 @Injectable()
 export class CategoryService {
@@ -16,18 +18,19 @@ export class CategoryService {
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
   ) {}
-  // TODO: To investigate this workaround ( if we do not add + 1 to timestamp, the service takes the record that contains same timestamp as after constant )
-  // TODO: If we have 0 items, backend is down. Should be fixed.
-  async find(data: GraphqlRelayParams): Promise<Category[]> {
-    const { first = null, after = '0' } = data;
-    const stringToTimestamp = parseFloat(after) + 1;
-    const cursor = new Date(stringToTimestamp);
-    return this.categoryRepository
+
+  async find(data: GraphQLGeneralRequest): Promise<ListResult<Category>> {
+    const { page = 1, pageSize = 0 } = data;
+    const query = this.categoryRepository
       .createQueryBuilder('category')
-      .orderBy('category.created_at', 'ASC')
-      .where('category.created_at > :cursor', { cursor })
-      .limit(first)
-      .getMany();
+      .orderBy('category.created_at', 'ASC');
+    const [list, count] = await getListAndCount(query, page, pageSize);
+    return {
+      list,
+      page,
+      pageSize,
+      count,
+    };
   }
 
   findOne(id: string): Promise<Category> {

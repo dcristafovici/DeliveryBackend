@@ -1,13 +1,11 @@
-import { UseGuards } from '@nestjs/common';
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
-import { GraphqlRelayParams } from 'src/constants/GraphqlGeneralTypes';
-import { connectionFromPromisedArray } from 'src/GraphQL/arrayConnection';
-import { ManagerGuard } from 'src/manager/manager.guard';
+import { GraphQLGeneralRequest } from 'src/constants/GraphqlGeneralTypes';
+import { ListResult } from 'src/constants/TypeormGeneralTypes';
 import {
   AddCategoryInput,
   FindByKeyInput,
   UpdateCategoryInput,
-  CategoryConnection,
+  CategoryListConnection,
 } from './category.dto';
 import { Category } from './category.entity';
 import { CategoryService } from './category.service';
@@ -16,13 +14,13 @@ import { CategoryService } from './category.service';
 export class CategoryResolver {
   constructor(private categoryService: CategoryService) {}
 
-  @UseGuards(new ManagerGuard())
-  @Query(() => CategoryConnection)
+  @Query(() => CategoryListConnection)
   async findCategories(
-    @Args('data') data: GraphqlRelayParams,
-  ): Promise<CategoryConnection> {
-    return connectionFromPromisedArray(this.categoryService.find(data));
+    @Args('data') data: GraphQLGeneralRequest,
+  ): Promise<ListResult<Category>> {
+    return this.categoryService.find(data);
   }
+
   @Query(() => Category)
   async findOneCategory(@Args('id') id: string): Promise<Category> {
     return this.categoryService.findOne(id);

@@ -1,9 +1,9 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Category } from './category.entity';
-import { Connection } from '../GraphQL/Connection';
+import { ListConnection as Connection } from 'src/GraphQL/ListConnection';
 
 @ObjectType()
-export class CategoryConnection extends Connection<Category>(Category) {}
+export class CategoryListConnection extends Connection<Category>(Category) {}
 
 @InputType()
 @ObjectType()
