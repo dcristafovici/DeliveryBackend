@@ -12,8 +12,6 @@ export const verifyAccessToken = (
   fullToken: string,
 ): Promise<jwt.JwtPayload> => {
   const typeOfToken = fullToken.split(' ')[0];
-
-  // If type of token is different from expected
   typeOfToken !== 'Bearer' && new httpError.Unauthorized();
 
   const token = fullToken.split(' ')[1];

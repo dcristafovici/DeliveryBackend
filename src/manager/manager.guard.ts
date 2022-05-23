@@ -9,7 +9,6 @@ export class ManagerGuard implements CanActivate {
     if (!ctx.headers.authorization) {
       return false;
     }
-
     ctx.manager = await verifyAccessToken(ctx.headers.authorization);
     return true;
   }
