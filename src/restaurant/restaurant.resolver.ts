@@ -1,11 +1,11 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FindByKeyInput } from 'src/category/category.dto';
-import { GraphqlRelayParams } from 'src/constants/GraphqlGeneralTypes';
-import { connectionFromPromisedArray } from 'src/GraphQL/arrayConnection';
+import { GraphQLGeneralRequest } from 'src/constants/GraphqlGeneralTypes';
+import { ListResult } from 'src/constants/TypeormGeneralTypes';
 import { RestaurantCategory } from './restaurant-category.entity';
 import {
   AddRestaurantInput,
-  RestaurantConnection,
+  RestaurantListConnection,
   UpdateBunchInput,
   UpdateRestaurantInput,
 } from './restaurant.dto';
@@ -19,11 +19,11 @@ import {
 export class RestaurantResolver {
   constructor(private restaurantService: RestaurantService) {}
 
-  @Query(() => RestaurantConnection)
+  @Query(() => RestaurantListConnection)
   async findRestaurants(
-    @Args('data') data: GraphqlRelayParams,
-  ): Promise<RestaurantConnection> {
-    return connectionFromPromisedArray(this.restaurantService.find(data));
+    @Args('data') data: GraphQLGeneralRequest,
+  ): Promise<ListResult<Restaurant>> {
+    return this.restaurantService.find(data);
   }
   @Query(() => Restaurant)
   async findOneRestaurant(@Args('id') id: string): Promise<Restaurant> {

@@ -5,11 +5,13 @@ import {
   FindByResCatCombInput,
 } from 'src/category/category.dto';
 import { CategoryService } from 'src/category/category.service';
-import { GraphqlRelayParams } from 'src/constants/GraphqlGeneralTypes';
+import { GraphQLGeneralRequest } from 'src/constants/GraphqlGeneralTypes';
+import { ListResult } from 'src/constants/TypeormGeneralTypes';
 import {
   RestaurantCategoryService,
   RestaurantService,
 } from 'src/restaurant/restaurant.service';
+import { getListAndCount } from 'src/utils/getListAndCount';
 import { Repository } from 'typeorm';
 import { AddProductInput, UpdateProductInput } from './product.dto';
 import { Product } from './product.entity';
@@ -24,17 +26,16 @@ export class ProductService {
     private restaurantService: RestaurantService,
   ) {}
 
-  async find(data: GraphqlRelayParams): Promise<Product[]> {
-    const { first = null, after = '0' } = data;
-    const cursor = new Date(parseFloat(after));
-    return this.productRepository
+  async find(data: GraphQLGeneralRequest): Promise<ListResult<Product>> {
+    const { page, pageSize } = data;
+    const query = this.productRepository
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.restaurant', 'restaurant')
       .leftJoinAndSelect('product.media', 'media')
-      .leftJoinAndSelect('product.categories', 'category')
-      .where('category.created_at >= :cursor', { cursor })
-      .limit(first)
-      .getMany();
+      .leftJoinAndSelect('product.categories', 'category');
+
+    const [list, count] = await getListAndCount(query, page, pageSize);
+    return { list, page, pageSize, count };
   }
 
   findOne(id: string): Promise<Product> {

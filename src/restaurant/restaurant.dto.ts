@@ -2,10 +2,12 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Category } from 'src/category/category.entity';
 import { Media } from 'src/media/media.entity';
 import { Restaurant } from './Restaurant.entity';
-import { Connection } from '../GraphQL/Connection';
+import { ListConnection as Connection } from 'src/GraphQL/ListConnection';
 
 @ObjectType()
-export class RestaurantConnection extends Connection<Restaurant>(Restaurant) {}
+export class RestaurantListConnection extends Connection<Restaurant>(
+  Restaurant,
+) {}
 
 @InputType()
 @ObjectType()

@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
-import { GraphqlRelayParams } from 'src/constants/GraphqlGeneralTypes';
+import { GraphQLGeneralRequest } from 'src/constants/GraphqlGeneralTypes';
+import { ListResult } from 'src/constants/TypeormGeneralTypes';
+import { getListAndCount } from 'src/utils/getListAndCount';
 import { Repository } from 'typeorm';
 import { RestaurantCategory } from './restaurant-category.entity';
 import {
@@ -20,15 +22,13 @@ export class RestaurantService {
     private restaurantRepository: Repository<Restaurant>,
   ) {}
 
-  find(data: GraphqlRelayParams): Promise<Restaurant[]> {
-    const { first = null, after = '0' } = data;
-    const cursor = new Date(parseFloat(after));
-    return this.restaurantRepository
+  async find(data: GraphQLGeneralRequest): Promise<ListResult<Restaurant>> {
+    const { page = 1, pageSize } = data;
+    const query = this.restaurantRepository
       .createQueryBuilder('restaurant')
-      .leftJoinAndSelect('restaurant.media', 'media')
-      .where('restaurant.created_at >= :cursor', { cursor })
-      .limit(first)
-      .getMany();
+      .leftJoinAndSelect('restaurant.media', 'media');
+    const [list, count] = await getListAndCount(query, page, pageSize);
+    return { list, page, pageSize, count };
   }
 
   findOne(id: string): Promise<Restaurant> {

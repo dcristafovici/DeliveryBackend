@@ -69,38 +69,18 @@ type RestaurantCategory {
   updated_at: DateTime!
 }
 
-type RestaurantConnection {
-  edges: [RestaurantEdge!]!
-  pageInfo: RestaurantPageInfo!
+type RestaurantListConnection {
+  list: [Restaurant!]!
+  page: Float!
+  pageSize: Float!
+  count: Float!
 }
 
-type RestaurantEdge {
-  node: Restaurant!
-  cursor: String!
-}
-
-type RestaurantPageInfo {
-  startCursor: String
-  endCursor: String
-  hasPreviousPage: Boolean!
-  hasNextPage: Boolean!
-}
-
-type ProductConnection {
-  edges: [ProductEdge!]!
-  pageInfo: ProductPageInfo!
-}
-
-type ProductEdge {
-  node: Product!
-  cursor: String!
-}
-
-type ProductPageInfo {
-  startCursor: String
-  endCursor: String
-  hasPreviousPage: Boolean!
-  hasNextPage: Boolean!
+type ProductListConnection {
+  list: [Product!]!
+  page: Float!
+  pageSize: Float!
+  count: Float!
 }
 
 type SuggestionDataEntity {
@@ -249,11 +229,11 @@ type Query {
   findByKeyCategories(data: FindByKeyInput!): [Category!]!
   findMedia: [Media!]!
   findOneMedia(id: String!): Media!
-  findRestaurants(data: GraphqlRelayParams!): RestaurantConnection!
+  findRestaurants(data: GraphQLGeneralRequest!): RestaurantListConnection!
   findOneRestaurant(id: String!): Restaurant!
   findByKeyRestaurants(data: FindByKeyInput!): [Restaurant!]!
   findByKeyResCat(data: FindByKeyInput!): [RestaurantCategory!]!
-  findProducts(data: GraphqlRelayParams!): ProductConnection!
+  findProducts(data: GraphQLGeneralRequest!): ProductListConnection!
   findOneProduct(id: String!): Product!
   findByKeyProducts(data: FindByKeyInput!): [Product!]!
   findByResCatCombProducts(data: FindByResCatCombInput!): [Product!]!
@@ -281,11 +261,6 @@ input GraphQLGeneralRequest {
 input FindByKeyInput {
   field: String!
   value: String!
-}
-
-input GraphqlRelayParams {
-  first: Int
-  after: String
 }
 
 input FindByResCatCombInput {

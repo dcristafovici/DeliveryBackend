@@ -4,7 +4,7 @@ import {
   Connection as RelayConnection,
   PageInfo as RelayPageInfo,
   Edge as RelayEdge,
-} from './arrayConnectionTypes';
+} from './DEPRICATED_arrayConnectionTypes';
 
 export function Connection<GraphQLObject>(
   GenericClass?: Type<GraphQLObject>,

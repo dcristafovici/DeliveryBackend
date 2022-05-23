@@ -3,11 +3,11 @@ import {
   FindByKeyInput,
   FindByResCatCombInput,
 } from 'src/category/category.dto';
-import { GraphqlRelayParams } from 'src/constants/GraphqlGeneralTypes';
-import { connectionFromPromisedArray } from 'src/GraphQL/arrayConnection';
+import { GraphQLGeneralRequest } from 'src/constants/GraphqlGeneralTypes';
+import { ListResult } from 'src/constants/TypeormGeneralTypes';
 import {
   AddProductInput,
-  ProductConnection,
+  ProductListConnection,
   UpdateProductInput,
 } from './product.dto';
 import { Product } from './product.entity';
@@ -17,11 +17,11 @@ import { ProductService } from './product.service';
 export class ProductResolver {
   constructor(private productService: ProductService) {}
 
-  @Query(() => ProductConnection)
+  @Query(() => ProductListConnection)
   async findProducts(
-    @Args('data') data: GraphqlRelayParams,
-  ): Promise<ProductConnection> {
-    return connectionFromPromisedArray(this.productService.find(data));
+    @Args('data') data: GraphQLGeneralRequest,
+  ): Promise<ListResult<Product>> {
+    return this.productService.find(data);
   }
   @Query(() => Product)
   async findOneProduct(@Args('id') id: string): Promise<Product> {

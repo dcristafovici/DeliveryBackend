@@ -20,17 +20,12 @@ export class CategoryService {
   ) {}
 
   async find(data: GraphQLGeneralRequest): Promise<ListResult<Category>> {
-    const { page = 1, pageSize = 0 } = data;
+    const { page = 1, pageSize } = data;
     const query = this.categoryRepository
       .createQueryBuilder('category')
       .orderBy('category.created_at', 'ASC');
     const [list, count] = await getListAndCount(query, page, pageSize);
-    return {
-      list,
-      page,
-      pageSize,
-      count,
-    };
+    return { list, page, pageSize, count };
   }
 
   findOne(id: string): Promise<Category> {

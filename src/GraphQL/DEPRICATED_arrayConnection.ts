@@ -1,4 +1,4 @@
-import { Connection } from './arrayConnectionTypes';
+import { Connection } from './DEPRICATED_arrayConnectionTypes';
 
 export const connectionFromPromisedArray = (
   dataPromise: Promise<ReadonlyArray<any>>,
