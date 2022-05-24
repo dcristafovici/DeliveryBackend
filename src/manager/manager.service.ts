@@ -3,14 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import {
-  AuthManagerInput,
-  ManagerRolesEnum,
-  UpdateManagerInput,
-} from './manager.dto';
-import { Manager } from './manager.entity';
+import { AuthManagerInput, UpdateManagerInput } from './manager.dto';
+import { Manager, ManagerRolesEnum } from './manager.entity';
 import { verifyAccessToken } from 'src/utils/verifyAccessToken';
 import { FindByKeyInput } from 'src/category/category.dto';
+import { GraphQLGeneralRequest } from 'src/constants/GraphqlGeneralTypes';
+import { ListResult } from 'src/constants/TypeormGeneralTypes';
+import { getListAndCount } from 'src/utils/getListAndCount';
 
 @Injectable()
 export class ManagerService {
@@ -35,8 +34,16 @@ export class ManagerService {
       .getMany();
   }
 
-  findOnlyManagers(): Promise<Manager[]> {
-    return this.managerRepository.findBy({ role: ManagerRolesEnum.MANAGER });
+  async findOnlyManagers(
+    data: GraphQLGeneralRequest,
+  ): Promise<ListResult<Manager>> {
+    const { page = 1, pageSize } = data;
+    const query = this.managerRepository
+      .createQueryBuilder('manager')
+      .orderBy('manager.created_at', 'ASC')
+      .where('manager.role =:role', { role: ManagerRolesEnum.MANAGER });
+    const [list, count] = await getListAndCount(query, page, pageSize);
+    return { list, page, pageSize, count };
   }
 
   async login(data: AuthManagerInput): Promise<string> {

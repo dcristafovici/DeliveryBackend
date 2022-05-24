@@ -170,6 +170,13 @@ type Manager {
   updated_at: DateTime!
 }
 
+type ManagerListConnection {
+  list: [Manager!]!
+  page: Float!
+  pageSize: Float!
+  count: Float!
+}
+
 type Cars {
   id: String!
   name: String!
@@ -247,7 +254,7 @@ type Query {
   findOneManager(id: String!): Manager!
   findByKeyManagers(data: FindByKeyInput!): [Manager!]!
   getManagerByToken(token: String!): Manager!
-  findOnlyManagers: [Manager!]!
+  findOnlyManagers(data: GraphQLGeneralRequest!): ManagerListConnection!
   findCars: [Cars!]!
   findOneCar(id: String!): Cars!
   findPosition(address: String!): [PositionEntity!]!

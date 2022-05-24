@@ -1,11 +1,11 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Manager } from './manager.entity';
 import { Media } from 'src/media/media.entity';
 import { Restaurant } from 'src/restaurant/Restaurant.entity';
+import { ListConnection as Connection } from 'src/GraphQL/ListConnection';
 
-export enum ManagerRolesEnum {
-  ADMIN = 'ADMIN',
-  MANAGER = 'MANAGER',
-}
+@ObjectType()
+export class ManagerListConnection extends Connection<Manager>(Manager) {}
 
 @InputType()
 @ObjectType()

@@ -10,7 +10,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ManagerRolesEnum } from './manager.dto';
+
+export enum ManagerRolesEnum {
+  ADMIN = 'ADMIN',
+  MANAGER = 'MANAGER',
+}
 
 @Entity({ name: 'MANAGER' })
 @ObjectType()

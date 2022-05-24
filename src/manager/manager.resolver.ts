@@ -1,6 +1,12 @@
 import { Query, Args, Mutation, Resolver } from '@nestjs/graphql';
 import { FindByKeyInput } from 'src/category/category.dto';
-import { AuthManagerInput, UpdateManagerInput } from './manager.dto';
+import { GraphQLGeneralRequest } from 'src/constants/GraphqlGeneralTypes';
+import { ListResult } from 'src/constants/TypeormGeneralTypes';
+import {
+  AuthManagerInput,
+  ManagerListConnection,
+  UpdateManagerInput,
+} from './manager.dto';
 import { Manager } from './manager.entity';
 import { ManagerService } from './manager.service';
 
@@ -30,9 +36,11 @@ export class ManagerResolver {
     return this.managerService.getManagerByToken(token);
   }
 
-  @Query(() => [Manager])
-  findOnlyManagers(): Promise<Manager[]> {
-    return this.managerService.findOnlyManagers();
+  @Query(() => ManagerListConnection)
+  findOnlyManagers(
+    @Args('data') data: GraphQLGeneralRequest,
+  ): Promise<ListResult<Manager>> {
+    return this.managerService.findOnlyManagers(data);
   }
 
   @Mutation(() => String)
