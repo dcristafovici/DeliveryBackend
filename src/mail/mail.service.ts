@@ -43,4 +43,16 @@ export class MailService {
     });
     return true;
   }
+
+  async sendSimpleText(): Promise<boolean> {
+    await this.mailService.sendMail({
+      to: 'denbudeyko@yandex.ru',
+      subject: 'Test',
+      template: 'confirmation',
+      context: {
+        code: 'test cod',
+      },
+    });
+    return true;
+  }
 }

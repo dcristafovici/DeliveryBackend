@@ -91,6 +91,7 @@ export class RestaurantCategoryService {
     return this.restaurantCategoryRepository
       .createQueryBuilder('restaurantCategory')
       .where(`restaurantCategory.${field} = :${field}`, { [field]: value })
+      .leftJoinAndSelect('restaurantCategory.category', 'category')
       .getMany();
   }
 

@@ -32,7 +32,8 @@ export class ProductService {
       .createQueryBuilder('product')
       .leftJoinAndSelect('product.restaurant', 'restaurant')
       .leftJoinAndSelect('product.media', 'media')
-      .leftJoinAndSelect('product.categories', 'category');
+      .leftJoinAndSelect('product.categories', 'category')
+      .orderBy('product.created_at', 'DESC');
 
     const [list, count] = await getListAndCount(query, page, pageSize);
     return { list, page, pageSize, count };

@@ -5,8 +5,8 @@ import { MailService } from './mail.service';
 export class MailResolver {
   constructor(private mailService: MailService) {}
 
-  // @Query(() => Boolean)
-  // async sendUserConfirmation(): Promise<boolean> {
-  //   return this.mailService.sendUserConfirmation();
-  // }
+  @Query(() => Boolean)
+  async sendSimpleText(): Promise<boolean> {
+    return this.mailService.sendSimpleText();
+  }
 }

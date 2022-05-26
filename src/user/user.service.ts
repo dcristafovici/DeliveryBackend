@@ -23,7 +23,10 @@ export class UserService {
   }
 
   findByField(key: string, value: string): Promise<User> {
-    return this.userRepository.findOne({ [key]: value });
+    return this.userRepository
+      .createQueryBuilder('user')
+      .where(`user.${key} = ${key}`, { value })
+      .getOne();
   }
 
   async update(id: string, data: UpdateUserInput): Promise<boolean> {

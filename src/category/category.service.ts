@@ -23,7 +23,7 @@ export class CategoryService {
     const { page = 1, pageSize } = data;
     const query = this.categoryRepository
       .createQueryBuilder('category')
-      .orderBy('category.created_at', 'ASC');
+      .orderBy('category.created_at', 'DESC');
     const [list, count] = await getListAndCount(query, page, pageSize);
     return { list, page, pageSize, count };
   }

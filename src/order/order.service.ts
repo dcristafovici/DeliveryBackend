@@ -24,8 +24,8 @@ export class OrderService {
     private mailService: MailService,
   ) {}
 
-  async find(): Promise<Order[]> {
-    return await this.orderRepository
+  find(): Promise<Order[]> {
+    return this.orderRepository
       .createQueryBuilder('order')
       .leftJoinAndSelect('order.restaurant', 'restaurant')
       .leftJoinAndSelect('order.user', 'media')
@@ -50,7 +50,17 @@ export class OrderService {
 
   findByKey(data: FindByKeyInput): Promise<Order[]> {
     const { field, value } = data;
-    return this.orderRepository.find({ where: { [field]: value } });
+    return this.orderRepository
+      .createQueryBuilder('order')
+      .where(`order.${field} = :${field}`, { [field]: value })
+      .leftJoinAndSelect('order.restaurant', 'restaurant')
+      .leftJoinAndSelect('order.user', 'media')
+      .leftJoinAndSelect('order.orderCustomer', 'orderCustomer')
+      .innerJoinAndSelect('order.orderCart', 'orderCart')
+      .leftJoinAndSelect('orderCart.product', 'product')
+      .leftJoinAndSelect('product.media', 'product_media')
+      .leftJoinAndSelect('order.orderPayment', 'orderPayment')
+      .getMany();
   }
 
   async create(data: AddOrderInput): Promise<Order> {

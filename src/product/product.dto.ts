@@ -14,7 +14,7 @@ export class AddProductInput {
   @Field(() => String)
   readonly name: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   readonly description: string;
 
   @Field(() => String)
@@ -26,7 +26,7 @@ export class AddProductInput {
   @Field(() => String)
   readonly restaurant: Restaurant;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   readonly media: Media;
 
   @Field(() => [String])

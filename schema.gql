@@ -34,7 +34,7 @@ type Restaurant {
 type Product {
   id: String!
   name: String!
-  description: String!
+  description: String
   price: Float!
   weight: String!
   restaurant: Restaurant
@@ -247,6 +247,7 @@ type Query {
   findPossibleAddresses(address: String!): [SuggestionEntity!]!
   findUsers: [User!]!
   getUserByToken(token: String!): User!
+  sendSimpleText: Boolean!
   findOrders: [Order!]!
   findOneOrder(id: String!): Order!
   findByKeyOrders(data: FindByKeyInput!): [Order!]!
@@ -339,11 +340,11 @@ input UpdateBunchInput {
 
 input AddProductInput {
   name: String!
-  description: String!
+  description: String
   price: String!
   weight: String!
   restaurant: String!
-  media: String!
+  media: String
   categories: [String!]!
 }
 
