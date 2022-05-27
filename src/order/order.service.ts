@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindByKeyInput } from 'src/category/category.dto';
+import { GraphQLGeneralRequest } from 'src/constants/GraphqlGeneralTypes';
+import { ListResult } from 'src/constants/TypeormGeneralTypes';
 import { MailService } from 'src/mail/mail.service';
+import { getListAndCount } from 'src/utils/getListAndCount';
 import { Repository } from 'typeorm';
 import { AddOrderInput } from './order.dto';
 import { Order } from './order.entity';
@@ -24,8 +27,9 @@ export class OrderService {
     private mailService: MailService,
   ) {}
 
-  find(): Promise<Order[]> {
-    return this.orderRepository
+  async find(data: GraphQLGeneralRequest): Promise<ListResult<Order>> {
+    const { page = 1, pageSize } = data;
+    const query = this.orderRepository
       .createQueryBuilder('order')
       .leftJoinAndSelect('order.restaurant', 'restaurant')
       .leftJoinAndSelect('order.user', 'media')
@@ -33,8 +37,9 @@ export class OrderService {
       .innerJoinAndSelect('order.orderCart', 'orderCart')
       .leftJoinAndSelect('orderCart.product', 'product')
       .leftJoinAndSelect('product.media', 'product_media')
-      .leftJoinAndSelect('order.orderPayment', 'orderPayment')
-      .getMany();
+      .leftJoinAndSelect('order.orderPayment', 'orderPayment');
+    const [list, count] = await getListAndCount(query, page, pageSize);
+    return { list, page, pageSize, count };
   }
 
   findOne(id: string): Promise<Order> {

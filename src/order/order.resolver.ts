@@ -1,6 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { FindByKeyInput } from 'src/category/category.dto';
-import { AddOrderInput } from './order.dto';
+import { GraphQLGeneralRequest } from 'src/constants/GraphqlGeneralTypes';
+import { ListResult } from 'src/constants/TypeormGeneralTypes';
+import { AddOrderInput, OrderListConnection } from './order.dto';
 import { Order } from './order.entity';
 import { OrderService } from './order.service';
 import { UpdatePaymentStatusDTO } from './OrderPayment/order-payment.dto';
@@ -13,9 +15,11 @@ export class OrderResolver {
     private orderPaymentService: OrderPaymentService,
   ) {}
 
-  @Query(() => [Order])
-  async findOrders(): Promise<Order[]> {
-    return this.orderService.find();
+  @Query(() => OrderListConnection)
+  async findOrders(
+    @Args('data') data: GraphQLGeneralRequest,
+  ): Promise<ListResult<Order>> {
+    return this.orderService.find(data);
   }
   @Query(() => Order)
   async findOneOrder(@Args('id') id: string): Promise<Order> {

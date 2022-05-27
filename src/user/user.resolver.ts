@@ -1,5 +1,11 @@
 import { Args, Resolver, Query, Mutation } from '@nestjs/graphql';
-import { AuthenticationInput, UpdateUserInput } from './user.dto';
+import { GraphQLGeneralRequest } from 'src/constants/GraphqlGeneralTypes';
+import { ListResult } from 'src/constants/TypeormGeneralTypes';
+import {
+  AuthenticationInput,
+  UpdateUserInput,
+  UserListConnection,
+} from './user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -7,9 +13,11 @@ import { UserService } from './user.service';
 export class UserResolver {
   constructor(private userService: UserService) {}
 
-  @Query(() => [User])
-  findUsers(): Promise<User[]> {
-    return this.userService.find();
+  @Query(() => UserListConnection)
+  findUsers(
+    @Args('data') data: GraphQLGeneralRequest,
+  ): Promise<ListResult<User>> {
+    return this.userService.find(data);
   }
 
   @Query(() => User)

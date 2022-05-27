@@ -1,4 +1,9 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { ListConnection as Connection } from 'src/GraphQL/ListConnection';
+import { User } from './user.entity';
+
+@ObjectType()
+export class UserListConnection extends Connection<User>(User) {}
 
 @ObjectType()
 export class TokenResponse {

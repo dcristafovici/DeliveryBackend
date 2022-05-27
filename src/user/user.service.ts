@@ -1,7 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as jwt from 'jsonwebtoken';
+import { GraphQLGeneralRequest } from 'src/constants/GraphqlGeneralTypes';
+import { ListResult } from 'src/constants/TypeormGeneralTypes';
 import OTPService from 'src/otp/otp.service';
+import { getListAndCount } from 'src/utils/getListAndCount';
 import { verifyAccessToken } from 'src/utils/verifyAccessToken';
 import { Repository } from 'typeorm';
 import { AuthenticationInput, UpdateUserInput } from './user.dto';
@@ -15,9 +18,15 @@ export class UserService {
     private otpService: OTPService,
   ) {}
 
-  find(): Promise<User[]> {
-    return this.userRepository.createQueryBuilder('User').getMany();
+  async find(data: GraphQLGeneralRequest): Promise<ListResult<User>> {
+    const { page = 1, pageSize } = data;
+    const query = this.userRepository
+      .createQueryBuilder('user')
+      .orderBy('user.created_at', 'DESC');
+    const [list, count] = await getListAndCount(query, page, pageSize);
+    return { list, page, pageSize, count };
   }
+
   findOne(id: string): Promise<User> {
     return this.userRepository.findOneBy({ id });
   }

@@ -4,6 +4,10 @@ import { User } from 'src/user/user.entity';
 import { Order } from './order.entity';
 import { AddOrderCartInput } from './OrderCart/order-cart.dto';
 import { AddOrderCustomerInput } from './OrderCustomer/order-customer.dto';
+import { ListConnection as Connection } from 'src/GraphQL/ListConnection';
+
+@ObjectType()
+export class OrderListConnection extends Connection<Order>(Order) {}
 
 @InputType()
 @ObjectType()
