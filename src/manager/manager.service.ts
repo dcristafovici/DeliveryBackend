@@ -122,4 +122,13 @@ export class ManagerService {
       .execute();
     return affected ? true : false;
   }
+
+  async delete(id: string): Promise<boolean> {
+    const { affected } = await this.managerRepository
+      .createQueryBuilder('manager')
+      .delete()
+      .where('id = :id', { id })
+      .execute();
+    return affected ? true : false;
+  }
 }

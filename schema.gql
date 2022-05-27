@@ -313,6 +313,7 @@ type Mutation {
   loginManager(data: AuthManagerInput!): String!
   createManager(data: AuthManagerInput!): Manager!
   updateManager(id: String!, data: UpdateManagerInput!): Boolean!
+  deleteManager(id: String!): Boolean!
   createCars(data: AddCarsInput!): Cars!
   updateCars(id: String!, data: UpdateCarsInput!): Cars!
   deleteCars(id: String!): Boolean!

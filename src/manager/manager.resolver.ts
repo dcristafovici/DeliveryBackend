@@ -60,4 +60,9 @@ export class ManagerResolver {
   ): Promise<boolean> {
     return this.managerService.update(id, data);
   }
+
+  @Mutation(() => Boolean)
+  async deleteManager(@Args('id') id: string): Promise<boolean> {
+    return this.managerService.delete(id);
+  }
 }
