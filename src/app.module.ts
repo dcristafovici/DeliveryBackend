@@ -16,7 +16,6 @@ import { OTPModule } from './otp/otp.module';
 import { OrderModule } from './order/order.module';
 import { MailModule } from './mail/mail.module';
 import { ManagerModule } from './manager/manager.module';
-import { CarsModule } from './cars/cars.module';
 
 @Module({
   imports: [
@@ -32,7 +31,6 @@ import { CarsModule } from './cars/cars.module';
     OTPModule,
     OrderModule,
     ManagerModule,
-    CarsModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',

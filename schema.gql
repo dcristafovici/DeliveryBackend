@@ -191,37 +191,6 @@ type ManagerListConnection {
   count: Float!
 }
 
-type Cars {
-  id: String!
-  name: String!
-  image: String!
-  enginePower: String!
-  manufacturer: String!
-  yearOfProduction: Float!
-  created_at: DateTime!
-  updated_at: DateTime!
-}
-
-type PositionEntity {
-  latitude: Float
-  longitude: Float
-  type: String
-  name: String
-  number: Float
-  postal_code: String
-  street: String
-  confidence: Float
-  region: String
-  region_code: String
-  county: String
-  locality: String
-  administrative_area: String
-  neighbourhood: String
-  country_code: String
-  continent: String
-  label: String
-}
-
 input OneBunchInput {
   id: String!
   order: Float!
@@ -270,9 +239,6 @@ type Query {
   findByKeyManagers(data: FindByKeyInput!): [Manager!]!
   getManagerByToken(token: String!): Manager!
   findOnlyManagers(data: GraphQLGeneralRequest!): ManagerListConnection!
-  findCars: [Cars!]!
-  findOneCar(id: String!): Cars!
-  findPosition(address: String!): [PositionEntity!]!
 }
 
 input GraphQLGeneralRequest {
@@ -314,9 +280,6 @@ type Mutation {
   createManager(data: AuthManagerInput!): Manager!
   updateManager(id: String!, data: UpdateManagerInput!): Boolean!
   deleteManager(id: String!): Boolean!
-  createCars(data: AddCarsInput!): Cars!
-  updateCars(id: String!, data: UpdateCarsInput!): Cars!
-  deleteCars(id: String!): Boolean!
 }
 
 input AddCategoryInput {
@@ -429,20 +392,4 @@ input UpdateManagerInput {
   email: String
   restaurant: String
   media: String
-}
-
-input AddCarsInput {
-  name: String!
-  enginePower: String!
-  image: String!
-  manufacturer: String!
-  yearOfProduction: Float!
-}
-
-input UpdateCarsInput {
-  name: String
-  enginePower: String
-  image: String
-  manufacturer: String
-  yearOfProduction: Float
 }
