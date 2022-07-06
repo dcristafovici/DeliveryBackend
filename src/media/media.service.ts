@@ -62,13 +62,13 @@ export class MediaService {
           MediaEntity[
             size.path
           ] = `${process.env.OCEAN_S3_LOCATION}/uploads/resized/${simpleFileName}_${size.path}.${extension}`;
-          return await uploadResizedImage
+          return uploadResizedImage
             .done()
             .then(() => true)
             .catch(() => false);
         });
         return Promise.all(mediaResizesPromises).then(async () => {
-          return await this.mediaRepository.save(MediaEntity);
+          return this.mediaRepository.save(MediaEntity);
         });
       })
       .catch(() => false);

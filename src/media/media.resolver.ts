@@ -26,6 +26,7 @@ export class MediaResolver {
 
   @Mutation(() => Media)
   async deleteMedia(@Args('id') id: string): Promise<Media> {
+    // TODO: To impliment removing functionality from S3 storage.
     return this.mediaService.delete(id);
   }
 }
