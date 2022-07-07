@@ -6,7 +6,7 @@ pipeline {
     stage('Install npm') {
       steps {
         sh '''
-          npm install
+          npm install --force
         '''
       }
     }
