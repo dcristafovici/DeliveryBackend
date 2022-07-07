@@ -23,9 +23,8 @@ pipeline {
       steps {
         sh '''
           ls -lsa
-          rm -rf /var/www/DeliveryBackend/*
-          find . -mindepth 1 -maxdepth 1 -not -name 'dist' -print0 | xargs -0 -r rm -rf 
-          mv dist/** /var/www/DeliveryBackend/
+          mv /var/lib/jenkins/workspace/DeliveryBackend/* /var/www/DeliveryBackend/
+          rm -rf /var/lib/jenkins/workspace/DeliveryBackend/*
           ls -lsa
         '''
       }
