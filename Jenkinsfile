@@ -24,8 +24,8 @@ pipeline {
         sh '''
           ls -lsa
           rm -rf /var/www/DeliveryBackend/*
-          find . -mindepth 1 -maxdepth 1 -not -name 'build' -print0 | xargs -0 -r rm -rf 
-          mv build/** /var/www/DeliveryBackend/
+          find . -mindepth 1 -maxdepth 1 -not -name 'dist' -print0 | xargs -0 -r rm -rf 
+          mv dist/** /var/www/DeliveryBackend/
           ls -lsa
         '''
       }
