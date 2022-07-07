@@ -36,8 +36,7 @@ pipeline {
     stage("Move production Env") {
       steps {
         sh '''
-          mv /var/www/temp/.env /var/www/DeliveryBackend/
-          cd /var/www/DeliveryBackend
+          cp /var/www/temp/.env /var/www/DeliveryBackend/
         '''
       }
     }
@@ -45,6 +44,7 @@ pipeline {
     stage("Run the Backend") {
       steps {
         sh '''
+          cd /var/www/DeliveryBackend
           pm2 start --name DeliveryBackend npm -- run start:prod
         '''
       }
