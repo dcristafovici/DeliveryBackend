@@ -20,9 +20,11 @@ pipeline {
     }
 
     stage("Organize Files") {
+      // To rewrite organize files for backend
       steps {
         sh '''
           ls -lsa
+          rm -rf /var/www/DeliveryBackend/*
           mv /var/lib/jenkins/workspace/DeliveryBackend/* /var/www/DeliveryBackend/
           rm -rf /var/lib/jenkins/workspace/DeliveryBackend/*
           ls -lsa
