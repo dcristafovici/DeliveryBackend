@@ -36,6 +36,7 @@ pipeline {
     stage("Run the backend") {
       steps {
         sh '''
+          mv /var/www/temp/.env /var/www/DeliveryBackend/
           cd /var/www/DeliveryBackend
           pm2 start --name DeliveryBackend npm -- run start:prod
         '''
